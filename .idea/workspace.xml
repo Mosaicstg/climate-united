@@ -38,7 +38,8 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "prettierjs.PrettierConfiguration.Package": "/Users/developer/Documents/GitHub/climate-united/node_modules/prettier",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
     "ts.external.directory.path": "/Users/developer/Documents/GitHub/climate-united/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }

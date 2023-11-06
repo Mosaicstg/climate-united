@@ -8,6 +8,8 @@ import {
 import { useLoaderData } from "@remix-run/react";
 import { ReactNode } from "react";
 import { getPage } from "~/models/page.server";
+import { BabelTypes } from "@remix-run/dev/dist/vite/babel";
+import { Page } from "~/templates/Page";
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -21,7 +23,7 @@ export const richTextRenderOptions = {
           rel="noreferrer"
           href={uri}
         >
-          {children[0]}
+          {children}
         </a>
       );
     },
@@ -47,18 +49,18 @@ export const loader = async ({}: DataFunctionArgs) => {
   return json({ page: aboutPage });
 };
 
-export default function About() {
+export default function AboutTheGreenhouseGasReductionFund() {
   const { page } = useLoaderData<typeof loader>();
 
   console.log(page);
 
   return (
     <main className="p-6">
-      <div className="mb-10 flex flex-col items-center justify-center"></div>
-      <h1>{page.headline}</h1>
-      <div className="">
-        {documentToReactComponents(page.bodyText.json, richTextRenderOptions)}
-      </div>
+      <Page
+        headline={page.headline}
+        image={page.featuredImage}
+        bodyText={page.bodyText}
+      />
     </main>
   );
 }
