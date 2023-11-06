@@ -3,7 +3,7 @@ import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 
 export const richTextRenderOptions = {
   renderNode: {
-    [INLINES.HYPERLINK]: (node, children) => {
+    [INLINES.HYPERLINK]: (node: { data: { uri: string } }, children: [string, any]) => {
       const { data } = node;
       const { uri } = data;
       return (
@@ -12,17 +12,17 @@ export const richTextRenderOptions = {
         </a>
       );
     },
-    [BLOCKS.PARAGRAPH]: (node, children) => {
+    [BLOCKS.PARAGRAPH]: (node: any, children: string) => {
       return (
         <p className="md:text-xl text-gray-700 text-base dark:text-gray-300 leading-relaxed mb-4 md:mb-7 text-justify">
           {children}
         </p>
       );
     },
-    [BLOCKS.HEADING_1]: (node, children) => {
+    [BLOCKS.HEADING_1]: (node: any, children: string) => {
       return <h2 className="text-4xl dark:text-gray-200 mb-5">{children}</h2>;
     },
-    [BLOCKS.HEADING_2]: (node, children) => {
+    [BLOCKS.HEADING_2]: (node: any, children: string) => {
       return <h2 className="text-3xl dark:text-gray-200 mb-5">{children}</h2>;
     },
   },
