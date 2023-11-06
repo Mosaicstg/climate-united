@@ -1,7 +1,10 @@
 import type { MetaFunction } from '@remix-run/node';
+import type { LinksFunction } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import tailwindStylesheet from '~/tailwind.css';
+import tailwindStylesheet from './tailwind.css';
+
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: tailwindStylesheet }];
 
 export const meta: MetaFunction = () => [
   {
@@ -9,7 +12,6 @@ export const meta: MetaFunction = () => [
     title: 'Climate United',
     viewport: 'width=device-width,initial-scale=1',
   },
-  { rel: 'stylesheet', href: tailwindStylesheet },
 ];
 
 export default function App() {
