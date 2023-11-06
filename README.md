@@ -70,3 +70,72 @@ netlify deploy --build
 # production deployment
 netlify deploy --build --prod
 ```
+
+## Content Types
+### Page
+- Headline
+- Rich Text
+- Image
+
+### About Page
+- Rich Text
+- Image
+
+### Landing Page
+- **Hero**
+  - Rich Text
+  - Link
+  - Image
+- **Mission Statement**
+  - Rich Text
+  - Image (x3)
+- **Services**
+  - Rich Text
+  - Image
+- **Buckets**
+  - Headline
+  - **Bucket (x3)**
+    - Title
+    - Image
+  - Rich Text
+- **CTA**
+  - Image
+  - Rich Text
+- **Events/Resources**
+  - Headline (x2)
+  - Image
+- **News/Press**
+  - Headline
+
+### Events
+- Headline
+- Date
+- Rich Text - Excerpt
+- Rich Text - Full Text
+
+### News/Press Release
+- Headline
+- Date
+- Rich Text - Excerpt
+- Rich Text - Full Text
+- Image
+
+### Resources
+- Title
+- File
+
+### Team
+- Headline
+- Position
+- Department
+- Rich Text
+- Image
+
+### Case Studies?
+- ???
+
+### SEO/Meta Data
+
+### Social Media
+- Platform
+- URL
