@@ -8,6 +8,15 @@ import tailwindStylesheet from './tailwind.css';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: tailwindStylesheet },
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+  },
+  {
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@600&display=swap',
+  },
   ...(process.env.NODE_ENV === 'development' ? [{ rel: 'stylesheet', href: rdtStylesheet }] : []),
 ];
 

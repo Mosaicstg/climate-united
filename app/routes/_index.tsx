@@ -17,7 +17,7 @@ export function headers({
 
 export default function Index() {
   return (
-    <main style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
+    <main>
       <h1>Welcome to Remix</h1>
       <ul>
         <li>
