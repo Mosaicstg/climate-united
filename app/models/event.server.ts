@@ -125,7 +125,10 @@ export const EventSchema = z.object({
 
 export const EventsSchema = EventSchema.array();
 
-type Event = z.infer<typeof EventSchema>;
+type Event = z.infer<typeof EventSchema> & {
+  excerpt: { json: Document };
+  content: { json: Document };
+};
 
 export async function getEvent(id: string): Promise<Event> {
   const query = `
