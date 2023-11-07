@@ -125,7 +125,7 @@ export const EventSchema = z.object({
 
 export const EventsSchema = EventSchema.array();
 
-type Event = z.infer<typeof EventSchema> & {
+export type Event = z.infer<typeof EventSchema> & {
   excerpt: { json: Document };
   content: { json: Document };
 };

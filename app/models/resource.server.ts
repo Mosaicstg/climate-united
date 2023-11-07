@@ -30,7 +30,7 @@ import { z } from "zod";
 // }
 // }
 
-const ResourceSchema = z.object({
+export const ResourceSchema = z.object({
   title: z.string(),
   file: z.object({
     fileName: z.string(),
@@ -38,9 +38,9 @@ const ResourceSchema = z.object({
   }),
 });
 
-const ResourcesSchema = ResourceSchema.array();
+export const ResourcesSchema = ResourceSchema.array();
 
-type Resource = z.infer<typeof ResourceSchema>;
+export type Resource = z.infer<typeof ResourceSchema>;
 
 export async function getResource(id: string): Promise<Resource> {
   const query = `query {

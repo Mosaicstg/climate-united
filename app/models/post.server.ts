@@ -109,7 +109,7 @@ import { type Document } from "@contentful/rich-text-types";
 // }
 // }
 
-const PostSchema = z.object({
+export const PostSchema = z.object({
   headline: z.string(),
   date: z.string().datetime({ offset: true }),
   excerpt: z.object({
@@ -127,9 +127,9 @@ const PostSchema = z.object({
   }),
 });
 
-const PostsSchema = PostSchema.array();
+export const PostsSchema = PostSchema.array();
 
-type Post = z.infer<typeof PostSchema> & {
+export type Post = z.infer<typeof PostSchema> & {
   excerpt: { json: Document };
   content: { json: Document };
 };
