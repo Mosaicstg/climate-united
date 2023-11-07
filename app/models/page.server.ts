@@ -1,7 +1,7 @@
 import { fetchGraphQL } from "~/services/contentful.server";
 import { z } from "zod";
 import { validateWithSchema } from "~/utils/validate-with-schema";
-import { type Document } from "@contentful/rich-text-types";
+import { RichTextSchema } from "~/types";
 
 // query {
 //     page(id: "1ydvGd1x8TYHNWeNUbqFeC") {
@@ -36,9 +36,7 @@ import { type Document } from "@contentful/rich-text-types";
 
 export const PageSchema = z.object({
   headline: z.string(),
-  bodyText: z.object({
-    json: z.object({}),
-  }),
+  bodyText: RichTextSchema,
   featuredImage: z.object({
     fileName: z.string(),
     url: z.string(),
@@ -48,9 +46,7 @@ export const PageSchema = z.object({
   }),
 });
 
-export type Page = z.infer<typeof PageSchema> & {
-  bodyText: { json: Document };
-};
+export type Page = z.infer<typeof PageSchema>;
 
 export async function getPage(id: string): Promise<Page> {
   const query = `
@@ -74,7 +70,5 @@ export async function getPage(id: string): Promise<Page> {
   const response = await fetchGraphQL(query);
   const page = response.data.page;
 
-  validateWithSchema(PageSchema, page);
-
-  return page;
+  return validateWithSchema(PageSchema, page);
 }
