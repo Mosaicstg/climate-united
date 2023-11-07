@@ -109,7 +109,7 @@ netlify deploy --build --prod
 
 ### Events
 - Headline
-- Date
+- Date/Time
 - Rich Text - Excerpt
 - Rich Text - Full Text
 
@@ -125,16 +125,15 @@ netlify deploy --build --prod
 - File
 
 ### Team
-- Headline
+- Name
 - Position
 - Department
-- Rich Text
 - Image
 
 ### Case Studies?
 - ???
 
-### SEO/Meta Data
+### SEO/Metadata
 
 ### Social Media
 - Platform
