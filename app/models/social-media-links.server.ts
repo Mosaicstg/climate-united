@@ -8,7 +8,7 @@ type SocialMediaLink = {
 export async function getSocialMediaLinks(): Promise<Array<SocialMediaLink>> {
   const query = `
        query {
-            socialMediaLinkCollection(limit: 6) {
+            socialMediaLinkCollection(limit: 6, order: [platform_ASC]) {
                 items {
                     platform
                     url
