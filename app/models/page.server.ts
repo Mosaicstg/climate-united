@@ -1,4 +1,6 @@
 import { fetchGraphQL } from "~/services/contentful.server";
+import { z } from "zod";
+import { validateWithSchema } from "~/utils/validate-with-schema";
 import { type Document } from "@contentful/rich-text-types";
 
 // query {
@@ -32,18 +34,22 @@ import { type Document } from "@contentful/rich-text-types";
 //     }
 // }
 
-type Page = {
-  headline: string;
-  bodyText: {
-    json: Document;
-  };
-  featuredImage: {
-    fileName: string;
-    url: string;
-    description: string;
-    width: number;
-    height: number;
-  };
+export const PageSchema = z.object({
+  headline: z.string(),
+  bodyText: z.object({
+    json: z.object({}),
+  }),
+  featuredImage: z.object({
+    fileName: z.string(),
+    url: z.string(),
+    description: z.string(),
+    width: z.number(),
+    height: z.number(),
+  }),
+});
+
+export type Page = z.infer<typeof PageSchema> & {
+  bodyText: { json: Document };
 };
 
 export async function getPage(id: string): Promise<Page> {
@@ -66,6 +72,9 @@ export async function getPage(id: string): Promise<Page> {
     `;
 
   const response = await fetchGraphQL(query);
+  const page = response.data.page;
 
-  return response.data.page;
+  validateWithSchema(PageSchema, page);
+
+  return page;
 }
