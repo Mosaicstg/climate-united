@@ -1,1 +1,0 @@
-// Here's the code for getting Events content type from Contentful
