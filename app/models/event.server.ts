@@ -1,3 +1,8 @@
+import { fetchGraphQL } from "~/services/contentful.server";
+import { type Document } from "@contentful/rich-text-types";
+import { z } from "zod";
+import { validateWithSchema } from "~/utils/validate-with-schema";
+
 // query {
 //     eventCollection(limit: 100) {
 //         items {
@@ -101,3 +106,72 @@
 //     }
 // }
 // }
+
+// TODO: Type out Rich Text JSON
+// const ContentfulRichTextSchema = z.object({
+//   json: z.object({}),
+// });
+
+export const EventSchema = z.object({
+  headline: z.string(),
+  datetime: z.string(),
+  excerpt: z.object({
+    json: z.object({}),
+  }),
+  content: z.object({
+    json: z.object({}),
+  }),
+});
+
+export const EventsSchema = EventSchema.array();
+
+type Event = z.infer<typeof EventSchema>;
+
+export async function getEvent(id: string): Promise<Event> {
+  const query = `
+    query {
+        event(id: "${id}") {
+            headline
+            datetime
+            excerpt {
+                json
+            }
+            content {
+                json
+            }
+        }
+    }
+    `;
+
+  const response = await fetchGraphQL(query);
+  const event = response.data.event;
+
+  validateWithSchema(EventSchema, event);
+
+  return event;
+}
+
+export async function getEvents(count: number = 3): Promise<Event[]> {
+  const query = `
+        query {
+            eventCollection(order:sys_firstPublishedAt_DESC limit: ${count}) {
+                items {
+                    headline
+                    datetime
+                    excerpt {
+                        json
+                    }
+                    content {
+                        json
+                    }
+                }
+            }  
+        }`;
+
+  const response = await fetchGraphQL(query);
+  const events = response.data.eventCollection.items;
+
+  validateWithSchema(EventsSchema, events);
+
+  return events;
+}
