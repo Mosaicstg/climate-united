@@ -1,6 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { richTextRenderOptions } from "~/routes/about-the-greenhouse-gas-reduction-fund";
-import { Document } from "@contentful/rich-text-types";
+import { type Document } from "@contentful/rich-text-types";
 
 type basicPageProps = {
   headline: string;

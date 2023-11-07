@@ -1,10 +1,10 @@
-import { BLOCKS, INLINES, Block, Inline } from "@contentful/rich-text-types";
+import { BLOCKS, INLINES, type Block, type Inline } from "@contentful/rich-text-types";
 import {
   type DataFunctionArgs,
   json,
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { getPage } from "~/models/page.server";
 import { Page } from "~/templates/Page";
 
