@@ -1,3 +1,8 @@
+import { fetchGraphQL } from "~/services/contentful.server";
+import { validateWithSchema } from "~/utils/validate-with-schema";
+import { z } from "zod";
+import { type Document } from "@contentful/rich-text-types";
+
 // query {
 //     postCollection(limit: 100) {
 //         items {
@@ -103,3 +108,88 @@
 //     }
 // }
 // }
+
+const PostSchema = z.object({
+  headline: z.string(),
+  date: z.string().datetime({ offset: true }),
+  excerpt: z.object({
+    json: z.object({}),
+  }),
+  content: z.object({
+    json: z.object({}),
+  }),
+  image: z.object({
+    fileName: z.string(),
+    url: z.string(),
+    description: z.string(),
+    width: z.number(),
+    height: z.number(),
+  }),
+});
+
+const PostsSchema = PostSchema.array();
+
+type Post = z.infer<typeof PostSchema> & {
+  excerpt: { json: Document };
+  content: { json: Document };
+};
+
+export async function getPost(id: string): Promise<Post> {
+  const query = `query {
+        post(id: "${id}") {
+            headline
+            date
+            excerpt {
+                json
+            }
+            content {
+                json
+            }
+            image {
+                 fileName
+                 url
+                 description
+                 width
+                 height
+            }
+        }
+    }`;
+
+  const response = await fetchGraphQL(query);
+  const post = response.data.post;
+
+  validateWithSchema(PostSchema, post);
+
+  return post;
+}
+
+export async function getPosts(count: number = 10): Promise<Post[]> {
+  const query = `query {
+        postCollection(limit: ${count}) {
+            items {
+                headline
+                date
+                excerpt {
+                    json
+                }
+                content {
+                    json
+                }
+                image {
+                     fileName
+                     url
+                     description
+                     width
+                     height
+                }
+            }
+        }
+    }`;
+
+  const response = await fetchGraphQL(query);
+  const posts = response.data.postCollection.items;
+
+  validateWithSchema(PostsSchema, posts);
+
+  return posts;
+}
