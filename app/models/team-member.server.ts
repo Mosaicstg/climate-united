@@ -1,3 +1,7 @@
+import { fetchGraphQL } from "~/services/contentful.server";
+import { validateWithSchema } from "~/utils/validate-with-schema";
+import { z } from "zod";
+
 // query {
 //     teamMemberCollection(limit: 100) {
 //         items {
@@ -35,3 +39,73 @@
 //     }
 // }
 // }
+
+export const TeamMemberSchema = z.object({
+  name: z.string(),
+  position: z.string(),
+  department: z.string(),
+  image: z.object({
+    fileName: z.string(),
+    url: z.string(),
+    description: z.string(),
+    width: z.number(),
+    height: z.number(),
+  }),
+});
+
+export const TeamMembersSchema = TeamMemberSchema.array();
+
+export type TeamMember = z.infer<typeof TeamMemberSchema>;
+
+export async function getTeamMember(id: string): Promise<TeamMember> {
+  const query = `query {
+            teamMember(id: "${id}") {
+                name
+                position
+                department
+                image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                }
+            }
+        }`;
+
+  const response = await fetchGraphQL(query);
+  const teamMember = response.data.teamMember;
+
+  console.log(teamMember);
+
+  return validateWithSchema(TeamMemberSchema, teamMember);
+}
+
+export async function getTeamMembers(
+  count: number = 10,
+): Promise<TeamMember[]> {
+  const query = `query {
+  teamMemberCollection(limit: 100, order: sys_publishedAt_DESC) {
+    items {
+      name
+      position
+      department
+      image {
+        fileName
+        url
+        description
+        width
+        height
+      }
+    }
+  }
+}`;
+
+  const response = await fetchGraphQL(query);
+
+  console.log(response);
+
+  const teamMembers = response.data.teamMemberCollection.items;
+
+  return validateWithSchema(TeamMembersSchema, teamMembers);
+}
