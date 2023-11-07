@@ -1,8 +1,10 @@
-import { BLOCKS, INLINES, type Block, type Inline } from "@contentful/rich-text-types";
 import {
-  type DataFunctionArgs,
-  json,
-} from "@remix-run/node";
+  BLOCKS,
+  INLINES,
+  type Block,
+  type Inline,
+} from "@contentful/rich-text-types";
+import { type DataFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { type ReactNode } from "react";
 import { getPage } from "~/models/page.server";
@@ -40,7 +42,7 @@ export const richTextRenderOptions = {
   },
 };
 
-export const loader = async ({}: DataFunctionArgs) => {
+export const loader = async (_: DataFunctionArgs) => {
   const aboutPage = await getPage("1ydvGd1x8TYHNWeNUbqFeC");
 
   return json({ page: aboutPage });
