@@ -13,7 +13,7 @@ import { getSocialMediaLinks } from "~/models/social-media-links.server";
 
 import { withDevTools } from "remix-development-tools";
 import rdtStylesheet from "remix-development-tools/index.css";
-import tailwindStylesheet from "/tailwind.css";
+import tailwindStylesheet from "~/tailwind.css";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStylesheet },
