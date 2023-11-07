@@ -12,6 +12,7 @@ export default {
         paleGreen: '#E6F5F0',
         yellow: '#EDC121',
         blue: '#39C1CF',
+        darkBlue: '#1A445F',
       },
     },
   },

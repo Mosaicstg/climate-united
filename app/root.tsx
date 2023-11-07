@@ -64,17 +64,32 @@ function App() {
         <Links />
       </head>
       <body>
+      <header className="flex gap-4 justify-between max-w-screen-xl mx-auto p-5 border-b-4 border-dotted border-green">
+        <div>
+          Logo
+        </div>
+        <nav>
+          Nav
+        </nav>
+      </header>
         <Outlet />
-        <footer>
-          <ul className="flex">
-            {socialMedialLinks?.map((link, index) => {
-              return (
-                <li key={index}>
-                  <a href={link.url}>{link.platform}</a>
-                </li>
-              );
-            })}
-          </ul>
+        <footer className="bg-darkBlue text-white">
+          <div className="max-w-screen-xl mx-auto py-12 px-5">
+            <div className="grid grid-cols-3 gap-12">
+              <div>Address</div>
+              <nav className="col-span-2">Nav</nav>
+              <div className="col-span-2">Logo</div>
+              <ul className="flex gap-4 justify-end">
+                {socialMedialLinks?.map((link, index) => {
+                  return (
+                    <li key={index}>
+                      <a className="text-white" href={link.url}>{link.platform}</a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
         </footer>
         <ScrollRestoration />
         <Scripts />
