@@ -1,4 +1,5 @@
 import { fetchGraphQL } from "~/services/contentful.server";
+import { type Document } from "@contentful/rich-text-types";
 
 // query {
 //     page(id: "1ydvGd1x8TYHNWeNUbqFeC") {
@@ -34,7 +35,7 @@ import { fetchGraphQL } from "~/services/contentful.server";
 type Page = {
   headline: string;
   bodyText: {
-    json: any;
+    json: Document;
   };
   featuredImage: {
     fileName: string;

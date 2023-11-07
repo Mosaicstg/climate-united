@@ -1,5 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
-import { type LinksFunction, json } from "@remix-run/node";
+import { type LinksFunction, type MetaFunction, json } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import {
   Links,
@@ -14,7 +13,7 @@ import { getSocialMediaLinks } from "~/models/social-media-links.server";
 
 import { withDevTools } from "remix-development-tools";
 import rdtStylesheet from "remix-development-tools/index.css";
-import tailwindStylesheet from "./tailwind.css";
+import tailwindStylesheet from "/tailwind.css";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStylesheet },

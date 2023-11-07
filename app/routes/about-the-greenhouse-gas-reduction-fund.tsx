@@ -1,14 +1,11 @@
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, Block, Inline } from "@contentful/rich-text-types";
 import {
-  type LinksFunction,
   type DataFunctionArgs,
   json,
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { ReactNode } from "react";
 import { getPage } from "~/models/page.server";
-import { BabelTypes } from "@remix-run/dev/dist/vite/babel";
 import { Page } from "~/templates/Page";
 
 export const richTextRenderOptions = {

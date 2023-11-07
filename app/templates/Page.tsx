@@ -1,10 +1,11 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { richTextRenderOptions } from "~/routes/about-the-greenhouse-gas-reduction-fund";
+import { Document } from "@contentful/rich-text-types";
 
 type basicPageProps = {
   headline: string;
   image: { url: string; description: string; width: number; height: number };
-  bodyText: { json: any };
+  bodyText: { json: Document };
 };
 
 export function Page({ headline, image, bodyText }: basicPageProps) {
