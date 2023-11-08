@@ -8,7 +8,7 @@ import { z } from "zod";
 //             name
 //             position
 //             department
-//             image {
+//             featuredImage {
 //                 fileName
 //                 url
 //                 description
@@ -27,7 +27,7 @@ import { z } from "zod";
 //                 "name": "Caroline Nowery",
 //                 "position": "Sr. Vice President, Chief External Affairs Officer",
 //                 "department": "Virginia Community Capital",
-//                 "image": {
+//                 "featuredImage": {
 //                     "fileName": "Electric cooking.png",
 //                     "url": "https://images.ctfassets.net/urgx2rpiyypc/1TfWT4CCQK8lHE2FB95D0h/56f4543955afd7fe7a25e789369f8267/Electric_cooking.png",
 //                     "description": "Stir Fry. Yum!",
@@ -44,7 +44,7 @@ export const TeamMemberSchema = z.object({
   name: z.string(),
   position: z.string(),
   department: z.string(),
-  image: z.object({
+  featuredImage: z.object({
     fileName: z.string(),
     url: z.string(),
     description: z.string(),
@@ -63,7 +63,7 @@ export async function getTeamMember(id: string): Promise<TeamMember> {
                 name
                 position
                 department
-                image {
+                featuredImage {
                     fileName
                     url
                     description
@@ -90,7 +90,7 @@ export async function getTeamMembers(
       name
       position
       department
-      image {
+      featuredImage {
         fileName
         url
         description

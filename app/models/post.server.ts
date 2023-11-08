@@ -110,15 +110,16 @@ import { type Document } from "@contentful/rich-text-types";
 // }
 
 export const PostSchema = z.object({
+  title: z.string(),
   headline: z.string(),
   date: z.string().datetime({ offset: true }),
   excerpt: z.object({
     json: z.object({}),
   }),
-  content: z.object({
+  mainContent: z.object({
     json: z.object({}),
   }),
-  image: z.object({
+  featuredImage: z.object({
     fileName: z.string(),
     url: z.string(),
     description: z.string(),
@@ -131,21 +132,22 @@ export const PostsSchema = PostSchema.array();
 
 export type Post = z.infer<typeof PostSchema> & {
   excerpt: { json: Document };
-  content: { json: Document };
+  mainContent: { json: Document };
 };
 
 export async function getPost(id: string): Promise<Post> {
   const query = `query {
         post(id: "${id}") {
+            title
             headline
             date
             excerpt {
                 json
             }
-            content {
+            mainContent {
                 json
             }
-            image {
+            featuredImage {
                  fileName
                  url
                  description
@@ -167,15 +169,16 @@ export async function getPosts(count: number = 10): Promise<Post[]> {
   const query = `query {
         postCollection(limit: ${count}) {
             items {
+                title
                 headline
                 date
                 excerpt {
                     json
                 }
-                content {
+                mainContent {
                     json
                 }
-                image {
+                featuredImage {
                      fileName
                      url
                      description

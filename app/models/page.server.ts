@@ -6,7 +6,7 @@ import { RichTextSchema } from "~/types";
 // query {
 //     page(id: "1ydvGd1x8TYHNWeNUbqFeC") {
 //         headline
-//         bodyText {
+//         mainContent {
 //             json
 //         }
 //         featuredImage {
@@ -20,7 +20,7 @@ import { RichTextSchema } from "~/types";
 //     pageCollection(limit: 100) {
 //         items {
 //             headline
-//             bodyText {
+//             mainContent {
 //                 json
 //             }
 //             featuredImage {
@@ -35,8 +35,9 @@ import { RichTextSchema } from "~/types";
 // }
 
 export const PageSchema = z.object({
+  title: z.string(),
   headline: z.string(),
-  bodyText: RichTextSchema,
+  mainContent: RichTextSchema,
   featuredImage: z.object({
     fileName: z.string(),
     url: z.string(),
@@ -52,8 +53,9 @@ export async function getPage(id: string): Promise<Page> {
   const query = `
         query {
             page(id: "${id}") {
+                title
                 headline
-                bodyText {
+                mainContent {
                     json
                 }
                 featuredImage {

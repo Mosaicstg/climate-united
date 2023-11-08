@@ -113,12 +113,13 @@ import { validateWithSchema } from "~/utils/validate-with-schema";
 // });
 
 export const EventSchema = z.object({
+  title: z.string(),
   headline: z.string(),
   datetime: z.string(),
   excerpt: z.object({
     json: z.object({}),
   }),
-  content: z.object({
+  mainContent: z.object({
     json: z.object({}),
   }),
 });
@@ -127,19 +128,20 @@ export const EventsSchema = EventSchema.array();
 
 export type Event = z.infer<typeof EventSchema> & {
   excerpt: { json: Document };
-  content: { json: Document };
+  mainContent: { json: Document };
 };
 
 export async function getEvent(id: string): Promise<Event> {
   const query = `
     query {
         event(id: "${id}") {
+            title
             headline
             datetime
             excerpt {
                 json
             }
-            content {
+            mainContent {
                 json
             }
         }
@@ -159,12 +161,13 @@ export async function getEvents(count: number = 3): Promise<Event[]> {
         query {
             eventCollection(order:sys_firstPublishedAt_DESC limit: ${count}) {
                 items {
+                    title
                     headline
                     datetime
                     excerpt {
                         json
                     }
-                    content {
+                    mainContent {
                         json
                     }
                 }

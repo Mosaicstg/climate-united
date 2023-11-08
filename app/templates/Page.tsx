@@ -4,7 +4,7 @@ import {type Page} from "~/models/page.server";
 
 type basicPageProps = Page;
 
-export function Page({headline, featuredImage, bodyText}: basicPageProps) {
+export function Page({title, headline, featuredImage, mainContent}: basicPageProps) {
     const {url, description, width, height} = featuredImage;
     return (
         <>
@@ -14,7 +14,7 @@ export function Page({headline, featuredImage, bodyText}: basicPageProps) {
                 </div>
                 <h1>{headline}</h1>
                 <div className="">
-                    {documentToReactComponents(bodyText.json, richTextRenderOptions)}
+                    {documentToReactComponents(mainContent.json, richTextRenderOptions)}
                 </div>
             </div>
         </>
