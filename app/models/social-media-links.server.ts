@@ -1,9 +1,15 @@
-import { fetchGraphQL } from "~/services/contentful.server";
+import { fetchGraphQL } from "~/services/contentful.server"
+import { z } from "zod"
+import { validateWithSchema } from "~/utils/validate-with-schema"
 
-type SocialMediaLink = {
-  platform: string;
-  url: string;
-};
+export const SocialMediaLinkSchema = z.object({
+  platform: z.string(),
+  url: z.string(),
+})
+
+export const SocialMediaLinksSchema = SocialMediaLinkSchema.array()
+
+export type SocialMediaLink = z.infer<typeof SocialMediaLinkSchema>
 
 export async function getSocialMediaLinks(): Promise<Array<SocialMediaLink>> {
   const query = `
@@ -15,9 +21,10 @@ export async function getSocialMediaLinks(): Promise<Array<SocialMediaLink>> {
                 }
             }
         } 
-    `;
+    `
 
-  const response = await fetchGraphQL(query);
+  const response = await fetchGraphQL(query)
+  const socialMediaLinks = response.data.socialMediaLinkCollection.items
 
-  return response.data.socialMediaLinkCollection.items;
+  return validateWithSchema(SocialMediaLinksSchema, socialMediaLinks)
 }

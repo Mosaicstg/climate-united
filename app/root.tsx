@@ -84,7 +84,7 @@ function App() {
                 <Logo />
               </div>
               <ul className="flex gap-4 self-end justify-end">
-                {socialMedialLinks?.map((link, index) => {
+                {socialMedialLinks.map((link, index) => {
                   return (
                     <li key={index}>
                       <a className="text-white block w-[20px] h-[20px]" href={link.url}>
