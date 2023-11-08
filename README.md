@@ -72,16 +72,20 @@ netlify deploy --build --prod
 ```
 
 ## Content Types
+
 ### Page
+
 - Headline
 - Rich Text
 - Image
 
 ### About Page
+
 - Rich Text
 - Image
 
 ### Landing Page
+
 - **Hero**
   - Rich Text
   - Link
@@ -108,12 +112,14 @@ netlify deploy --build --prod
   - Headline
 
 ### Events
+
 - Headline
 - Date/Time
 - Rich Text - Excerpt
 - Rich Text - Full Text
 
 ### News/Press Release
+
 - Headline
 - Date
 - Rich Text - Excerpt
@@ -121,20 +127,24 @@ netlify deploy --build --prod
 - Image
 
 ### Resources
+
 - Title
 - File
 
 ### Team
+
 - Name
 - Position
 - Department
 - Image
 
 ### Case Studies?
+
 - ???
 
 ### SEO/Metadata
 
 ### Social Media
+
 - Platform
 - URL
