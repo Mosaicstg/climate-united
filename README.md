@@ -73,78 +73,139 @@ netlify deploy --build --prod
 
 ## Content Types
 
-### Page
+### Templates
 
+#### Page
+- Title
 - Headline
 - Rich Text
-- Image
+- Featured Image
 
-### About Page
+___
 
-- Rich Text
-- Image
+#### About
+- Title
+- Sections
 
-### Landing Page
+___
 
-- **Hero**
-  - Rich Text
-  - Link
-  - Image
-- **Mission Statement**
-  - Rich Text
-  - Image (x3)
-- **Services**
-  - Rich Text
-  - Image
-- **Buckets**
-  - Headline
-  - **Bucket (x3)**
-    - Title
-    - Image
-  - Rich Text
-- **CTA**
-  - Image
-  - Rich Text
-- **Events/Resources**
-  - Headline (x2)
-  - Image
-- **News/Press**
-  - Headline
+#### Landing Page
+- Title
+- Sections
 
-### Events
+___
 
+#### Event
+- Title
 - Headline
 - Date/Time
 - Rich Text - Excerpt
 - Rich Text - Full Text
 
-### News/Press Release
+___
 
+#### Post
+- Title
 - Headline
 - Date
 - Rich Text - Excerpt
 - Rich Text - Full Text
-- Image
+- Featured Image
 
-### Resources
+___
+___
 
+### Sections
+
+#### Hero
+- Title
+- Rich Text
+- Featured Image
+
+___
+
+#### Text + Multi-Image Split
+- Title
+- Rich Text
+- Images
+
+___
+
+#### Text + Image Split
+- Title
+- Rich Text
+- Featured Image
+
+___
+
+#### Bucket Grid
+- Title
+- Headline
+- Rich Text
+- Buckets
+
+___
+
+#### Text + Image
+- Title
+- Rich Text
+- Featured Image
+
+___
+
+#### Events + Resources
+- Title
+- Events Headline
+- Events
+- Resources Headline
+- Resources
+- Featured Image
+
+___
+
+#### News/Press
+- Title
+- Headline
+
+___
+___
+
+### Components
+
+#### Bucket
+- Info Bucket
+  - Rich Text
+  - Featured Image
+  
+- Team Bucket
+  - Name
+  - Position
+  - Department
+  - Featured Image
+
+___
+
+#### Resource
 - Title
 - File
 
-### Team
+___
 
+#### Team Member
 - Name
 - Position
 - Department
-- Image
+- Featured Image
 
-### Case Studies?
+___
+___
 
-- ???
+### Other
 
-### SEO/Metadata
+#### SEO
 
-### Social Media
+___
 
+#### Social Media
 - Platform
 - URL
