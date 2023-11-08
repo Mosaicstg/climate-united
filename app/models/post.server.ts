@@ -1,7 +1,8 @@
-import { fetchGraphQL } from "~/services/contentful.server";
-import { validateWithSchema } from "~/utils/validate-with-schema";
-import { z } from "zod";
-import { type Document } from "@contentful/rich-text-types";
+import { fetchGraphQL } from "~/services/contentful.server"
+import { validateWithSchema } from "~/utils/validate-with-schema"
+import { z } from "zod"
+import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 // query {
 //     postCollection(limit: 100) {
@@ -113,27 +114,14 @@ export const PostSchema = z.object({
   title: z.string(),
   headline: z.string(),
   date: z.string().datetime({ offset: true }),
-  excerpt: z.object({
-    json: z.object({}),
-  }),
-  mainContent: z.object({
-    json: z.object({}),
-  }),
-  featuredImage: z.object({
-    fileName: z.string(),
-    url: z.string(),
-    description: z.string(),
-    width: z.number(),
-    height: z.number(),
-  }),
-});
+  excerpt: RichTextSchema,
+  mainContent: RichTextSchema,
+  featuredImage: ImageSchema,
+})
 
-export const PostsSchema = PostSchema.array();
+export const PostsSchema = PostSchema.array()
 
-export type Post = z.infer<typeof PostSchema> & {
-  excerpt: { json: Document };
-  mainContent: { json: Document };
-};
+export type Post = z.infer<typeof PostSchema>
 
 export async function getPost(id: string): Promise<Post> {
   const query = `query {
@@ -155,14 +143,12 @@ export async function getPost(id: string): Promise<Post> {
                  height
             }
         }
-    }`;
+    }`
 
-  const response = await fetchGraphQL(query);
-  const post = response.data.post;
+  const response = await fetchGraphQL(query)
+  const post = response.data.post
 
-  validateWithSchema(PostSchema, post);
-
-  return post;
+  return validateWithSchema(PostSchema, post)
 }
 
 export async function getPosts(count: number = 10): Promise<Post[]> {
@@ -187,12 +173,10 @@ export async function getPosts(count: number = 10): Promise<Post[]> {
                 }
             }
         }
-    }`;
+    }`
 
-  const response = await fetchGraphQL(query);
-  const posts = response.data.postCollection.items;
+  const response = await fetchGraphQL(query)
+  const posts = response.data.postCollection.items
 
-  validateWithSchema(PostsSchema, posts);
-
-  return posts;
+  return validateWithSchema(PostsSchema, posts)
 }

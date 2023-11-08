@@ -1,6 +1,7 @@
-import { fetchGraphQL } from "~/services/contentful.server";
-import { validateWithSchema } from "~/utils/validate-with-schema";
-import { z } from "zod";
+import { fetchGraphQL } from "~/services/contentful.server"
+import { validateWithSchema } from "~/utils/validate-with-schema"
+import { z } from "zod"
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 // query {
 //     teamMemberCollection(limit: 100) {
@@ -44,18 +45,12 @@ export const TeamMemberSchema = z.object({
   name: z.string(),
   position: z.string(),
   department: z.string(),
-  featuredImage: z.object({
-    fileName: z.string(),
-    url: z.string(),
-    description: z.string(),
-    width: z.number(),
-    height: z.number(),
-  }),
-});
+  featuredImage: ImageSchema,
+})
 
-export const TeamMembersSchema = TeamMemberSchema.array();
+export const TeamMembersSchema = TeamMemberSchema.array()
 
-export type TeamMember = z.infer<typeof TeamMemberSchema>;
+export type TeamMember = z.infer<typeof TeamMemberSchema>
 
 export async function getTeamMember(id: string): Promise<TeamMember> {
   const query = `query {
@@ -71,14 +66,12 @@ export async function getTeamMember(id: string): Promise<TeamMember> {
                     height
                 }
             }
-        }`;
+        }`
 
-  const response = await fetchGraphQL(query);
-  const teamMember = response.data.teamMember;
+  const response = await fetchGraphQL(query)
+  const teamMember = response.data.teamMember
 
-  console.log(teamMember);
-
-  return validateWithSchema(TeamMemberSchema, teamMember);
+  return validateWithSchema(TeamMemberSchema, teamMember)
 }
 
 export async function getTeamMembers(
@@ -99,13 +92,10 @@ export async function getTeamMembers(
       }
     }
   }
-}`;
+}`
 
-  const response = await fetchGraphQL(query);
+  const response = await fetchGraphQL(query)
+  const teamMembers = response.data.teamMemberCollection.items
 
-  console.log(response);
-
-  const teamMembers = response.data.teamMemberCollection.items;
-
-  return validateWithSchema(TeamMembersSchema, teamMembers);
+  return validateWithSchema(TeamMembersSchema, teamMembers)
 }

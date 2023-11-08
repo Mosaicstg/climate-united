@@ -1,6 +1,6 @@
-import { fetchGraphQL } from "~/services/contentful.server";
-import { validateWithSchema } from "~/utils/validate-with-schema";
-import { z } from "zod";
+import { fetchGraphQL } from "~/services/contentful.server"
+import { validateWithSchema } from "~/utils/validate-with-schema"
+import { z } from "zod"
 
 // query {
 //     resourceCollection(limit:100) {
@@ -13,34 +13,17 @@ import { z } from "zod";
 //         }
 //     }
 // }
-
-// {
-//     "data": {
-//     "resourceCollection": {
-//         "items": [
-//             {
-//                 "title": "GGRF Fact Sheet | English",
-//                 "file": {
-//                     "fileName": "Electric cooking.png",
-//                     "url": "https://images.ctfassets.net/urgx2rpiyypc/1TfWT4CCQK8lHE2FB95D0h/56f4543955afd7fe7a25e789369f8267/Electric_cooking.png"
-//                 }
-//             }
-//         ]
-//     }
-// }
-// }
-
 export const ResourceSchema = z.object({
   title: z.string(),
   file: z.object({
     fileName: z.string(),
     url: z.string(),
   }),
-});
+})
 
-export const ResourcesSchema = ResourceSchema.array();
+export const ResourcesSchema = ResourceSchema.array()
 
-export type Resource = z.infer<typeof ResourceSchema>;
+export type Resource = z.infer<typeof ResourceSchema>
 
 export async function getResource(id: string): Promise<Resource> {
   const query = `query {
@@ -51,14 +34,12 @@ export async function getResource(id: string): Promise<Resource> {
                     url
                 }
             }
-        }`;
+        }`
 
-  const response = await fetchGraphQL(query);
-  const resource = response.data.resource;
+  const response = await fetchGraphQL(query)
+  const resource = response.data.resource
 
-  validateWithSchema(ResourceSchema, resource);
-
-  return resource;
+  return validateWithSchema(ResourceSchema, resource)
 }
 
 export async function getResources(count: number = 10): Promise<Resource[]> {
@@ -72,12 +53,10 @@ export async function getResources(count: number = 10): Promise<Resource[]> {
                 }
             }
         }
-    }`;
+    }`
 
-  const response = await fetchGraphQL(query);
-  const resources = response.data.resourceCollection.items;
+  const response = await fetchGraphQL(query)
+  const resources = response.data.resourceCollection.items
 
-  validateWithSchema(ResourcesSchema, resources);
-
-  return resources;
+  return validateWithSchema(ResourcesSchema, resources)
 }
