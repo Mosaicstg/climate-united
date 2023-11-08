@@ -40,14 +40,14 @@ export const SectionEventsResourcesSchema = z.object({
   headlineEvents: z.string(),
   eventsCollection: z.object({
     items: EventSchema.pick({
-      title: true,
+      headline: true,
       datetime: true,
       excerpt: true,
     }).array(),
   }),
   headlineResources: z.string(),
   resourcesCollection: z.object({
-    items: ResourceSchema,
+    items: ResourceSchema.array(),
   }),
   featuredImage: ImageSchema,
 })
