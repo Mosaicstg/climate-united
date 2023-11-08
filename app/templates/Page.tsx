@@ -1,15 +1,11 @@
 import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
 import {richTextRenderOptions} from "~/routes/about-the-greenhouse-gas-reduction-fund";
-import {type Document} from "@contentful/rich-text-types";
+import {type Page} from "~/models/page.server";
 
-type basicPageProps = {
-    headline: string;
-    image: { url: string; description: string; width: number; height: number };
-    bodyText: { json: Document };
-};
+type basicPageProps = Page;
 
-export function Page({headline, image, bodyText}: basicPageProps) {
-    const {url, description, width, height} = image;
+export function Page({headline, featuredImage, bodyText}: basicPageProps) {
+    const {url, description, width, height} = featuredImage;
     return (
         <>
             <div className="max-w-screen-xl mx-auto">
