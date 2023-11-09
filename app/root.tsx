@@ -15,6 +15,7 @@ import {withDevTools} from "remix-development-tools";
 import rdtStylesheet from "remix-development-tools/index.css";
 import tailwindStylesheet from "~/tailwind.css";
 import Logo from '~/components/logo';
+import LogoWhite from '~/components/logo-white';
 import SocialIcon from '~/components/social-icon';
 
 export const links: LinksFunction = () => [
@@ -68,7 +69,7 @@ function App() {
         <body className="font-sans">
         <header
             className="flex gap-12 items-center justify-between max-w-screen-xl mx-auto p-5 border-b-4 border-dotted border-green">
-            <div>
+            <div className="w-[180px]">
                 <Logo/>
             </div>
             <nav>
@@ -97,7 +98,9 @@ function App() {
                         </ul>
                     </nav>
                     <div className="col-span-2">
-                        <Logo/>
+                        <div className="w-[263px]">
+                            <LogoWhite/>
+                        </div>
                     </div>
                     <ul className="flex gap-4 self-end justify-end">
                         {socialMedialLinks.map((link, index) => {
