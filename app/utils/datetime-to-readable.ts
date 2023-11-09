@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const DateTimeToReadable = z
   .string()
-  .datetime()
+  .datetime({ offset: true })
   .transform((dateString) =>
     new Date(dateString).toLocaleString("en-US", {
       timeZone: "UTC",
@@ -10,7 +10,7 @@ export const DateTimeToReadable = z
       day: "numeric",
       year: "numeric",
     }),
-  );
+  )
 
 /**
  * Tranform '2023-12-01T00:00:00.000-05:00' to 'December 1, 2023'
@@ -20,5 +20,5 @@ export const DateTimeToReadable = z
  * @throws
  */
 export function transformDateTimeStringToHumanReadable(dateString: string) {
-  return DateTimeToReadable.parse(dateString);
+  return DateTimeToReadable.parse(dateString)
 }

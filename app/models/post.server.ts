@@ -29,10 +29,10 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 export const PostSchema = z.object({
   title: z.string(),
   headline: z.string(),
-  date: z.string().datetime({ offset: true }),
-  excerpt: RichTextSchema,
+  date: z.string(),
+  excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
-  featuredImage: ImageSchema,
+  featuredImage: ImageSchema.optional(),
 })
 
 export const PostsSchema = PostSchema.array()
@@ -65,6 +65,32 @@ export async function getPost(id: string): Promise<Post> {
   const post = response.data.post
 
   return validateWithSchema(PostSchema, post)
+}
+
+export async function getPostBySlug(slug: string): Promise<Post> {
+  const query = `query {
+        postCollection(where: { slug: "${slug}" }) {
+            items {
+                title
+                headline
+                date
+                excerpt {
+                    json
+                }
+                mainContent {
+                    json
+                }
+            }
+        }
+    }`
+
+  const response = await fetchGraphQL(query)
+  console.log(response)
+
+  return response.data.postCollection.items[0]
+
+  // const post = response.data.postCollection.items[0]
+  // return validateWithSchema(PostSchema, post)
 }
 
 export async function getPosts(count: number = 10): Promise<Post[]> {

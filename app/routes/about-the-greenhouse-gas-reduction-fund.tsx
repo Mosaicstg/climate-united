@@ -8,7 +8,7 @@ import { type DataFunctionArgs, json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getPage } from "~/models/page.server"
-import { Page } from "~/templates/Page"
+import { Page } from "~/ui/templates/Page"
 
 export const richTextRenderOptions = {
   renderNode: {

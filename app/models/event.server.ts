@@ -22,7 +22,7 @@ export const EventSchema = z.object({
   title: z.string(),
   headline: z.string(),
   datetime: z.string(),
-  excerpt: RichTextSchema,
+  excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
 })
 
@@ -51,6 +51,32 @@ export async function getEvent(id: string): Promise<Event> {
   const event = response.data.event
 
   return validateWithSchema(EventSchema, event)
+}
+
+export async function getEventBySlug(slug: string): Promise<Event> {
+  const query = `query {
+        eventCollection(where: { slug: "${slug}" }) {
+            items {
+                title
+                headline
+                datetime
+                excerpt {
+                    json
+                }
+                mainContent {
+                    json
+                }
+            }
+        }
+    }`
+
+  const response = await fetchGraphQL(query)
+  console.log(response)
+
+  return response.data.eventCollection.items[0]
+
+  // const event = response.data.eventCollection.items[0]
+  // return validateWithSchema(EventSchema, event)
 }
 
 export async function getEvents(count: number = 3): Promise<Event[]> {

@@ -11,30 +11,31 @@ import {
   useRouteError,
   Link,
   useLocation,
-} from "@remix-run/react";
-import { type ErrorResponse } from "@remix-run/router";
+} from "@remix-run/react"
+import { type ErrorResponse } from "@remix-run/router"
+import { Show404 } from "~/ui/templates/404"
 
 /**
  * Does its best to get a string error message from an unknown error.
  */
 export function getErrorMessage(error: unknown) {
-  if (typeof error === "string") return error;
+  if (typeof error === "string") return error
   if (
     error &&
     typeof error === "object" &&
     "message" in error &&
     typeof error.message === "string"
   ) {
-    return error.message;
+    return error.message
   }
-  console.error("Unable to get error message for error", error);
-  return "Unknown Error";
+  console.error("Unable to get error message for error", error)
+  return "Unknown Error"
 }
 
 type StatusHandler = (info: {
-  error: ErrorResponse;
-  params: Record<string, string | undefined>;
-}) => JSX.Element | null;
+  error: ErrorResponse
+  params: Record<string, string | undefined>
+}) => JSX.Element | null
 
 export function GeneralErrorBoundary({
   defaultStatusHandler = ({ error }) => (
@@ -45,58 +46,45 @@ export function GeneralErrorBoundary({
   statusHandlers,
   unexpectedErrorHandler = (error) => <p>{getErrorMessage(error)}</p>,
 }: {
-  defaultStatusHandler?: StatusHandler;
-  statusHandlers?: Record<number, StatusHandler>;
-  unexpectedErrorHandler?: (error: unknown) => JSX.Element | null;
+  defaultStatusHandler?: StatusHandler
+  statusHandlers?: Record<number, StatusHandler>
+  unexpectedErrorHandler?: (error: unknown) => JSX.Element | null
 }) {
-  const error = useRouteError();
-  const params = useParams();
+  const error = useRouteError()
+  const params = useParams()
 
   if (typeof document !== "undefined") {
-    console.error(error);
+    console.error(error)
   }
 
   return (
-    <div className="bg-destructive text-h2 text-destructive-foreground container mx-auto flex h-full w-full items-center justify-center p-20">
+    <>
       {isRouteErrorResponse(error)
         ? (statusHandlers?.[error.status] ?? defaultStatusHandler)({
             error,
             params,
           })
         : unexpectedErrorHandler(error)}
-    </div>
-  );
+    </>
+  )
 }
 
 export async function loader() {
-  throw new Response("Not found", { status: 404 });
+  throw new Response("Not found", { status: 404 })
 }
 
 export default function NotFound() {
   // due to the loader, this component will never be rendered, but we'll return
   // the error boundary just in case.
-  return <ErrorBoundary />;
+  return <ErrorBoundary />
 }
 
 export function ErrorBoundary() {
-  const location = useLocation();
   return (
     <GeneralErrorBoundary
       statusHandlers={{
-        404: () => (
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <h1>We can't find this page:</h1>
-              <pre className="text-body-lg whitespace-pre-wrap break-all">
-                {location.pathname}
-              </pre>
-            </div>
-            <Link to="/" className="text-body-md underline">
-              Back to home
-            </Link>
-          </div>
-        ),
+        404: () => <Show404 />,
       }}
     />
-  );
+  )
 }
