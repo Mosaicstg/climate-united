@@ -28,13 +28,10 @@ export const richTextRenderOptions = {
     },
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
       return (
-        <p className="mb-4 text-justify text-base leading-relaxed text-gray-700 dark:text-gray-300 md:mb-7 md:text-xl">
+        <p className="mb-4 text-base leading-relaxed text-black">
           {children}
         </p>
       )
-    },
-    [BLOCKS.HEADING_1]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-4xl dark:text-gray-200">{children}</h2>
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
       return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
@@ -54,13 +51,11 @@ export default function AboutTheGreenhouseGasReductionFund() {
   console.log(page)
 
   return (
-    <main className="p-6">
       <Page
         title={page.title}
         headline={page.headline}
         featuredImage={page.featuredImage}
         mainContent={page.mainContent}
       />
-    </main>
   )
 }
