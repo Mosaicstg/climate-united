@@ -98,7 +98,7 @@ function App() {
                         </ul>
                     </nav>
                     <div className="col-span-2">
-                        <div className="w-[263px]">
+                        <div className="w-[263px] max-w-full">
                             <LogoWhite/>
                         </div>
                     </div>

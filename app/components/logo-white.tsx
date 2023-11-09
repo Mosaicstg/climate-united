@@ -1,6 +1,6 @@
 export default function LogoWhite() {
   return (
-  <svg version="1.1" id="logo" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+  <svg version="1.1" id="logo-white" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
   viewBox="0 0 1837.8 584.1">
   <g>
     <path fill="#FFFFFF" d="M1430.3,296.2c-8.1,0-16.3,0-24.8,0c0-37,0-73.7,0-111.1c-13.2,37.5-26.1,74.2-39.1,111.1
