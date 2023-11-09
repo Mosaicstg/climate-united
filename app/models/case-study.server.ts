@@ -1,3 +1,9 @@
+import { z } from "zod"
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
+import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
+import { typedFetchGraphQL } from "~/services/contentful.server"
+import { validateWithSchema } from "~/utils/validate-with-schema"
+
 /**
  * query {
  *   caseStudy(id: "6ueMOUJagDMrM14R1W64Nn") {
@@ -17,103 +23,81 @@
  * }
  */
 
-/**
- * {
- *   "data": {
- *     "caseStudy": {
- *       "title": "Sample Case Study",
- *       "headline": "Distrubted Generation: 15,000 Families in the South will Gain Access to Rooftop Solar",
- *       "excerpt": {
- *         "json": {
- *           "data": {},
- *           "content": [
- *             {
- *               "data": {},
- *               "content": [
- *                 {
- *                   "data": {},
- *                   "marks": [],
- *                   "value": "Florida-based Climate First Bancorp has a residential rooftop program that can be\nscaled to support low-income families across the South. The technology they\nutilize enables customer outreach, education, and financing via point-of-sale from\na vetted network of 200+ solar contractors, including minority-owned,\nveteran-owned, woman-owned, and Business Enterprise Certified solar installers.",
- *                   "nodeType": "text"
- *                 }
- *               ],
- *               "nodeType": "paragraph"
- *             }
- *           ],
- *           "nodeType": "document"
- *         }
- *       },
- *       "featuredImage": {
- *         "fileName": "Electric cooking.png",
- *         "url": "https://images.ctfassets.net/urgx2rpiyypc/1TfWT4CCQK8lHE2FB95D0h/56f4543955afd7fe7a25e789369f8267/Electric_cooking.png",
- *         "description": "Stir Fry. Yum!",
- *         "width": 577,
- *         "height": 603
- *       }
- *     }
- *   }
- * }
- */
+export const CaseStudySchema = z.object({
+  title: z.string(),
+  headline: z.string(),
+  excerpt: RichTextSchema.nullable().optional(),
+  featuredImage: ImageSchema.nullable().optional(),
+})
 
-/**
- * query {
- *   caseStudyCollection {
- *     items {
- *       title
- *       headline
- *     excerpt {
- *       json
- *     }
- *     featuredImage {
- *       fileName
- *       url
- *       description
- *       width
- *       height
- *     }
- *     }
- *   }
- * }
- */
+export const CaseStudiesSchema = z.array(CaseStudySchema)
 
-/**
- * {
- *   "data": {
- *     "caseStudyCollection": {
- *       "items": [
- *         {
- *           "title": "Sample Case Study",
- *           "headline": "Distrubted Generation: 15,000 Families in the South will Gain Access to Rooftop Solar",
- *           "excerpt": {
- *             "json": {
- *               "data": {},
- *               "content": [
- *                 {
- *                   "data": {},
- *                   "content": [
- *                     {
- *                       "data": {},
- *                       "marks": [],
- *                       "value": "Florida-based Climate First Bancorp has a residential rooftop program that can be\nscaled to support low-income families across the South. The technology they\nutilize enables customer outreach, education, and financing via point-of-sale from\na vetted network of 200+ solar contractors, including minority-owned,\nveteran-owned, woman-owned, and Business Enterprise Certified solar installers.",
- *                       "nodeType": "text"
- *                     }
- *                   ],
- *                   "nodeType": "paragraph"
- *                 }
- *               ],
- *               "nodeType": "document"
- *             }
- *           },
- *           "featuredImage": {
- *             "fileName": "Electric cooking.png",
- *             "url": "https://images.ctfassets.net/urgx2rpiyypc/1TfWT4CCQK8lHE2FB95D0h/56f4543955afd7fe7a25e789369f8267/Electric_cooking.png",
- *             "description": "Stir Fry. Yum!",
- *             "width": 577,
- *             "height": 603
- *           }
- *         }
- *       ]
- *     }
- *   }
- * }
- */
+export type CaseStudy = z.infer<typeof CaseStudySchema>
+
+export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
+  const query = `
+    query {
+        caseStudy(id: "${id}") {
+            title
+            headline
+            excerpt {
+                json
+            }
+            featuredImage {
+                fileName
+                url
+                description
+                width
+                height
+            }
+        }
+    }`
+
+  const response = await typedFetchGraphQL<{ caseStudy: CaseStudy }>(query)
+
+  if (!response.data) {
+    console.error(`Error for Case Study with id:${id}`, response.errors)
+
+    return null
+  }
+
+  const caseStudy = response.data.caseStudy
+
+  return validateWithSchema(CaseStudySchema, caseStudy)
+}
+
+export async function getCaseStudies(): Promise<CaseStudy[] | []> {
+  const query = `
+        query {
+            caseStudyCollection(order: sys_publishedAt_DESC) {
+                items {
+                    title
+                    headline
+                    excerpt {
+                        json
+                    }
+                    featuredImage {
+                        fileName
+                        url
+                        description
+                        width
+                        height
+                    }
+                }
+            }
+        }`
+
+  const response = await typedFetchGraphQL<{
+    caseStudyCollection: { items: CaseStudy[] }
+  }>(query)
+
+  if (!response.data) {
+    console.error(`Error for Case Studies`, response.errors)
+
+    return []
+  }
+
+  const caseStudies = response.data.caseStudyCollection.items
+
+  return validateWithSchema(CaseStudiesSchema, caseStudies)
+}
