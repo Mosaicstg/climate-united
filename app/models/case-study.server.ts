@@ -66,10 +66,12 @@ export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
   return validateWithSchema(CaseStudySchema, caseStudy)
 }
 
-export async function getCaseStudies(): Promise<Array<CaseStudy>> {
+export async function getCaseStudies(
+  count: number = 10,
+): Promise<Array<CaseStudy>> {
   const query = `
         query {
-            caseStudyCollection(order: sys_publishedAt_DESC) {
+            caseStudyCollection(limit: ${count}, order: sys_publishedAt_DESC) {
                 items {
                     title
                     headline
