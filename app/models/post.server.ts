@@ -85,7 +85,6 @@ export async function getPostBySlug(slug: string): Promise<Post> {
     }`
 
   const response = await fetchGraphQL(query)
-  console.log(response)
 
   return response.data.postCollection.items[0]
 

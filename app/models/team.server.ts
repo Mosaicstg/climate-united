@@ -1,3 +1,7 @@
+import { z } from "zod"
+import { SectionTeamSchema } from "~/schemas/sections/section.team.server"
+import { typedFetchGraphQL } from "~/services/contentful.server"
+import { validateWithSchema } from "~/utils/validate-with-schema"
 /**
  * query {
  *   teamPage(id: "r4OYblQ1BKEvh8k7RHp09") {
@@ -30,57 +34,109 @@
  * }
  */
 
-/**
- * {
- *   "data": {
- *     "teamPage": {
- *       "title": "Our Team",
- *       "headline": "Our Team",
- *       "sectionsCollection": {
- *         "items": [
- *           {
- *             "title": "Board of Directors",
- *             "headline": "Our Board of Directors",
- *             "mainContent": {
- *               "json": {
- *                 "data": {},
- *                 "content": [
- *                   {
- *                     "data": {},
- *                     "content": [
- *                       {
- *                         "data": {},
- *                         "marks": [],
- *                         "value": "Our Inaugural Board of Directors will oversee the consortium strategy and implementation of the Environmental Protection Agency’s $14 billion National Clean Investment Fund, part of the Greenhouse Gas Reduction Fund, if its proposal to manage all or part of the fund is chosen by the EPA in its ongoing selection process. The Board is comprised of leaders in clean energy, community and economic development, sustainable finance, and movement building.",
- *                         "nodeType": "text"
- *                       }
- *                     ],
- *                     "nodeType": "paragraph"
- *                   }
- *                 ],
- *                 "nodeType": "document"
- *               }
- *             },
- *             "teamMembersCollection": {
- *               "items": [
- *                 {
- *                   "name": "Caroline Nowery",
- *                   "position": "Sr. Vice President, Chief External Affairs Officer",
- *                   "department": "Virginia Community Capital",
- *                   "featuredImage": {
- *                     "fileName": "Electric cooking.png",
- *                     "url": "https://images.ctfassets.net/urgx2rpiyypc/1TfWT4CCQK8lHE2FB95D0h/56f4543955afd7fe7a25e789369f8267/Electric_cooking.png",
- *                     "description": "Stir Fry. Yum!",
- *                     "width": 577,
- *                     "height": 603
- *                   }
- *                 }
- *               ]
- *             }
- *           }
- *         ]
- *       }
- *     }
- *   }
- * }
- */
+export const TeamPageSchema = z.object({
+  title: z.string(),
+  headline: z.string(),
+  sectionsCollection: z.object({
+    items: z.array(SectionTeamSchema),
+  }),
+})
+
+export const TeamPagesSchema = z.array(TeamPageSchema)
+
+export type TeamPage = z.infer<typeof TeamPageSchema>
+
+export async function getTeamPage(id: string): Promise<TeamPage | null> {
+  const query = `query {
+    teamPage(id: "${id}") {
+      title
+      headline
+      sectionsCollection {
+        items {
+          title
+          headline
+          mainContent {
+            json
+          }
+          teamMembersCollection(limit: 54) {
+            items {
+              name
+              position
+              department
+              featuredImage {
+                fileName
+                url
+                description
+                width
+                height
+              }
+            }
+          }
+        }
+      }
+    }
+  }`
+
+  const response = await typedFetchGraphQL<{ teamPage: TeamPage }>(query)
+
+  if (!response.data) {
+    console.error("Failed to fetch team page", response.errors)
+
+    return null
+  }
+
+  const teamPage = response.data.teamPage
+
+  return validateWithSchema(TeamPageSchema.nullable(), teamPage)
+}
+
+// This function will crash the GraphQL server if the limit is too high
+export async function getTeamPages(
+  count: number = 10,
+): Promise<Array<TeamPage>> {
+  const query = `query {
+        teamPageCollection(limit: ${count}) {
+            items {
+                title
+                headline
+                sectionsCollection {
+                    items {
+                        title
+                        headline
+                        mainContent {
+                            json
+                        }
+                        teamMembersCollection(limit: 20) {
+                            items {
+                                name
+                                position
+                                department
+                                featuredImage {
+                                    fileName
+                                    url
+                                    description
+                                    width
+                                    height
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }`
+
+  const response = await typedFetchGraphQL<{
+    teamPageCollection: { items: Array<TeamPage> }
+  }>(query)
+
+  if (!response.data) {
+    console.error("Failed to fetch Team Pages", response.errors)
+
+    return []
+  }
+
+  const teamPages = response.data.teamPageCollection.items
+
+  return validateWithSchema(TeamPagesSchema, teamPages)
+}

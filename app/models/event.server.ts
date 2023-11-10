@@ -71,7 +71,6 @@ export async function getEventBySlug(slug: string): Promise<Event> {
     }`
 
   const response = await fetchGraphQL(query)
-  console.log(response)
 
   return response.data.eventCollection.items[0]
 

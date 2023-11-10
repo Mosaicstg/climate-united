@@ -24,7 +24,7 @@ export const TeamMemberSchema = z.object({
   name: z.string(),
   position: z.string(),
   department: z.string(),
-  featuredImage: ImageSchema,
+  featuredImage: ImageSchema.nullable().optional(),
 })
 
 export const TeamMembersSchema = TeamMemberSchema.array()

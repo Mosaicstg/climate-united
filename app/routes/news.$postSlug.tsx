@@ -4,7 +4,7 @@ import {
   type Block,
   type Inline,
 } from "@contentful/rich-text-types"
-import { type DataFunctionArgs, json, MetaFunction } from "@remix-run/node"
+import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getPostBySlug, PostSchema } from "~/models/post.server"
@@ -46,7 +46,6 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   invariantResponse(postSlug, "Post slug not found.", { status: 404 })
 
   const post = await getPostBySlug(postSlug)
-  console.log(post)
   const response = PostSchema.safeParse(post)
 
   invariantResponse(response.success, "Post not found.", { status: 404 })
@@ -55,7 +54,9 @@ export const loader = async ({ params }: DataFunctionArgs) => {
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return [...(data ? [{ title: `${data.post.title} - News - Climate United` }] : [])]
+  return [
+    ...(data ? [{ title: `${data.post.title} - News - Climate United` }] : []),
+  ]
 }
 
 export default function NewsPost() {
