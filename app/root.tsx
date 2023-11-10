@@ -67,10 +67,12 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="font-sans">
+      <body>
         <header className="mx-auto flex max-w-screen-xl items-center justify-between gap-12 border-b-4 border-dotted border-green p-5">
           <div className="w-[180px]">
-            <Logo />
+            <a href="/">
+              <Logo />
+            </a>
           </div>
           <nav>
             <ul className="flex gap-10 font-semibold">
