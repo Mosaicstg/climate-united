@@ -66,7 +66,7 @@ export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
   return validateWithSchema(CaseStudySchema, caseStudy)
 }
 
-export async function getCaseStudies(): Promise<CaseStudy[] | []> {
+export async function getCaseStudies(): Promise<Array<CaseStudy>> {
   const query = `
         query {
             caseStudyCollection(order: sys_publishedAt_DESC) {
@@ -88,7 +88,7 @@ export async function getCaseStudies(): Promise<CaseStudy[] | []> {
         }`
 
   const response = await typedFetchGraphQL<{
-    caseStudyCollection: { items: CaseStudy[] }
+    caseStudyCollection: { items: Array<CaseStudy> }
   }>(query)
 
   if (!response.data) {

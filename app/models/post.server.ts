@@ -93,7 +93,7 @@ export async function getPostBySlug(slug: string): Promise<Post> {
   // return validateWithSchema(PostSchema, post)
 }
 
-export async function getPosts(count: number = 10): Promise<Post[]> {
+export async function getPosts(count: number = 10): Promise<Array<Post>> {
   const query = `query {
         postCollection(limit: ${count}) {
             items {

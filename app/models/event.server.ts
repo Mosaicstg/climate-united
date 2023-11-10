@@ -79,7 +79,7 @@ export async function getEventBySlug(slug: string): Promise<Event> {
   // return validateWithSchema(EventSchema, event)
 }
 
-export async function getEvents(count: number = 3): Promise<Event[]> {
+export async function getEvents(count: number = 3): Promise<Array<Event>> {
   const query = `
         query {
             eventCollection(order:sys_firstPublishedAt_DESC limit: ${count}) {

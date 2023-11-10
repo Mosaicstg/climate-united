@@ -24,7 +24,7 @@ export async function typedFetchGraphQL<T>(
   query: string,
   variables = {},
   preview = false,
-): Promise<{ data: T } | { data: null; errors: { message: string }[] }> {
+): Promise<{ data: T } | { data: null; errors: Array<{ message: string }> }> {
   const response = await fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
     {
@@ -42,7 +42,7 @@ export async function typedFetchGraphQL<T>(
   )
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch API: ${response.statusText}`)
+    throw new Error(`Failed to fetch Contentful API: ${response.statusText}`)
   }
 
   return await response.json()

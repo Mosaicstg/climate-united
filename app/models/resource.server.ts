@@ -42,7 +42,9 @@ export async function getResource(id: string): Promise<Resource> {
   return validateWithSchema(ResourceSchema, resource)
 }
 
-export async function getResources(count: number = 10): Promise<Resource[]> {
+export async function getResources(
+  count: number = 10,
+): Promise<Array<Resource>> {
   const query = `query {
         resourceCollection(limit: ${count}) {
             items {

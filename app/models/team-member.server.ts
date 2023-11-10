@@ -55,7 +55,7 @@ export async function getTeamMember(id: string): Promise<TeamMember> {
 
 export async function getTeamMembers(
   count: number = 10,
-): Promise<TeamMember[]> {
+): Promise<Array<TeamMember>> {
   const query = `query {
   teamMemberCollection(limit: 100, order: sys_publishedAt_DESC) {
     items {
