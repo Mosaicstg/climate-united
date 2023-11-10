@@ -4,7 +4,7 @@ import {
   type Block,
   type Inline,
 } from "@contentful/rich-text-types"
-import { type DataFunctionArgs, json, MetaFunction } from "@remix-run/node"
+import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getEventBySlug, EventSchema } from "~/models/event.server"
@@ -54,7 +54,11 @@ export const loader = async ({ params }: DataFunctionArgs) => {
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return [...(data ? [{ title: `${data.event.title} - Events - Climate United` }] : [])]
+  return [
+    ...(data
+      ? [{ title: `${data.event.title} - Events - Climate United` }]
+      : []),
+  ]
 }
 
 export default function SingleEvent() {
