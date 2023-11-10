@@ -1,6 +1,6 @@
 import { type AboutPage } from "~/models/about.server"
 import { AboutSection } from "~/ui/sections/About"
-import { CaseStudy } from "~/ui/partials/CaseStudy"
+import { CaseStudy } from "~/ui/components/CaseStudy"
 
 type AboutPageProps = AboutPage
 
@@ -35,7 +35,7 @@ export function AboutPage({
           })}
         </div>
       </div>
-      <div className="bg-paleGreen">
+      <div className="border-t-2 border-solid border-green bg-paleGreen">
         <div className="mx-auto max-w-screen-xl py-12">
           <h2 className="mb-12 text-3xl font-bold text-darkBlue">
             {caseStudiesHeadline}
