@@ -2,12 +2,13 @@ import { type MetaFunction, useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/node"
 import { invariantResponse } from "~/utils/invariant.server"
 import { getTeamPage } from "~/models/team.server"
+import { TeamPage } from "~/ui/templates/TeamPage"
 
 export const loader = async () => {
   // TODO: Title of page in Contentful should match the route `Meet The Team`
   const teamPage = await getTeamPage("r4OYblQ1BKEvh8k7RHp09")
 
-  invariantResponse(teamPage, "Meet The Team page not found.", { status: 404 })
+  invariantResponse(teamPage, "Our Team page not found.", { status: 404 })
 
   return json({ teamPage })
 }
@@ -18,8 +19,17 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   ]
 }
 
-export default function AboutTheGreenhouseGasReductionFund() {
+export default function OurTeam() {
   const { teamPage } = useLoaderData<typeof loader>()
 
-  return <div>Hello From the Meet The Team page</div>
+  console.log(teamPage)
+
+  return (
+    <TeamPage
+      title={teamPage.title}
+      headline={teamPage.headline}
+      featuredImage={teamPage.featuredImage}
+      sectionsCollection={teamPage.sectionsCollection}
+    />
+  )
 }

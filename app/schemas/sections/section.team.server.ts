@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { RichTextSchema } from "../contentful-fields/rich-text.server"
 import { TeamMemberSchema } from "~/models/team-member.server"
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 /**
  * query {
@@ -32,7 +33,10 @@ export const SectionTeamSchema = z.object({
   title: z.string(),
   headline: z.string(),
   mainContent: RichTextSchema,
+  featuredImage: ImageSchema.nullable().optional(),
   teamMembersCollection: z.object({
     items: z.array(TeamMemberSchema),
   }),
 })
+
+export type SectionTeam = z.infer<typeof SectionTeamSchema>
