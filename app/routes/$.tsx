@@ -9,8 +9,6 @@ import {
   isRouteErrorResponse,
   useParams,
   useRouteError,
-  Link,
-  useLocation,
 } from "@remix-run/react"
 import { type ErrorResponse } from "@remix-run/router"
 import { Show404 } from "~/ui/templates/404"
