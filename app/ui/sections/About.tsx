@@ -13,16 +13,18 @@ export function AboutSection({
   const { url, description, width, height } = featuredImage
 
   return (
-    <div className="mx-auto mb-12 max-w-screen-lg text-darkBlue">
-      <img
-        className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
-        src={url}
-        alt={description}
-        width={width}
-        height={height}
-      />
-      {documentToReactComponents(mainContent.json, richTextRenderOptions)}
-    </div>
+    <section>
+      <div className="mx-auto mb-12 max-w-screen-lg text-darkBlue">
+        <img
+          className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
+          src={url}
+          alt={description}
+          width={width}
+          height={height}
+        />
+        {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+      </div>
+    </section>
   )
 }
 

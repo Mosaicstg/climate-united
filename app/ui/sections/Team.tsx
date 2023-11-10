@@ -14,26 +14,28 @@ export function TeamSection({
 }: SectionTeamProps) {
   return (
     <>
-      <div className="mx-auto max-w-screen-xl py-12">
-        <h2 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h2>
-        <div className="max-w-3xl">
-          {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+      <section>
+        <div className="mx-auto max-w-screen-xl py-12">
+          <h2 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h2>
+          <div className="max-w-3xl">
+            {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+          </div>
+          <div className="mt-12 grid grid-cols-4 gap-12">
+            {teamMembersCollection.items.map((teamMember) => {
+              return (
+                <>
+                  <TeamMember
+                    name={teamMember.name}
+                    position={teamMember.position}
+                    department={teamMember.department}
+                    featuredImage={teamMember.featuredImage}
+                  />
+                </>
+              )
+            })}
+          </div>
         </div>
-        <div className="mt-12 grid grid-cols-4 gap-12">
-          {teamMembersCollection.items.map((teamMember) => {
-            return (
-              <>
-                <TeamMember
-                  name={teamMember.name}
-                  position={teamMember.position}
-                  department={teamMember.department}
-                  featuredImage={teamMember.featuredImage}
-                />
-              </>
-            )
-          })}
-        </div>
-      </div>
+      </section>
     </>
   )
 }
