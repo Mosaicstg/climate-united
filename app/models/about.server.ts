@@ -3,6 +3,7 @@ import { CaseStudySchema } from "./case-study.server"
 import { SectionAboutSchema } from "~/schemas/sections/section.about.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
+import {ImageSchema} from '~/schemas/contentful-fields/image.server';
 
 /**
  * query {
@@ -46,6 +47,7 @@ import { validateWithSchema } from "~/utils/validate-with-schema.server"
 
 export const AboutPageSchema = z.object({
   title: z.string(),
+  featuredImage: ImageSchema,
   sectionsCollection: z.object({
     items: z.array(SectionAboutSchema),
   }),
@@ -95,6 +97,13 @@ export async function getAboutPage(id: string): Promise<AboutPage | null> {
                         height
                     }
                 }
+            }
+            featuredImage {
+                fileName
+                url
+                description
+                width
+                height
             }
         }
     }`
@@ -152,6 +161,13 @@ export async function getAboutPages(
                         }
                     }
                 }
+            }
+            featuredImage {
+                fileName
+                url
+                description
+                width
+                height
             }
         }
     }`

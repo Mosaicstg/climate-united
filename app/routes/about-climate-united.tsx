@@ -2,6 +2,7 @@ import { type MetaFunction, useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/node"
 import { getAboutPage } from "~/models/about.server"
 import { invariantResponse } from "~/utils/invariant.server"
+import { AboutPage } from "~/ui/templates/AboutPage"
 
 export const loader = async () => {
   // TODO: Title of page in Contentful should match the route `About`
@@ -18,8 +19,18 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   ]
 }
 
-export default function AboutTheGreenhouseGasReductionFund() {
+export default function AboutClimateUnited() {
   const { aboutPage } = useLoaderData<typeof loader>()
 
-  return <div>Hello From the About page</div>
+  console.log(aboutPage)
+
+  return (
+    <AboutPage
+      title={aboutPage.title}
+      featuredImage={aboutPage.featuredImage}
+      sectionsCollection={aboutPage.sectionsCollection}
+      caseStudiesHeadline={aboutPage.caseStudiesHeadline}
+      caseStudiesCollection={aboutPage.caseStudiesCollection}
+    />
+  )
 }

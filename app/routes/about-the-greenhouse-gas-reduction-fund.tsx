@@ -5,10 +5,11 @@ import {
   type Inline,
 } from "@contentful/rich-text-types"
 import { type DataFunctionArgs, json } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import {MetaFunction, useLoaderData} from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getPage } from "~/models/page.server"
 import { Page } from "~/ui/templates/Page"
+import {invariantResponse} from '~/utils/invariant.server';
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -40,9 +41,17 @@ export const richTextRenderOptions = {
 }
 
 export const loader = async (_: DataFunctionArgs) => {
-  const aboutPage = await getPage("1ydvGd1x8TYHNWeNUbqFeC")
+  const page = await getPage("1ydvGd1x8TYHNWeNUbqFeC")
 
-  return json({ page: aboutPage })
+  invariantResponse(page, "About page not found.", { status: 404 })
+
+  return json({ page: page })
+}
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    ...(data ? [{ title: `${data.page.title} - Climate United` }] : []),
+  ]
 }
 
 export default function AboutTheGreenhouseGasReductionFund() {

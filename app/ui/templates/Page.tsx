@@ -4,7 +4,7 @@ import {type Page} from "~/models/page.server";
 
 type PageProps = Page;
 
-export function Page({title, headline, featuredImage, mainContent}: PageProps) {
+export function Page({title, headline, mainContent, featuredImage}: PageProps) {
     const {url, description, width, height} = featuredImage;
     return (
         <>
