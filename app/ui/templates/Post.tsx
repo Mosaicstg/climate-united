@@ -3,9 +3,9 @@ import {richTextRenderOptions} from "~/routes/news.$postSlug";
 import {type Post} from "~/models/post.server";
 import {transformDateTimeStringToHumanReadable} from '~/utils/datetime-to-readable';
 
-type postProps = Post;
+type PostProps = Post;
 
-export function Post({title, headline, date, mainContent}: postProps) {
+export function Post({title, headline, date, mainContent}: PostProps) {
     return (
         <>
             <div className="max-w-screen-lg mx-auto py-12">

@@ -3,9 +3,9 @@ import { richTextRenderOptions } from "~/routes/news.$postSlug"
 import { type Event } from "~/models/event.server"
 import { transformDateTimeStringToHumanReadable } from "~/utils/datetime-to-readable"
 
-type eventProps = Event
+type EventProps = Event
 
-export function Event({ title, headline, datetime, mainContent }: eventProps) {
+export function Event({ title, headline, datetime, mainContent }: EventProps) {
   return (
     <>
       <div className="mx-auto max-w-screen-lg py-12">

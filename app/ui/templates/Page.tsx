@@ -2,9 +2,9 @@ import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
 import {richTextRenderOptions} from "~/routes/about-the-greenhouse-gas-reduction-fund";
 import {type Page} from "~/models/page.server";
 
-type pageProps = Page;
+type PageProps = Page;
 
-export function Page({title, headline, featuredImage, mainContent}: pageProps) {
+export function Page({title, headline, featuredImage, mainContent}: PageProps) {
     const {url, description, width, height} = featuredImage;
     return (
         <>

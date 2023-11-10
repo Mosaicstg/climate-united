@@ -7,7 +7,7 @@ import { SectionTextImageSchema } from "~/schemas/sections/section.text-image.se
 import { SectionEventsResourcesSchema } from "~/schemas/sections/section.events-resources.server"
 import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-image-split.server"
 import { SectionNewsPressReleasesSchema } from "~/schemas/sections/section.news-press-releases.server"
-import { validateWithSchema } from "~/utils/validate-with-schema"
+import { validateWithSchema } from "~/utils/validate-with-schema.server"
 
 /**
  * query {

@@ -2,7 +2,7 @@ import { z } from "zod"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
-import { validateWithSchema } from "~/utils/validate-with-schema"
+import { validateWithSchema } from "~/utils/validate-with-schema.server"
 
 /**
  * query {

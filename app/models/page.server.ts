@@ -1,6 +1,6 @@
 import { fetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
-import { validateWithSchema } from "~/utils/validate-with-schema"
+import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 

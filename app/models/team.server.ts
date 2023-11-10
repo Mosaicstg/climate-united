@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { SectionTeamSchema } from "~/schemas/sections/section.team.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
-import { validateWithSchema } from "~/utils/validate-with-schema"
+import { validateWithSchema } from "~/utils/validate-with-schema.server"
 /**
  * query {
  *   teamPage(id: "r4OYblQ1BKEvh8k7RHp09") {

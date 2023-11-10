@@ -2,7 +2,7 @@ import { z } from "zod"
 import { CaseStudySchema } from "./case-study.server"
 import { SectionAboutSchema } from "~/schemas/sections/section.about.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
-import { validateWithSchema } from "~/utils/validate-with-schema"
+import { validateWithSchema } from "~/utils/validate-with-schema.server"
 
 /**
  * query {
