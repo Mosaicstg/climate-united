@@ -1,3 +1,5 @@
+import { invariantResponse } from "~/utils/invariant.server"
+
 export function fetchGraphQL(
   query: string,
   variables = {},
@@ -41,9 +43,10 @@ export async function typedFetchGraphQL<T>(
     },
   )
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch Contentful API: ${response.statusText}`)
-  }
+  invariantResponse(response.ok, "Failed to fetch Contentful API", {
+    status: response.status,
+    statusText: response.statusText,
+  })
 
   return await response.json()
 }
