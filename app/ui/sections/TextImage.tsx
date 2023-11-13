@@ -15,7 +15,7 @@ export function TextImageSection({
   return (
     <>
       <section className="border-t-4 border-solid border-green bg-paleGreen text-center text-darkBlue">
-        <div className="mx-auto max-w-screen-xl py-12">
+        <div className="mx-auto max-w-screen-lg py-12">
           <img
             className="mb-12 w-full"
             src={url}
@@ -39,7 +39,7 @@ export const richTextRenderOptions = {
       const { uri } = data
       return (
         <a
-          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold"
+          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen"
           rel="noreferrer"
           href={uri}
         >

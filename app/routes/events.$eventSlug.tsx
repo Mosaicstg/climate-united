@@ -79,8 +79,10 @@ export default function SingleEvent() {
   return (
     <Event
       title={event.title}
+      slug={event.slug}
       headline={event.headline}
       datetime={event.datetime}
+      location={event.location}
       mainContent={event.mainContent}
       seo={event.seo}
     />

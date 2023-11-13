@@ -15,7 +15,7 @@ export function TextImageSplitSection({
   return (
     <>
       <section className="border-t-4 border-solid border-green bg-paleGreen text-darkBlue">
-        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 py-12 md:flex-row">
+        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-[7rem] py-12 md:flex-row">
           <div className="relative md:order-2 md:w-2/5">
             <div className="absolute bottom-[5%] right-[85%] h-[156px] w-[156px] translate-x-1/2 translate-y-1/3 rounded-full bg-yellow"></div>
             <div className="absolute right-[10%] top-[20%] h-[156px] w-[156px] -translate-y-1/2 translate-x-1/2 rounded-full bg-blue"></div>
@@ -43,7 +43,7 @@ export const richTextRenderOptions = {
       const { uri } = data
       return (
         <a
-          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold"
+          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen"
           rel="noreferrer"
           href={uri}
         >

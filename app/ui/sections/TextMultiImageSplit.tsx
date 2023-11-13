@@ -1,5 +1,5 @@
 import { SectionTextMultiImageSplit } from "~/schemas/sections/section.text-multi-image-split.server"
-import { Block, Inline, INLINES } from "@contentful/rich-text-types"
+import { Block, BLOCKS, Inline, INLINES } from "@contentful/rich-text-types"
 import { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
@@ -13,21 +13,35 @@ export function TextMultiImageSplitSection({
   return (
     <>
       <section className="border-t-4 border-solid border-green text-darkBlue">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 py-12 md:flex-row">
-          <div className="md:w-1/2">
-            {featuredImagesCollection.items.map((image) => {
+        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-[7rem] py-12 md:flex-row">
+          <div className="flex flex-col flex-wrap justify-center md:w-2/5 md:flex-row">
+            {featuredImagesCollection.items.map((image, index) => {
+              let classes = ""
+              switch (index % 3) {
+                case 0:
+                  classes = "bg-darkBlue"
+                  break
+                case 1:
+                  classes = "bg-lightGreen"
+                  break
+                case 2:
+                  classes = "bg-green md:-mt-1"
+                  break
+              }
               return (
-                <img
-                  className="mb-12 w-full rounded-full"
-                  src={image.url}
-                  alt={image.description}
-                  width={image.width}
-                  height={image.height}
-                />
+                <div className="px-3 md:w-1/2">
+                  <img
+                    className={`mb-5 w-full rounded-full md:mb-0 ${classes}`}
+                    src={image.url}
+                    alt={image.description}
+                    width={image.width}
+                    height={image.height}
+                  />
+                </div>
               )
             })}
           </div>
-          <div className="md:w-1/2">
+          <div className="md:w-3/5">
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </div>
         </div>
@@ -50,6 +64,9 @@ export const richTextRenderOptions = {
           {children}
         </a>
       )
+    },
+    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
+      return <h2 className="mb-5 text-4xl font-bold">{children}</h2>
     },
   },
 }

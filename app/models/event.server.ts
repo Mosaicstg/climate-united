@@ -21,8 +21,10 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 export const EventSchema = z.object({
   title: z.string(),
+  slug: z.string(),
   headline: z.string(),
   datetime: z.string(),
+  location: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
   seo: z.object({
@@ -41,8 +43,10 @@ export async function getEvent(id: string): Promise<Event> {
     query {
         event(id: "${id}") {
             title
+            slug
             headline
             datetime
+            location
             excerpt {
                 json
             }
@@ -75,8 +79,10 @@ export async function getEventBySlug(slug: string): Promise<Event> {
         eventCollection(where: { slug: "${slug}" }) {
             items {
                 title
+                slug
                 headline
                 datetime
+                location
                 excerpt {
                     json
                 }
@@ -112,8 +118,10 @@ export async function getEvents(count: number = 10): Promise<Array<Event>> {
             eventCollection(order:sys_firstPublishedAt_DESC limit: ${count}) {
                 items {
                     title
+                    slug
                     headline
                     datetime
+                    location
                     excerpt {
                         json
                     }
