@@ -20,6 +20,8 @@ export function getSocialMetas({
     { name: "og:title", content: title },
     { name: "og:description", content: description },
     { name: "og:image", content: image },
+    { name: "og:site_name", content: "Climate United" },
+    { name: "og:locale", content: "en_US" },
     {
       name: "twitter:card",
       content: image ? "summary_large_image" : "summary",
