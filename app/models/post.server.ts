@@ -28,6 +28,7 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 export const PostSchema = z.object({
   title: z.string(),
+  slug: z.string(),
   headline: z.string(),
   date: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
@@ -48,6 +49,7 @@ export async function getPost(id: string): Promise<Post> {
   const query = `query {
         post(id: "${id}") {
             title
+            slug
             headline
             date
             excerpt {
@@ -88,6 +90,7 @@ export async function getPostBySlug(slug: string): Promise<Post> {
         postCollection(where: { slug: "${slug}" }) {
             items {
                 title
+                slug
                 headline
                 date
                 excerpt {
@@ -124,6 +127,7 @@ export async function getPosts(count: number = 10): Promise<Array<Post>> {
         postCollection(limit: ${count}) {
             items {
                 title
+                slug
                 headline
                 date
                 excerpt {
@@ -138,6 +142,17 @@ export async function getPosts(count: number = 10): Promise<Array<Post>> {
                      description
                      width
                      height
+                }
+                seo {
+                  title
+                  excerpt
+                  image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
                 }
             }
         }

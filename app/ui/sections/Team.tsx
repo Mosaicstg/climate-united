@@ -22,7 +22,7 @@ export function TeamSection({
           </div>
           <div className="mt-12 grid grid-cols-4 gap-12">
             {teamMembersCollection.items.map((teamMember, index) => {
-              let borderColor = "green"
+              let borderColor = "border-green"
               switch (index % 5) {
                 case 0:
                   borderColor = "border-green"
@@ -43,11 +43,11 @@ export function TeamSection({
               return (
                 <>
                   <TeamMember
-                    borderColor={borderColor}
                     name={teamMember.name}
                     position={teamMember.position}
                     department={teamMember.department}
                     featuredImage={teamMember.featuredImage}
+                    borderColor={borderColor}
                   />
                 </>
               )

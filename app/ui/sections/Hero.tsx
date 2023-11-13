@@ -51,7 +51,7 @@ export const richTextRenderOptions = {
       const { uri } = data
       return (
         <a
-          className="mt-5 inline-block rounded-full border-2 border-solid border-white px-6 py-3 font-bold"
+          className="mt-5 inline-block rounded-full border-2 border-solid border-white px-6 py-3 font-bold duration-300 ease-in-out hover:bg-white hover:text-lightGreen"
           rel="noreferrer"
           href={uri}
         >

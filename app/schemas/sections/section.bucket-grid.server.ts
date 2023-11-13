@@ -34,6 +34,7 @@ export const SectionBucketGridSchema = z.object({
   bucketsCollection: z.object({
     items: z.array(
       z.object({
+        title: z.string(),
         bucketText: RichTextSchema,
         bucketImage: ImageSchema,
       }),

@@ -5,6 +5,7 @@ type PostProps = Post
 
 export function Post({
   title,
+  slug,
   headline,
   date,
   excerpt,
@@ -25,10 +26,23 @@ export function Post({
         ) : null}
       </div>
       <div className="md:w-3/5">
-        <h3 className="mb-3 text-xl font-bold text-darkBlue">{headline}</h3>
+        <h3 className="mb-3 text-xl font-bold">
+          <a
+            className="text-darkBlue duration-300 ease-in-out hover:text-green"
+            href={`/news/${slug}`}
+          >
+            {headline}
+          </a>
+        </h3>
         {excerpt
           ? documentToReactComponents(excerpt.json, richTextRenderOptions)
           : null}
+        <a
+          className="mt-5 inline-block rounded-full bg-green px-4 py-1 font-bold uppercase text-white duration-300 ease-in-out hover:bg-darkBlue"
+          href={`/news/${slug}`}
+        >
+          Read More
+        </a>
       </div>
     </div>
   )

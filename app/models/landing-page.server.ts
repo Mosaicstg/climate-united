@@ -64,6 +64,7 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
  *           }
  *           bucketsCollection {
  *             items {
+ *               title
  *               bucketText {
  *                 json
  *               }
@@ -234,6 +235,7 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                         }
                         bucketsCollection {
                             items {
+                                title
                                 bucketText {
                                     json
                                 }
@@ -263,9 +265,15 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                         headlineEvents
                         eventsCollection {
                             items {
+                                title
+                                slug
                                 headline
                                 datetime
+                                location
                                 excerpt {
+                                    json
+                                }
+                                mainContent {
                                     json
                                 }
                                 seo {
@@ -304,6 +312,7 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                         postsCollection {
                             items {
                                 title
+                                slug
                                 date
                                 headline
                                 excerpt {

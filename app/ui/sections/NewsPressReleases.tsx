@@ -17,6 +17,7 @@ export function NewsPressReleasesSection({
             return (
               <Post
                 title={post.title}
+                slug={post.slug}
                 headline={post.headline}
                 date={post.date}
                 excerpt={post.excerpt}

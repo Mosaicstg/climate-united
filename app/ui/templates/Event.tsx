@@ -5,14 +5,22 @@ import { transformDateTimeStringToHumanReadable } from "~/utils/datetime-to-read
 
 type EventProps = Event
 
-export function Event({ title, headline, datetime, mainContent }: EventProps) {
+export function Event({
+  title,
+  slug,
+  headline,
+  datetime,
+  location,
+  mainContent,
+}: EventProps) {
   return (
     <>
       <div className="mx-auto max-w-screen-lg py-12">
         <h1 className="mb-5 text-3xl font-bold text-green">{headline}</h1>
-        <p className="mb-5 uppercase">
+        <p className="uppercase">
           {transformDateTimeStringToHumanReadable(datetime)}
         </p>
+        <p className="mb-5">{location}</p>
         {documentToReactComponents(mainContent.json, richTextRenderOptions)}
       </div>
     </>

@@ -3,11 +3,11 @@ import { type TeamMember } from "~/models/team-member.server"
 type TeamMemberProps = TeamMember & { borderColor: string }
 
 export function TeamMember({
-  borderColor = "border-green",
   name,
   position,
   department,
   featuredImage,
+  borderColor = "border-green",
 }: TeamMemberProps) {
   return (
     <div className="text-center">
