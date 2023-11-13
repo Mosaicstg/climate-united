@@ -14,6 +14,7 @@
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^15.19.0",
     "@contentful/rich-text-types": "^16.3.0",
+    "@nasa-gcn/remix-seo": "^2.0.0",
     "@netlify/functions": "^2.0.0",
     "@netlify/remix-adapter": "^2.0.0",
     "@remix-run/css-bundle": "^2.2.0",
