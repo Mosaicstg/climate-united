@@ -22,16 +22,9 @@ import Header from "~/ui/components/Header"
 import Footer from "~/ui/components/Footer"
 
 export const links: LinksFunction = () => [
+  // preload tailwind so the first paint is the right font
+  { rel: "preload", href: tailwindStylesheet, as: "style" },
   { rel: "stylesheet", href: tailwindStylesheet },
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@600&display=swap",
-  },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   ...(process.env.NODE_ENV === "development"
     ? [{ rel: "stylesheet", href: rdtStylesheet }]
