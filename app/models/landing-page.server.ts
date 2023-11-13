@@ -268,6 +268,17 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                                 excerpt {
                                     json
                                 }
+                                seo {
+                                  title
+                                  excerpt
+                                  image {
+                                    fileName
+                                    url
+                                    description
+                                    width
+                                    height
+                                  }
+                                }
                             }
                         }
                         headlineResources
@@ -307,6 +318,17 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                                     description
                                     width
                                     height
+                                }
+                                seo {
+                                  title
+                                  excerpt
+                                  image {
+                                    fileName
+                                    url
+                                    description
+                                    width
+                                    height
+                                  }
                                 }
                             }
                         }

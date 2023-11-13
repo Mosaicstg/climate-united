@@ -22,6 +22,7 @@ export function NewsPressReleasesSection({
                 excerpt={post.excerpt}
                 mainContent={post.mainContent}
                 featuredImage={post.featuredImage}
+                seo={post.seo}
               />
             )
           })}
