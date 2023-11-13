@@ -1,7 +1,11 @@
-import { type LinksFunction, type MetaFunction, json } from "@remix-run/node"
+import {
+  type DataFunctionArgs,
+  type LinksFunction,
+  type MetaFunction,
+  json,
+} from "@remix-run/node"
 import { cssBundleHref } from "@remix-run/css-bundle"
 import {
-  Link,
   Links,
   LiveReload,
   Meta,
@@ -18,6 +22,7 @@ import tailwindStylesheet from "~/tailwind.css"
 import Logo from "~/components/logo"
 import LogoWhite from "~/components/logo-white"
 import SocialIcon from "~/components/social-icon"
+import { getDomainUrl } from "./utils/get-route-url.server"
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStylesheet },
@@ -36,11 +41,13 @@ export const links: LinksFunction = () => [
     : []),
 ]
 
-export const loader = async () => {
+export const loader = async ({ request }: DataFunctionArgs) => {
   const socialMedialLinks = await getSocialMediaLinks()
 
-  return json({ socialMedialLinks })
+  return json({ socialMedialLinks, domainURL: getDomainUrl(request) }, {})
 }
+
+export type RootLoader = typeof loader
 
 export const meta: MetaFunction = () => [
   {
