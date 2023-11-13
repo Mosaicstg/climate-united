@@ -3,7 +3,7 @@ import { CaseStudySchema } from "./case-study.server"
 import { SectionAboutSchema } from "~/schemas/sections/section.about.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
-import {ImageSchema} from '~/schemas/contentful-fields/image.server';
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 /**
  * query {
@@ -55,6 +55,11 @@ export const AboutPageSchema = z.object({
   caseStudiesCollection: z.object({
     items: z.array(CaseStudySchema),
   }),
+  seo: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    image: ImageSchema,
+  }),
 })
 
 export const AboutPagesSchema = z.array(AboutPageSchema)
@@ -104,6 +109,17 @@ export async function getAboutPage(id: string): Promise<AboutPage | null> {
                 description
                 width
                 height
+            }
+            seo {
+              title
+              excerpt
+              image {
+                fileName
+                url
+                description
+                width
+                height
+              }
             }
         }
     }`
@@ -161,13 +177,24 @@ export async function getAboutPages(
                         }
                     }
                 }
-            }
-            featuredImage {
-                fileName
-                url
-                description
-                width
-                height
+                featuredImage {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                }
+                seo {
+                  title
+                  excerpt
+                  image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
+                }
             }
         }
     }`

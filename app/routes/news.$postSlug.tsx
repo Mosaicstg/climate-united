@@ -55,7 +55,19 @@ export const loader = async ({ params }: DataFunctionArgs) => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
-    ...(data ? [{ title: `${data.post.title} - News - Climate United` }] : []),
+    ...(data
+      ? [
+          { title: `${data.post.title} - News - Climate United` },
+          {
+            name: "description",
+            content: `${data.post.seo.excerpt}`,
+          },
+          {
+            property: "og:image",
+            content: `${data.post.seo.image.url}`,
+          },
+        ]
+      : []),
   ]
 }
 
@@ -69,6 +81,7 @@ export default function NewsPost() {
       headline={post.headline}
       date={post.date}
       mainContent={post.mainContent}
+      seo={post.seo}
     />
   )
 }

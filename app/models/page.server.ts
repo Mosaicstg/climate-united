@@ -40,6 +40,11 @@ export const PageSchema = z.object({
   headline: z.string(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema,
+  seo: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    image: ImageSchema,
+  }),
 })
 
 export type Page = z.infer<typeof PageSchema>
@@ -59,6 +64,17 @@ export async function getPage(id: string): Promise<Page> {
                     description
                     width
                     height
+                }
+                seo {
+                  title
+                  excerpt
+                  image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
                 }
             }
         }

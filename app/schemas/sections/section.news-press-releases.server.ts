@@ -30,9 +30,7 @@ export const SectionNewsPressReleasesSchema = z.object({
   title: z.string(),
   headline: z.string(),
   postsCollection: z.object({
-    items: PostSchema.omit({
-      mainContent: true,
-    }).array(),
+    items: PostSchema.array(),
   }),
 })
 

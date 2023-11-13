@@ -10,18 +10,18 @@ export function AboutSection({
   mainContent,
   featuredImage,
 }: SectionAboutProps) {
-  const { url, description, width, height } = featuredImage
-
   return (
     <section>
       <div className="mx-auto mb-12 max-w-screen-lg text-darkBlue">
-        <img
-          className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
-          src={url}
-          alt={description}
-          width={width}
-          height={height}
-        />
+        {featuredImage ? (
+          <img
+            className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
+            src={featuredImage.url}
+            alt={featuredImage.description}
+            width={featuredImage.width}
+            height={featuredImage.height}
+          />
+        ) : null}
         {documentToReactComponents(mainContent.json, richTextRenderOptions)}
       </div>
     </section>

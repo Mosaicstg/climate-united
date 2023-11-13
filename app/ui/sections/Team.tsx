@@ -21,10 +21,29 @@ export function TeamSection({
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </div>
           <div className="mt-12 grid grid-cols-4 gap-12">
-            {teamMembersCollection.items.map((teamMember) => {
+            {teamMembersCollection.items.map((teamMember, index) => {
+              let borderColor = "green"
+              switch (index % 5) {
+                case 0:
+                  borderColor = "border-green"
+                  break
+                case 1:
+                  borderColor = "border-yellow"
+                  break
+                case 2:
+                  borderColor = "border-lightGreen"
+                  break
+                case 3:
+                  borderColor = "border-blue"
+                  break
+                case 4:
+                  borderColor = "border-darkBlue"
+                  break
+              }
               return (
                 <>
                   <TeamMember
+                    borderColor={borderColor}
                     name={teamMember.name}
                     position={teamMember.position}
                     department={teamMember.department}

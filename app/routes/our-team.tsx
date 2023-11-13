@@ -15,7 +15,19 @@ export const loader = async () => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
-    ...(data ? [{ title: `${data.teamPage.title} - Climate United` }] : []),
+    ...(data
+      ? [
+          { title: `${data.teamPage.title} - Climate United` },
+          {
+            name: "description",
+            content: `${data.teamPage.seo.excerpt}`,
+          },
+          {
+            property: "og:image",
+            content: `${data.teamPage.seo.image.url}`,
+          },
+        ]
+      : []),
   ]
 }
 
@@ -30,6 +42,7 @@ export default function OurTeam() {
       headline={teamPage.headline}
       featuredImage={teamPage.featuredImage}
       sectionsCollection={teamPage.sectionsCollection}
+      seo={teamPage.seo}
     />
   )
 }

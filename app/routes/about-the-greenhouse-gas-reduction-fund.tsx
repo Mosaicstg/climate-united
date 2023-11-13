@@ -5,11 +5,11 @@ import {
   type Inline,
 } from "@contentful/rich-text-types"
 import { type DataFunctionArgs, json } from "@remix-run/node"
-import {MetaFunction, useLoaderData} from "@remix-run/react"
+import { MetaFunction, useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getPage } from "~/models/page.server"
 import { Page } from "~/ui/templates/Page"
-import {invariantResponse} from '~/utils/invariant.server';
+import { invariantResponse } from "~/utils/invariant.server"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -29,9 +29,7 @@ export const richTextRenderOptions = {
     },
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
       return (
-        <p className="mb-4 text-base leading-relaxed text-black">
-          {children}
-        </p>
+        <p className="mb-4 text-base leading-relaxed text-black">{children}</p>
       )
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
@@ -50,7 +48,19 @@ export const loader = async (_: DataFunctionArgs) => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
-    ...(data ? [{ title: `${data.page.title} - Climate United` }] : []),
+    ...(data
+      ? [
+          { title: `${data.page.title} - Climate United` },
+          {
+            name: "description",
+            content: `${data.page.seo.excerpt}`,
+          },
+          {
+            property: "og:image",
+            content: `${data.page.seo.image.url}`,
+          },
+        ]
+      : []),
   ]
 }
 
@@ -60,11 +70,12 @@ export default function AboutTheGreenhouseGasReductionFund() {
   console.log(page)
 
   return (
-      <Page
-        title={page.title}
-        headline={page.headline}
-        featuredImage={page.featuredImage}
-        mainContent={page.mainContent}
-      />
+    <Page
+      title={page.title}
+      headline={page.headline}
+      featuredImage={page.featuredImage}
+      mainContent={page.mainContent}
+      seo={page.seo}
+    />
   )
 }

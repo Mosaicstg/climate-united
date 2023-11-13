@@ -8,6 +8,7 @@ import { SectionEventsResourcesSchema } from "~/schemas/sections/section.events-
 import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-image-split.server"
 import { SectionNewsPressReleasesSchema } from "~/schemas/sections/section.news-press-releases.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 /**
  * query {
@@ -169,6 +170,11 @@ export const LandingPageSchema = z.object({
   sectionsCollection: z.object({
     items: z.array(SectionsDiscriminatedUnion),
   }),
+  seo: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    image: ImageSchema,
+  }),
 })
 
 export type LandingPage = z.infer<typeof LandingPageSchema>
@@ -292,6 +298,9 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                                 excerpt {
                                     json
                                 }
+                                mainContent {
+                                    json
+                                }
                                 featuredImage {
                                     fileName
                                     url
@@ -303,6 +312,17 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                         }
                     }
                 }
+            }
+            seo {
+              title
+              excerpt
+              image {
+                fileName
+                url
+                description
+                width
+                height
+              }
             }
         }
     }

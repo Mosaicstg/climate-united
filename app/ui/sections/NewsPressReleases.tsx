@@ -20,6 +20,7 @@ export function NewsPressReleasesSection({
                 headline={post.headline}
                 date={post.date}
                 excerpt={post.excerpt}
+                mainContent={post.mainContent}
                 featuredImage={post.featuredImage}
               />
             )

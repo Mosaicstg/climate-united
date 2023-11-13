@@ -2,6 +2,7 @@ import { fetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 // query {
 //     eventCollection(limit: 100) {
@@ -24,6 +25,11 @@ export const EventSchema = z.object({
   datetime: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
+  seo: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    image: ImageSchema,
+  }),
 })
 
 export const EventsSchema = EventSchema.array()
@@ -42,6 +48,17 @@ export async function getEvent(id: string): Promise<Event> {
             }
             mainContent {
                 json
+            }
+            seo {
+              title
+              excerpt
+              image {
+                fileName
+                url
+                description
+                width
+                height
+              }
             }
         }
     }
@@ -65,6 +82,17 @@ export async function getEventBySlug(slug: string): Promise<Event> {
                 }
                 mainContent {
                     json
+                }
+                seo {
+                  title
+                  excerpt
+                  image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
                 }
             }
         }
@@ -91,6 +119,17 @@ export async function getEvents(count: number = 10): Promise<Array<Event>> {
                     }
                     mainContent {
                         json
+                    }
+                    seo {
+                      title
+                      excerpt
+                      image {
+                        fileName
+                        url
+                        description
+                        width
+                        height
+                      }
                     }
                 }
             }  

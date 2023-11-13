@@ -9,18 +9,18 @@ export function TeamPage({
   featuredImage,
   sectionsCollection,
 }: TeamPageProps) {
-  const { url, description, width, height } = featuredImage
-
   return (
     <>
       <div className="mx-auto max-w-screen-xl py-12">
-        <img
-          className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
-          src={url}
-          alt={description}
-          width={width}
-          height={height}
-        />
+        {featuredImage ? (
+          <img
+            className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
+            src={featuredImage.url}
+            alt={featuredImage.description}
+            width={featuredImage.width}
+            height={featuredImage.height}
+          />
+        ) : null}
         <h1 className="-mb-6 text-3xl font-bold text-green">{headline}</h1>
         <div>
           {sectionsCollection.items.map((section) => {

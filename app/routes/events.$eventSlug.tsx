@@ -56,7 +56,17 @@ export const loader = async ({ params }: DataFunctionArgs) => {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     ...(data
-      ? [{ title: `${data.event.title} - Events - Climate United` }]
+      ? [
+          { title: `${data.event.title} - Events - Climate United` },
+          {
+            name: "description",
+            content: `${data.event.seo.excerpt}`,
+          },
+          {
+            property: "og:image",
+            content: `${data.event.seo.image.url}`,
+          },
+        ]
       : []),
   ]
 }
@@ -72,6 +82,7 @@ export default function SingleEvent() {
       headline={event.headline}
       datetime={event.datetime}
       mainContent={event.mainContent}
+      seo={event.seo}
     />
   )
 }

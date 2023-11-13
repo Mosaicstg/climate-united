@@ -42,6 +42,11 @@ export const TeamPageSchema = z.object({
   sectionsCollection: z.object({
     items: z.array(SectionTeamSchema),
   }),
+  seo: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    image: ImageSchema,
+  }),
 })
 
 export const TeamPagesSchema = z.array(TeamPageSchema)
@@ -83,6 +88,17 @@ export async function getTeamPage(id: string): Promise<TeamPage | null> {
         width
         height
       }
+      seo {
+              title
+              excerpt
+              image {
+                fileName
+                url
+                description
+                width
+                height
+              }
+            }
     }
   }`
 
@@ -137,6 +153,17 @@ export async function getTeamPages(
                   description
                   width
                   height
+                }
+                seo {
+                  title
+                  excerpt
+                  image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
                 }
             }
         }

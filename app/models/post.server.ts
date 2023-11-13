@@ -33,6 +33,11 @@ export const PostSchema = z.object({
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema.optional(),
+  seo: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    image: ImageSchema,
+  }),
 })
 
 export const PostsSchema = PostSchema.array()
@@ -58,6 +63,17 @@ export async function getPost(id: string): Promise<Post> {
                  width
                  height
             }
+            seo {
+              title
+              excerpt
+              image {
+                fileName
+                url
+                description
+                width
+                height
+              }
+            }
         }
     }`
 
@@ -79,6 +95,17 @@ export async function getPostBySlug(slug: string): Promise<Post> {
                 }
                 mainContent {
                     json
+                }
+                seo {
+                  title
+                  excerpt
+                  image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
                 }
             }
         }
