@@ -29,12 +29,13 @@ export const DateTimeToReadableWithTime = z
   .transform((dateString) => {
     const dateObject = new Date(dateString)
     const date = dateObject.toLocaleString("en-US", {
-      timeZone: "UTC",
+      timeZone: "America/New_York",
       month: "long",
       day: "numeric",
       year: "numeric",
     })
     const time = dateObject.toLocaleString("en-US", {
+      timeZone: "America/New_York",
       hour: "numeric",
       minute: "numeric",
       hour12: true,
