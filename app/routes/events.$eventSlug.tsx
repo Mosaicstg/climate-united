@@ -78,8 +78,6 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
 export default function SingleEvent() {
   const { event } = useLoaderData<typeof loader>()
 
-  console.log(event)
-
   return (
     <Event
       title={event.title}

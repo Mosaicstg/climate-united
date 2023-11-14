@@ -77,7 +77,6 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
 
 export default function NewsPost() {
   const { post } = useLoaderData<typeof loader>()
-  console.log(post)
 
   return (
     <Post

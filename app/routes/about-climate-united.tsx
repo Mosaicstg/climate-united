@@ -37,8 +37,6 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
 export default function AboutClimateUnited() {
   const { aboutPage } = useLoaderData<typeof loader>()
 
-  console.log(aboutPage)
-
   return (
     <AboutPage
       title={aboutPage.title}

@@ -71,8 +71,6 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
 export default function AboutTheGreenhouseGasReductionFund() {
   const { page } = useLoaderData<typeof loader>()
 
-  console.log(page)
-
   return (
     <Page
       title={page.title}

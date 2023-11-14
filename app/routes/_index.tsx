@@ -37,8 +37,6 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
 export default function _index() {
   const { landingPage } = useLoaderData<typeof loader>()
 
-  console.log(landingPage)
-
   return (
     <LandingPage
       title={landingPage.title}
