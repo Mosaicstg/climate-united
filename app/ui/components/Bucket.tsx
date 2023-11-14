@@ -16,7 +16,7 @@ export function Bucket({
 
   return (
     <div className="md:w-1/4">
-      <div className="relative mb-10">
+      <div className="relative mx-auto mb-10 w-1/2 md:w-full">
         <div
           className={`absolute bottom-0 left-0 aspect-square w-full translate-y-[50%] scale-y-[.15] rounded-full ${shadowColor}`}
         ></div>

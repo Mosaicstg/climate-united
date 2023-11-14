@@ -1,6 +1,6 @@
 import type { SectionTextImage } from "~/schemas/sections/section.text-image.server"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import type { Block, Inline} from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 
@@ -15,7 +15,7 @@ export function TextImageSection({
 
   return (
     <>
-      <section className="border-t-4 border-solid border-green bg-paleGreen text-center text-darkBlue">
+      <section className="border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-0">
         <div className="mx-auto max-w-screen-lg py-12">
           <img
             className="mb-12 w-full"

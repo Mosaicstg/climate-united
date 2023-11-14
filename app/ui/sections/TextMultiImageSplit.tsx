@@ -14,8 +14,8 @@ export function TextMultiImageSplitSection({
   return (
     <>
       <section className="border-t-4 border-solid border-green text-darkBlue">
-        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-[7rem] py-12 md:flex-row">
-          <div className="flex flex-col flex-wrap justify-center md:w-2/5 md:flex-row">
+        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-0">
+          <div className="flex flex-row flex-wrap justify-center md:w-2/5">
             {featuredImagesCollection.items.map((image, index) => {
               let classes = ""
               switch (index % 3) {
@@ -30,9 +30,9 @@ export function TextMultiImageSplitSection({
                   break
               }
               return (
-                <div className="px-3 md:w-1/2" key={image.url}>
+                <div className="w-1/2 px-3" key={image.url}>
                   <img
-                    className={`mb-5 aspect-square w-full rounded-full object-contain p-7 md:mb-0 ${classes}`}
+                    className={`aspect-square w-full rounded-full object-contain p-7 ${classes}`}
                     src={image.url}
                     alt={image.description}
                     width={image.width}
@@ -67,7 +67,7 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-4xl font-bold">{children}</h2>
+      return <h2 className="mb-5 text-2xl font-bold md:text-4xl">{children}</h2>
     },
   },
 }
