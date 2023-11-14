@@ -16,7 +16,7 @@ export function Event({
   return (
     <>
       <div className="mx-auto max-w-screen-lg px-6 py-12 md:px-0">
-        <h1 className="mb-5 text-3xl font-bold text-green">{headline}</h1>
+        <h1 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h1>
         <p className="uppercase">{getDateWithTime(datetime)}</p>
         <p className="mb-5">{location}</p>
         {documentToReactComponents(mainContent.json, richTextRenderOptions)}
