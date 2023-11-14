@@ -19,7 +19,7 @@ export const DateTimeToReadable = z
  * @returns {string}
  * @throws
  */
-export function transformDateTimeStringToHumanReadable(dateString: string) {
+export function getDate(dateString: string) {
   return DateTimeToReadable.parse(dateString)
 }
 
@@ -51,7 +51,7 @@ export const DateTimeToReadableWithTime = z
  * @returns {string}
  * @throws
  */
-export function transformDateTimeStringToHumanReadableWithTime(
+export function getDateWithTime(
   dateString: string,
 ) {
   return DateTimeToReadableWithTime.parse(dateString)

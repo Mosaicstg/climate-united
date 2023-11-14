@@ -1,6 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type Event } from "~/models/event.server"
-import { transformDateTimeStringToHumanReadable } from "~/utils/datetime-to-readable"
+import { getDate } from "~/utils/datetime-to-readable"
 
 type EventProps = Event
 
@@ -23,7 +23,7 @@ export function Event({
           {headline}
         </a>
       </h3>
-      <p>{transformDateTimeStringToHumanReadable(datetime)}</p>
+      <p>{getDate(datetime)}</p>
       <p className="mb-2">{location}</p>
       {excerpt
         ? documentToReactComponents(excerpt.json, richTextRenderOptions)
