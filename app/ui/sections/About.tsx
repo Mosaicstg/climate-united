@@ -1,5 +1,6 @@
-import { Block, BLOCKS, Inline, INLINES } from "@contentful/rich-text-types"
-import { ReactNode } from "react"
+import type { Block, Inline} from "@contentful/rich-text-types";
+import { BLOCKS, INLINES } from "@contentful/rich-text-types"
+import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type SectionAbout } from "~/schemas/sections/section.about.server"
 

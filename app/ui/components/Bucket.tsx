@@ -1,7 +1,8 @@
 import { type Bucket } from "~/models/bucket.server"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { Block, BLOCKS, Inline } from "@contentful/rich-text-types"
-import { ReactNode } from "react"
+import type { Block, Inline } from "@contentful/rich-text-types";
+import { BLOCKS } from "@contentful/rich-text-types"
+import type { ReactNode } from "react"
 
 type BucketProps = Bucket & { shadowColor: string }
 

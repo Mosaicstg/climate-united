@@ -1,6 +1,7 @@
-import { SectionTextMultiImageSplit } from "~/schemas/sections/section.text-multi-image-split.server"
-import { Block, BLOCKS, Inline, INLINES } from "@contentful/rich-text-types"
-import { ReactNode } from "react"
+import type { SectionTextMultiImageSplit } from "~/schemas/sections/section.text-multi-image-split.server"
+import type { Block, Inline} from "@contentful/rich-text-types";
+import { BLOCKS, INLINES } from "@contentful/rich-text-types"
+import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 type SectionTextMultiImageSplitProps = SectionTextMultiImageSplit

@@ -1,7 +1,7 @@
 import LogoWhite from "~/ui/components/Logo-White"
 import SocialIcon from "~/ui/components/Social-Icon"
 import { useLoaderData } from "@remix-run/react"
-import { loader } from "~/root"
+import type { loader } from "~/root"
 
 export default function Footer() {
   const { socialMedialLinks } = useLoaderData<typeof loader>()

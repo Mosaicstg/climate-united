@@ -1,6 +1,7 @@
-import { SectionBucketGrid } from "~/schemas/sections/section.bucket-grid.server"
-import { Block, BLOCKS, Inline, INLINES } from "@contentful/rich-text-types"
-import { ReactNode } from "react"
+import type { SectionBucketGrid } from "~/schemas/sections/section.bucket-grid.server"
+import type { Block, Inline} from "@contentful/rich-text-types";
+import { BLOCKS, INLINES } from "@contentful/rich-text-types"
+import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { Bucket } from "~/ui/components/Bucket"
 

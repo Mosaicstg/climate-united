@@ -1,4 +1,4 @@
-import { SectionNewsPressReleases } from "~/schemas/sections/section.news-press-releases.server"
+import type { SectionNewsPressReleases } from "~/schemas/sections/section.news-press-releases.server"
 import { Post } from "~/ui/components/Post"
 
 type SectionNewsPressReleasesProps = SectionNewsPressReleases

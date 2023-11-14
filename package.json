@@ -9,7 +9,9 @@
     "start": "netlify serve",
     "typecheck": "tsc -b",
     "redirects:enable": "shx cp .redirects public/_redirects",
-    "redirects:disable": "shx rm -f public/_redirects"
+    "redirects:disable": "shx rm -f public/_redirects",
+    "eslint:check": "eslint --ext .js,.jsx,.ts,.tsx . --fix-dry-run",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx . --fix"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^15.19.0",

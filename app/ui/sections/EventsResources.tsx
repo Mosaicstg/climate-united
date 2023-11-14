@@ -1,4 +1,4 @@
-import { SectionEventsResources } from "~/schemas/sections/section.events-resources.server"
+import type { SectionEventsResources } from "~/schemas/sections/section.events-resources.server"
 import { Event } from "~/ui/components/Event"
 import { Resource } from "~/ui/components/Resource"
 

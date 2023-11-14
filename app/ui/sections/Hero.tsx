@@ -1,6 +1,7 @@
-import { SectionHero } from "~/schemas/sections/section.hero.server"
-import { Block, BLOCKS, Inline, INLINES } from "@contentful/rich-text-types"
-import { ReactNode } from "react"
+import type { SectionHero } from "~/schemas/sections/section.hero.server"
+import type { Block, Inline} from "@contentful/rich-text-types";
+import { BLOCKS, INLINES } from "@contentful/rich-text-types"
+import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 type SectionHeroProps = SectionHero
