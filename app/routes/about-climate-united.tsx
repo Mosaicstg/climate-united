@@ -3,9 +3,10 @@ import { json } from "@remix-run/node"
 import { getAboutPage } from "~/models/about.server"
 import { invariantResponse } from "~/utils/invariant.server"
 import { AboutPage } from "~/ui/templates/AboutPage"
+import type { RootLoader } from "~/root"
+import { getSocialMetas } from "~/utils/seo"
 
 export const loader = async () => {
-  // TODO: Title of page in Contentful should match the route `About`
   const aboutPage = await getAboutPage("6wHRbfqkflPjD7tVNmz4C")
 
   invariantResponse(aboutPage, "About page not found.", { status: 404 })
@@ -13,19 +14,21 @@ export const loader = async () => {
   return json({ aboutPage })
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
+  data,
+  matches,
+}) => {
+  const domainURL = matches.find((match) => match.id === "root")?.data.domainURL
+
   return [
     ...(data
       ? [
-          { title: `${data.aboutPage.title} - Climate United` },
-          {
-            name: "description",
-            content: `${data.aboutPage.seo.excerpt}`,
-          },
-          {
-            property: "og:image",
-            content: `${data.aboutPage.seo.image.url}`,
-          },
+          ...getSocialMetas({
+            url: `${domainURL}/about-climate-united`,
+            title: `${data.aboutPage.title} - Climate United`,
+            description: data.aboutPage.seo.excerpt,
+            image: data.aboutPage.seo.image.url,
+          }),
         ]
       : []),
   ]

@@ -12,6 +12,8 @@ import { Post } from "~/ui/templates/Post"
 import { invariantResponse } from "~/utils/invariant.server"
 import { GeneralErrorBoundary } from "~/routes/$"
 import { Show404 } from "~/ui/templates/404"
+import type { RootLoader } from "~/root"
+import { getSocialMetas } from "~/utils/seo"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -53,19 +55,21 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   return json({ post: response.data })
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
+  data,
+  matches,
+}) => {
+  const domainURL = matches.find((match) => match.id === "root")?.data.domainURL
+
   return [
     ...(data
       ? [
-          { title: `${data.post.title} - News - Climate United` },
-          {
-            name: "description",
-            content: `${data.post.seo.excerpt}`,
-          },
-          {
-            property: "og:image",
-            content: `${data.post.seo.image.url}`,
-          },
+          ...getSocialMetas({
+            title: `${data.post.title} - News - Climate United`,
+            url: `${domainURL}/news/${data.post.slug}`,
+            image: `${data.post.seo.image.url}`,
+            description: `${data.post.seo.excerpt}`,
+          }),
         ]
       : []),
   ]

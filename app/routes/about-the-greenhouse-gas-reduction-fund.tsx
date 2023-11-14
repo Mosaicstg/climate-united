@@ -5,11 +5,13 @@ import {
   type Inline,
 } from "@contentful/rich-text-types"
 import { type DataFunctionArgs, json } from "@remix-run/node"
-import { MetaFunction, useLoaderData } from "@remix-run/react"
+import { type MetaFunction, useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getPage } from "~/models/page.server"
+import { type RootLoader } from "~/root"
 import { Page } from "~/ui/templates/Page"
 import { invariantResponse } from "~/utils/invariant.server"
+import { getSocialMetas } from "~/utils/seo"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -46,19 +48,21 @@ export const loader = async (_: DataFunctionArgs) => {
   return json({ page: page })
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
+  data,
+  matches,
+}) => {
+  const domainURL = matches.find((match) => match.id === "root")?.data.domainURL
+
   return [
     ...(data
       ? [
-          { title: `${data.page.title} - Climate United` },
-          {
-            name: "description",
-            content: `${data.page.seo.excerpt}`,
-          },
-          {
-            property: "og:image",
-            content: `${data.page.seo.image.url}`,
-          },
+          ...getSocialMetas({
+            title: `${data.page.title} - Climate United`,
+            url: `${domainURL}/about-the-greenhouse-gas-reduction-fund`,
+            description: `${data.page.seo.excerpt}`,
+            image: `${data.page.seo.image.url}`,
+          }),
         ]
       : []),
   ]
