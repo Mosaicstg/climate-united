@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <header>
       <nav>
-        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-12 border-b-4 border-dotted border-green p-5">
+        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-12 border-b-4 border-dotted border-blue p-5">
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -37,17 +37,26 @@ export default function Header() {
             </svg>
           </button>
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="mt-4 flex flex-col font-semibold rtl:space-x-reverse md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
+            <ul className="mt-4 flex flex-col font-bold rtl:space-x-reverse md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
               <li>
-                <a href="/about-climate-united" aria-current="page">
+                <a
+                  className="text-green hover:text-blue"
+                  href="/about-climate-united"
+                  aria-current="page"
+                >
                   About
                 </a>
               </li>
               <li>
-                <a href="/our-team">Meet the Team</a>
+                <a className="text-green hover:text-blue" href="/our-team">
+                  Meet the Team
+                </a>
               </li>
               <li>
-                <a href="/about-the-greenhouse-gas-reduction-fund">
+                <a
+                  className="text-green hover:text-blue"
+                  href="/about-the-greenhouse-gas-reduction-fund"
+                >
                   About the GGRF
                 </a>
               </li>

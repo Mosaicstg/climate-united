@@ -36,7 +36,7 @@ export function AboutPage({
           })}
         </div>
       </div>
-      <div className="border-t-2 border-solid border-green bg-paleGreen">
+      <div className="border-t-4 border-solid border-green bg-paleGreen">
         <div className="mx-auto max-w-screen-xl py-12">
           <h2 className="mb-12 text-3xl font-bold text-darkBlue">
             {caseStudiesHeadline}
