@@ -7,7 +7,7 @@ import {
 import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
-import { getPostBySlug, PostSchema } from "~/models/post.server"
+import { getPostBySlug, getPosts, PostSchema } from "~/models/post.server"
 import { Post } from "~/ui/templates/Post"
 import { invariantResponse } from "~/utils/invariant.server"
 import { GeneralErrorBoundary } from "~/routes/$"
@@ -53,6 +53,16 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   invariantResponse(response.success, "Post not found.", { status: 404 })
 
   return json({ post: response.data })
+}
+
+export const handle: SEOHandle = {
+  getSitemapEntries: async (request) => {
+    const news = await getPosts(100)
+    return news.map((post) => ({
+      route: `/news/${post.slug}`,
+      priority: 0.7,
+    }))
+  },
 }
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({

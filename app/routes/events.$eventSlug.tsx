@@ -7,13 +7,14 @@ import {
 import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
-import { getEventBySlug, EventSchema } from "~/models/event.server"
+import { getEventBySlug, EventSchema, getEvents } from "~/models/event.server"
 import { Event } from "~/ui/templates/Event"
 import { invariantResponse } from "~/utils/invariant.server"
 import { GeneralErrorBoundary } from "~/routes/$"
 import { Show404 } from "~/ui/templates/404"
 import { getSocialMetas } from "~/utils/seo"
 import type { RootLoader } from "~/root"
+import { SEOHandle } from "@nasa-gcn/remix-seo"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -53,6 +54,18 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   invariantResponse(response.success, "Event not found.", { status: 404 })
 
   return json({ event: response.data })
+}
+
+export const handle: SEOHandle = {
+  getSitemapEntries: async (request) => {
+    const eventsData = await getEvents(100)
+
+    return eventsData.map((event) => ({
+      route: `/events/${event.slug}`,
+      changefreq: "daily",
+      priority: 0.7,
+    }))
+  },
 }
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({

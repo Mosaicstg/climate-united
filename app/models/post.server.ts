@@ -33,7 +33,7 @@ export const PostSchema = z.object({
   date: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
-  featuredImage: ImageSchema.optional(),
+  featuredImage: ImageSchema.nullable().optional(),
   seo: z.object({
     title: z.string(),
     excerpt: z.string(),
