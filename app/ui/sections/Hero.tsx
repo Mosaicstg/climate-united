@@ -1,5 +1,5 @@
 import type { SectionHero } from "~/schemas/sections/section.hero.server"
-import type { Block, Inline} from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
@@ -16,12 +16,12 @@ export function HeroSection({
   return (
     <>
       <section className="overflow-hidden bg-lightGreen text-white">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 py-[10rem] md:flex-row">
-          <div className="w-1/2">
+        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:px-0 md:py-[10rem]">
+          <div className="w-4/5 pb-[15rem] md:w-1/2 md:pb-0">
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </div>
-          <div className="relative w-1/2">
-            <div className="absolute -right-6 bottom-0 w-[150%] translate-x-[40%] translate-y-[45%]">
+          <div className="relative md:w-1/2">
+            <div className="absolute -right-6 bottom-0 w-[150%] translate-x-[25%] translate-y-[40%] md:translate-x-[40%] md:translate-y-[45%]">
               <div className="rounded-full bg-[#52C4A5] p-5">
                 <div className="rounded-full bg-[#73CFB7] p-5">
                   <div className="rounded-full bg-[#A8E0D3] p-5">
@@ -61,7 +61,9 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.HEADING_1]: (node: Block | Inline, children: ReactNode) => {
-      return <h1 className="mb-5 text-5xl font-semibold">{children}</h1>
+      return (
+        <h1 className="mb-5 text-3xl font-semibold md:text-5xl">{children}</h1>
+      )
     },
   },
 }

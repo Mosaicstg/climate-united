@@ -16,8 +16,8 @@ export function BucketGridSection({
   return (
     <>
       <section className="border-t-4 border-solid border-green text-darkBlue">
-        <div className="mx-auto max-w-screen-xl py-12 text-center">
-          <h2 className="mb-10 text-3xl font-bold">{headline}</h2>
+        <div className="mx-auto max-w-screen-xl px-6 py-12 text-center md:px-0">
+          <h2 className="mb-10 text-2xl font-bold md:text-3xl">{headline}</h2>
           <div className="mb-10 flex flex-col gap-12 md:flex-row">
             {bucketsCollection.items.map((bucket, index) => {
               let shadowColor = "bg-green"
