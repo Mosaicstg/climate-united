@@ -41,7 +41,7 @@ export const DateTimeToReadableWithTime = z
       timeZoneName: "short",
     })
 
-    return `${date} at ${time}`
+    return `${date} | ${time}`
   })
 
 /**
@@ -51,8 +51,6 @@ export const DateTimeToReadableWithTime = z
  * @returns {string}
  * @throws
  */
-export function getDateWithTime(
-  dateString: string,
-) {
+export function getDateWithTime(dateString: string) {
   return DateTimeToReadableWithTime.parse(dateString)
 }
