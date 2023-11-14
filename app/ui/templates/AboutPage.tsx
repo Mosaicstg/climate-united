@@ -27,6 +27,7 @@ export function AboutPage({
           {sectionsCollection.items.map((section) => {
             return (
               <AboutSection
+                key={section.title}
                 title={section.title}
                 mainContent={section.mainContent}
                 featuredImage={section.featuredImage}
@@ -44,6 +45,7 @@ export function AboutPage({
             {caseStudiesCollection.items.map((caseStudy, index) => {
               return (
                 <CaseStudy
+                  key={caseStudy.title}
                   title={caseStudy.title}
                   headline={caseStudy.headline}
                   excerpt={caseStudy.excerpt}

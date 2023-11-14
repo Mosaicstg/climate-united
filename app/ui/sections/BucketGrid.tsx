@@ -1,5 +1,5 @@
 import type { SectionBucketGrid } from "~/schemas/sections/section.bucket-grid.server"
-import type { Block, Inline} from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
@@ -37,6 +37,7 @@ export function BucketGridSection({
               }
               return (
                 <Bucket
+                  key={bucket.title}
                   title={bucket.title}
                   bucketText={bucket.bucketText}
                   bucketImage={bucket.bucketImage}

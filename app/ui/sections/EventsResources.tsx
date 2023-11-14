@@ -22,6 +22,7 @@ export function EventsResourcesSection({
               {eventsCollection.items.map((event) => {
                 return (
                   <Event
+                    key={event.slug}
                     title={event.title}
                     slug={event.slug}
                     headline={event.headline}
@@ -38,7 +39,13 @@ export function EventsResourcesSection({
           <div className="md:w-1/2">
             <h2 className="mb-5 text-3xl font-bold">{headlineResources}</h2>
             {resourcesCollection.items.map((resource) => {
-              return <Resource title={resource.title} file={resource.file} />
+              return (
+                <Resource
+                  key={resource.title}
+                  title={resource.title}
+                  file={resource.file}
+                />
+              )
             })}
             {featuredImage ? (
               <div className="relative mx-auto mt-[5rem] w-[75%]">

@@ -26,6 +26,7 @@ export function TeamPage({
           {sectionsCollection.items.map((section) => {
             return (
               <TeamSection
+                key={section.title}
                 title={section.title}
                 headline={section.headline}
                 mainContent={section.mainContent}

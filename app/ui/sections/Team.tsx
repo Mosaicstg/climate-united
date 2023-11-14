@@ -1,6 +1,6 @@
 import type { SectionTeam } from "~/schemas/sections/section.team.server"
-import type { Block, Inline} from "@contentful/rich-text-types";
-import { BLOCKS, INLINES } from "@contentful/rich-text-types"
+import type { Block, Inline } from "@contentful/rich-text-types"
+import { INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { TeamMember } from "~/ui/components/TeamMember"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"

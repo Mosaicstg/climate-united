@@ -74,6 +74,8 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
                 postsCollection={section.postsCollection}
               />
             )
+          default:
+            return null
         }
       })}
     </>

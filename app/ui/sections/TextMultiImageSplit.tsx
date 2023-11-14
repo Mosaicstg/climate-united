@@ -1,5 +1,5 @@
 import type { SectionTextMultiImageSplit } from "~/schemas/sections/section.text-multi-image-split.server"
-import type { Block, Inline} from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
@@ -30,7 +30,7 @@ export function TextMultiImageSplitSection({
                   break
               }
               return (
-                <div className="px-3 md:w-1/2">
+                <div className="px-3 md:w-1/2" key={image.url}>
                   <img
                     className={`mb-5 w-full rounded-full md:mb-0 ${classes}`}
                     src={image.url}

@@ -16,6 +16,7 @@ export function NewsPressReleasesSection({
           {postsCollection.items.map((post) => {
             return (
               <Post
+                key={post.slug}
                 title={post.title}
                 slug={post.slug}
                 headline={post.headline}
