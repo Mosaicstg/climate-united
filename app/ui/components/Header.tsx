@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <header>
       <nav>
-        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-12 border-b-4 border-dotted border-blue p-5">
+        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-12 p-5 md:border-b-4 md:border-dotted md:border-blue">
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"

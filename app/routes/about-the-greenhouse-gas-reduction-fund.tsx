@@ -30,12 +30,10 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return (
-        <p className="mb-4 text-base leading-relaxed text-black">{children}</p>
-      )
+      return <p className="mb-4 text-base leading-relaxed">{children}</p>
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
+      return <h2 className="mb-5 text-3xl">{children}</h2>
     },
   },
 }
