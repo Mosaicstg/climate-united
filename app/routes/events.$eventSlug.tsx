@@ -62,7 +62,6 @@ export const handle: SEOHandle = {
 
     return eventsData.map((event) => ({
       route: `/events/${event.slug}`,
-      changefreq: "daily",
       priority: 0.7,
     }))
   },
