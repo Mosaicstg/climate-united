@@ -19,10 +19,10 @@ export function EventsResourcesSection({
           <div className="md:w-1/2">
             <h2 className="mb-5 text-3xl font-bold">{headlineEvents}</h2>
             <div className="md:pl-6">
-              {eventsCollection.items.map((event) => {
+              {eventsCollection.items.map((event, index) => {
                 return (
                   <Event
-                    key={event.slug}
+                    key={`${event.slug}-${index}`}
                     title={event.title}
                     slug={event.slug}
                     headline={event.headline}

@@ -12,11 +12,12 @@ type LandingPageProps = LandingPage
 export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
   return (
     <>
-      {sectionsCollection.items.map((section) => {
+      {sectionsCollection.items.map((section, index) => {
         switch (section.__typename) {
           case "SectionHero":
             return (
               <HeroSection
+                key={`${section.title}-${index}}`}
                 title={section.title}
                 mainContent={section.mainContent}
                 featuredImage={section.featuredImage}
@@ -25,6 +26,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
           case "SectionTextMultiImageSplit":
             return (
               <TextMultiImageSplitSection
+                key={`${section.title}-${index}}`}
                 title={section.title}
                 mainContent={section.mainContent}
                 featuredImagesCollection={section.featuredImagesCollection}
@@ -33,6 +35,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
           case "SectionTextImageSplit":
             return (
               <TextImageSplitSection
+                key={`${section.title}-${index}}`}
                 title={section.title}
                 mainContent={section.mainContent}
                 featuredImage={section.featuredImage}
@@ -41,6 +44,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
           case "SectionBucketGrid":
             return (
               <BucketGridSection
+                key={`${section.title}-${index}}`}
                 title={section.title}
                 headline={section.headline}
                 mainContent={section.mainContent}
@@ -50,6 +54,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
           case "SectionTextImage":
             return (
               <TextImageSection
+                key={`${section.title}-${index}}`}
                 title={section.title}
                 mainContent={section.mainContent}
                 featuredImage={section.featuredImage}
@@ -58,6 +63,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
           case "SectionEventsResources":
             return (
               <EventsResourcesSection
+                key={`${section.title}-${index}}`}
                 title={section.title}
                 headlineEvents={section.headlineEvents}
                 eventsCollection={section.eventsCollection}
@@ -69,6 +75,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
           case "SectionNewsPressReleases":
             return (
               <NewsPressReleasesSection
+                key={`${section.title}-${index}}`}
                 title={section.title}
                 headline={section.headline}
                 postsCollection={section.postsCollection}
