@@ -5,7 +5,7 @@ export const ImageSchema = z.object({
   url: z.string().url(),
   width: z.number(),
   height: z.number(),
-  description: z.string().optional(),
+  description: z.string().nullable().optional(),
 })
 
 export type Image = z.infer<typeof ImageSchema>
