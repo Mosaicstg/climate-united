@@ -70,15 +70,17 @@ export const handle: SEOHandle = {
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,
   matches,
+  location,
 }) => {
   const domainURL = matches.find((match) => match.id === "root")?.data.domainURL
+  const { pathname } = location
 
   return [
     ...(data
       ? [
           ...getSocialMetas({
             title: `${data.event.title} - Events - Climate United`,
-            url: `${domainURL}/events/${data.event.slug}`,
+            url: `${domainURL}${pathname}`,
             description: `${data.event.seo.excerpt}`,
             image: `${data.event.seo.image.url}`,
           }),

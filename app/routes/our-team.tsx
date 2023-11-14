@@ -17,13 +17,16 @@ export const loader = async () => {
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,
   matches,
+  location,
 }) => {
   const domainURL = matches.find((match) => match.id === "root")?.data.domainURL
+  const { pathname } = location
+
   return [
     ...(data
       ? [
           ...getSocialMetas({
-            url: `${domainURL}/our-team`,
+            url: `${domainURL}${pathname}`,
             title: `${data.teamPage.title} - Climate United`,
             image: data.teamPage.seo.image.url,
             description: data.teamPage.seo.excerpt,
