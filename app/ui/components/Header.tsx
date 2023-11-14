@@ -1,13 +1,23 @@
 import { useState } from "react"
 import Logo from "~/ui/components/Logo"
 
-export default function Header() {
+export default function Header({
+  bgColor = "bg-white",
+  borderColor = "md:border-blue",
+  linkColor = "text-green hover:text-blue",
+}: {
+  bgColor?: string
+  borderColor?: string
+  linkColor?: string
+}) {
   const [isNavOpen, setIsNavOpen] = useState(false)
 
   return (
-    <header>
+    <header className={`${bgColor}`}>
       <nav>
-        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-12 p-5 md:border-b-4 md:border-dotted md:border-blue">
+        <div
+          className={`mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-x-12 gap-y-5 p-5 md:border-b-4 md:border-dotted ${borderColor}`}
+        >
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -46,10 +56,10 @@ export default function Header() {
             } w-full md:block md:w-auto`}
             id="navbar-default"
           >
-            <ul className="mt-4 flex flex-col font-bold rtl:space-x-reverse md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
+            <ul className="flex flex-col font-bold rtl:space-x-reverse md:mt-0 md:mt-4 md:flex-row md:space-x-8 md:border-0 md:p-0">
               <li>
                 <a
-                  className="text-green hover:text-blue"
+                  className={`${linkColor}`}
                   href="/about-climate-united"
                   aria-current="page"
                 >
@@ -57,13 +67,13 @@ export default function Header() {
                 </a>
               </li>
               <li>
-                <a className="text-green hover:text-blue" href="/our-team">
+                <a className={`${linkColor}`} href="/our-team">
                   Meet the Team
                 </a>
               </li>
               <li>
                 <a
-                  className="text-green hover:text-blue"
+                  className={`${linkColor}`}
                   href="/about-the-greenhouse-gas-reduction-fund"
                 >
                   About the GGRF

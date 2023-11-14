@@ -18,7 +18,6 @@ import { withDevTools } from "remix-development-tools"
 import rdtStylesheet from "remix-development-tools/index.css"
 import tailwindStylesheet from "~/tailwind.css"
 import { getDomainUrl } from "./utils/get-route-url.server"
-import Header from "~/ui/components/Header"
 import Footer from "~/ui/components/Footer"
 
 export const links: LinksFunction = () => [
@@ -142,10 +141,7 @@ function App() {
         <Links />
       </head>
       <body>
-        <Header />
-        <main>
-          <Outlet />
-        </main>
+        <Outlet />
         <Footer />
         <ScrollRestoration />
         <Scripts />
