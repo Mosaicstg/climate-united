@@ -45,6 +45,7 @@ export function TeamSection({
               return (
                 <>
                   <TeamMember
+                    key={teamMember.name}
                     name={teamMember.name}
                     position={teamMember.position}
                     department={teamMember.department}
