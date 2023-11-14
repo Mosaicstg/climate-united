@@ -11,7 +11,7 @@ export function TeamPage({
 }: TeamPageProps) {
   return (
     <>
-      <div className="mx-auto max-w-screen-xl py-12">
+      <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
         {featuredImage ? (
           <img
             className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"

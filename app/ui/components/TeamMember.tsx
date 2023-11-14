@@ -13,7 +13,7 @@ export function TeamMember({
     <div className="text-center">
       {featuredImage ? (
         <img
-          className={`${borderColor} mx-auto mb-5 aspect-square w-3/4 rounded-full border-4 border-solid object-cover`}
+          className={`${borderColor} mx-auto mb-5 aspect-square w-1/2 rounded-full border-4 border-solid object-cover md:w-3/4`}
           src={featuredImage.url}
           alt={featuredImage.description}
           width={featuredImage.width}
