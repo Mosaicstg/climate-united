@@ -22,20 +22,27 @@ export function TeamPage({
           />
         ) : null}
         <h1 className="-mb-6 text-3xl font-bold text-green">{headline}</h1>
-        <div>
-          {sectionsCollection.items.map((section) => {
-            return (
-              <TeamSection
-                key={section.title}
-                title={section.title}
-                headline={section.headline}
-                mainContent={section.mainContent}
-                featuredImage={section.featuredImage}
-                teamMembersCollection={section.teamMembersCollection}
-              />
-            )
-          })}
-        </div>
+      </div>
+      <div>
+        {sectionsCollection.items.map((section, index) => {
+          let classes = ""
+          switch (index % 2) {
+            case 1:
+              classes = "bg-paleGreen border-t-4 border-solid border-green"
+              break
+          }
+          return (
+            <TeamSection
+              key={section.title}
+              title={section.title}
+              headline={section.headline}
+              mainContent={section.mainContent}
+              featuredImage={section.featuredImage}
+              teamMembersCollection={section.teamMembersCollection}
+              classes={classes}
+            />
+          )
+        })}
       </div>
     </>
   )
