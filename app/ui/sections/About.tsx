@@ -1,4 +1,4 @@
-import type { Block, Inline} from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
@@ -47,7 +47,7 @@ export const richTextRenderOptions = {
     },
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
       return (
-        <p className="mx-auto mb-4 px-12 text-base leading-relaxed">
+        <p className="mx-auto mb-4 text-base leading-relaxed md:px-12">
           {children}
         </p>
       )
@@ -57,7 +57,7 @@ export const richTextRenderOptions = {
     },
     [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
       return (
-        <h3 className="mx-auto mb-5 px-12 text-xl font-bold">{children}</h3>
+        <h3 className="mx-auto mb-5 text-xl font-bold md:px-12">{children}</h3>
       )
     },
   },
