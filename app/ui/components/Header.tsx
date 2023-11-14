@@ -1,6 +1,9 @@
+import { useState } from "react"
 import Logo from "~/ui/components/Logo"
 
 export default function Header() {
+  const [isNavOpen, setIsNavOpen] = useState(false)
+
   return (
     <header>
       <nav>
@@ -17,7 +20,8 @@ export default function Header() {
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-darkBlue hover:text-green focus:text-green focus:outline-none md:hidden"
             aria-controls="navbar-default"
-            aria-expanded="false"
+            aria-expanded={isNavOpen}
+            onClick={() => setIsNavOpen(!isNavOpen)}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -36,7 +40,12 @@ export default function Header() {
               />
             </svg>
           </button>
-          <div className="hidden w-full md:block md:w-auto" id="navbar-main">
+          <div
+            className={`${
+              isNavOpen ? "block" : "hidden"
+            } w-full md:block md:w-auto`}
+            id="navbar-default"
+          >
             <ul className="mt-4 flex flex-col font-bold rtl:space-x-reverse md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
               <li>
                 <a
