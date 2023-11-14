@@ -14,7 +14,7 @@ import { GeneralErrorBoundary } from "~/routes/$"
 import { Show404 } from "~/ui/templates/404"
 import { getSocialMetas } from "~/utils/seo"
 import type { RootLoader } from "~/root"
-import { SEOHandle } from "@nasa-gcn/remix-seo"
+import type { SEOHandle } from "@nasa-gcn/remix-seo"
 
 export const richTextRenderOptions = {
   renderNode: {
