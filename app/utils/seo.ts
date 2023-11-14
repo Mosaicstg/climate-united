@@ -14,6 +14,7 @@ export function getSocialMetas({
   return [
     { title },
     { name: "description", content: description },
+    { tagName: "link", rel: "canonical", href: url },
     { name: "keywords", content: keywords },
     { name: "image", content: image },
     { name: "og:url", content: url },
