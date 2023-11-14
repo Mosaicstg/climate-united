@@ -56,7 +56,7 @@ export default function Header({
             } w-full md:block md:w-auto`}
             id="navbar-default"
           >
-            <ul className="flex flex-col font-bold rtl:space-x-reverse md:mt-0 md:mt-4 md:flex-row md:space-x-8 md:border-0 md:p-0">
+            <ul className="flex flex-col font-bold rtl:space-x-reverse md:flex-row md:space-x-8 md:border-0 md:p-0">
               <li>
                 <a
                   className={`${linkColor}`}
