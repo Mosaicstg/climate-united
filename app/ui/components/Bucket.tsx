@@ -1,6 +1,6 @@
 import { type Bucket } from "~/models/bucket.server"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import type { Block, Inline } from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 
@@ -15,7 +15,7 @@ export function Bucket({
   const { url, description, width, height } = bucketImage
 
   return (
-    <div>
+    <div className="md:w-1/4">
       <div className="relative mb-10">
         <div
           className={`absolute bottom-0 left-0 aspect-square w-full translate-y-[50%] scale-y-[.15] rounded-full ${shadowColor}`}

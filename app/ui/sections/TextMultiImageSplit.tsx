@@ -32,7 +32,7 @@ export function TextMultiImageSplitSection({
               return (
                 <div className="px-3 md:w-1/2" key={image.url}>
                   <img
-                    className={`mb-5 w-full rounded-full md:mb-0 ${classes}`}
+                    className={`mb-5 aspect-square w-full rounded-full object-contain p-7 md:mb-0 ${classes}`}
                     src={image.url}
                     alt={image.description}
                     width={image.width}
