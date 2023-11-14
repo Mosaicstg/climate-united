@@ -20,6 +20,7 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
 }) => {
   const domainURL = matches.find((match) => match.id === "root")?.data
     ?.domainURL
+
   return [
     ...(data
       ? [
@@ -27,7 +28,7 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
             title: `${data.landingPage.title} - Climate United`,
             image: data.landingPage.seo.image.url,
             description: data.landingPage.seo.excerpt,
-            url: domainURL ?? "",
+            url: `${domainURL}`,
           }),
         ]
       : []),
