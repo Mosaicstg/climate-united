@@ -132,12 +132,12 @@ function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
+        {/* <meta name="msapplication-TileColor" content="#ffffff" />
         <meta
           name="msapplication-TileImage"
           content="/favicons/ms-icon-144x144.png"
         />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff" /> */}
         <Meta />
         <Links />
       </head>
