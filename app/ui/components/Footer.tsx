@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="border-t-4 border-solid border-green bg-darkBlue text-white">
       <div className="mx-auto max-w-screen-xl px-5 py-12">
-        <div className="grid grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
           <div className="font-semibold">
             <p className="mb-5">
               7550 Wisconsin Avenue 8th Floor
@@ -58,7 +58,7 @@ export default function Footer() {
               <LogoWhite />
             </div>
           </div>
-          <ul className="flex justify-end gap-4 self-end">
+          <ul className="flex gap-4 self-end md:justify-end">
             {socialMedialLinks.map((link, index) => {
               return (
                 <li key={index}>
