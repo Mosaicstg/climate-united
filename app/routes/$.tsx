@@ -12,6 +12,7 @@ import {
 } from "@remix-run/react"
 import { type ErrorResponse } from "@remix-run/router"
 import { Show404 } from "~/ui/templates/404"
+import { Show500 } from "~/ui/templates/500"
 
 /**
  * Does its best to get a string error message from an unknown error.
@@ -83,6 +84,7 @@ export function ErrorBoundary() {
     <GeneralErrorBoundary
       statusHandlers={{
         404: () => <Show404 />,
+        500: () => <Show500 />,
       }}
     />
   )

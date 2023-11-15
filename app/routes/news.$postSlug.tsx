@@ -15,6 +15,7 @@ import { Show404 } from "~/ui/templates/404"
 import type { RootLoader } from "~/root"
 import { getSocialMetas } from "~/utils/seo"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
+import { Show500 } from "~/ui/templates/500"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -108,6 +109,7 @@ export function ErrorBoundary() {
     <GeneralErrorBoundary
       statusHandlers={{
         404: () => <Show404 />,
+        500: () => <Show500 />,
       }}
     />
   )
