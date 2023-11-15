@@ -38,7 +38,7 @@ export function Post({
           ? documentToReactComponents(excerpt.json, richTextRenderOptions)
           : null}
         <a
-          className="mt-5 inline-block rounded-full bg-green px-4 py-1 font-bold uppercase text-white duration-300 ease-in-out hover:bg-darkBlue"
+          className="mt-5 inline-block rounded-full bg-lightGreen px-4 py-1 font-bold uppercase text-white duration-300 ease-in-out hover:bg-darkBlue"
           href={`/news/${slug}`}
         >
           Read More
