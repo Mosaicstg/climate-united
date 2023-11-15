@@ -3,7 +3,7 @@ import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type SectionTextImageSplitProps = SectionTextImageSplit
 
@@ -12,6 +12,8 @@ export function TextImageSplitSection({
   mainContent,
   featuredImage,
 }: SectionTextImageSplitProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   const { url, description, width, height } = featuredImage
 
   return (
@@ -20,8 +22,12 @@ export function TextImageSplitSection({
         <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-0">
           <div className="relative my-12 w-3/4 md:order-2 md:w-2/5">
             <motion.img
-              initial={{ opacity: 0, transform: "scale(0)" }}
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+              }}
               whileInView={{ opacity: 1, transform: "scale(1)" }}
+              viewport={{ once: true }}
               transition={{
                 ease: "linear",
                 duration: 0.5,
@@ -33,8 +39,12 @@ export function TextImageSplitSection({
               height={height}
             />
             <motion.div
-              initial={{ opacity: 0, transform: "scale(0)" }}
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+              }}
               whileInView={{ opacity: 1, transform: "scale(1)" }}
+              viewport={{ once: true }}
               transition={{
                 ease: "linear",
                 duration: 0.5,
@@ -43,8 +53,12 @@ export function TextImageSplitSection({
               className="absolute right-[-2rem] top-0 h-[156px] w-[156px] rounded-full bg-blue"
             ></motion.div>
             <motion.div
-              initial={{ opacity: 0, transform: "scale(0)" }}
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+              }}
               whileInView={{ opacity: 1, transform: "scale(1)" }}
+              viewport={{ once: true }}
               transition={{
                 ease: "linear",
                 duration: 0.5,
@@ -54,8 +68,12 @@ export function TextImageSplitSection({
             ></motion.div>
           </div>
           <motion.div
-            initial={{ opacity: 0, left: "-5rem" }}
+            initial={{
+              opacity: prefersReducedMotion ? 1 : 0,
+              left: prefersReducedMotion ? "0" : "-5rem",
+            }}
             whileInView={{ opacity: 1, left: "0" }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,

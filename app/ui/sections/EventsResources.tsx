@@ -1,7 +1,7 @@
 import type { SectionEventsResources } from "~/schemas/sections/section.events-resources.server"
 import { Event } from "~/ui/components/Event"
 import { Resource } from "~/ui/components/Resource"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type SectionEventsResourcesProps = SectionEventsResources
 
@@ -13,6 +13,8 @@ export function EventsResourcesSection({
   resourcesCollection,
   featuredImage,
 }: SectionEventsResourcesProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <>
       <section className="border-t-4 border-solid border-green">
@@ -20,8 +22,12 @@ export function EventsResourcesSection({
           <div className="md:w-1/2">
             <h2 className="mb-5 text-3xl font-bold">{headlineEvents}</h2>
             <motion.div
-              initial={{ opacity: 0, left: "-5rem" }}
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                left: prefersReducedMotion ? "0" : "-5rem",
+              }}
               whileInView={{ opacity: 1, left: "0" }}
+              viewport={{ once: true }}
               transition={{
                 ease: "linear",
                 duration: 0.5,
@@ -49,8 +55,12 @@ export function EventsResourcesSection({
           <div className="md:w-1/2">
             <h2 className="mb-5 text-3xl font-bold">{headlineResources}</h2>
             <motion.div
-              initial={{ opacity: 0, left: "-5rem" }}
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                left: prefersReducedMotion ? "0" : "-5rem",
+              }}
               whileInView={{ opacity: 1, left: "0" }}
+              viewport={{ once: true }}
               transition={{
                 ease: "linear",
                 duration: 0.5,
@@ -71,8 +81,12 @@ export function EventsResourcesSection({
             {featuredImage ? (
               <div className="relative mx-auto mt-[5rem] w-[75%]">
                 <motion.img
-                  initial={{ opacity: 0, transform: "scale(0)" }}
+                  initial={{
+                    opacity: prefersReducedMotion ? 1 : 0,
+                    transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+                  }}
                   whileInView={{ opacity: 1, transform: "scale(1)" }}
+                  viewport={{ once: true }}
                   transition={{
                     ease: "linear",
                     duration: 0.5,
@@ -84,8 +98,12 @@ export function EventsResourcesSection({
                   height={featuredImage.height}
                 />
                 <motion.div
-                  initial={{ opacity: 0, transform: "scale(0)" }}
+                  initial={{
+                    opacity: prefersReducedMotion ? 1 : 0,
+                    transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+                  }}
                   whileInView={{ opacity: 1, transform: "scale(1)" }}
+                  viewport={{ once: true }}
                   transition={{
                     ease: "linear",
                     duration: 0.5,

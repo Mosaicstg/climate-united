@@ -2,7 +2,7 @@ import { type AboutPage } from "~/models/about.server"
 import { AboutSection } from "~/ui/sections/About"
 import { CaseStudy } from "~/ui/components/CaseStudy"
 import Header from "~/ui/components/Header"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type AboutPageProps = AboutPage
 
@@ -13,6 +13,8 @@ export function AboutPage({
   caseStudiesHeadline,
   caseStudiesCollection,
 }: AboutPageProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   const { url, description, width, height } = featuredImage
 
   return (
@@ -21,8 +23,9 @@ export function AboutPage({
       <main>
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
           <motion.img
-            initial={{ opacity: 0 }}
+            initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,

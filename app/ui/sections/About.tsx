@@ -3,7 +3,7 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type SectionAbout } from "~/schemas/sections/section.about.server"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type SectionAboutProps = SectionAbout
 
@@ -12,13 +12,16 @@ export function AboutSection({
   mainContent,
   featuredImage,
 }: SectionAboutProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <section>
       <div className="mx-auto mb-12 max-w-screen-lg text-darkBlue">
         {featuredImage ? (
           <motion.img
-            initial={{ opacity: 0 }}
+            initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,
@@ -31,8 +34,12 @@ export function AboutSection({
           />
         ) : null}
         <motion.div
-          initial={{ opacity: 0, left: "-5rem" }}
+          initial={{
+            opacity: prefersReducedMotion ? 1 : 0,
+            left: prefersReducedMotion ? "0" : "-5rem",
+          }}
           whileInView={{ opacity: 1, left: "0" }}
+          viewport={{ once: true }}
           transition={{
             ease: "linear",
             duration: 0.5,

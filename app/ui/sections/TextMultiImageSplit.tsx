@@ -76,6 +76,7 @@ export function TextMultiImageSplitSection({
                     variants={animationVariant}
                     initial="hidden"
                     whileInView="show"
+                    viewport={{ once: true }}
                     transition={{
                       ease: "linear",
                       duration: 0.5,
@@ -92,8 +93,12 @@ export function TextMultiImageSplitSection({
             })}
           </div>
           <motion.div
-            initial={{ opacity: 0, right: "-5rem" }}
+            initial={{
+              opacity: prefersReducedMotion ? 1 : 0,
+              right: prefersReducedMotion ? "0" : "-5rem",
+            }}
             whileInView={{ opacity: 1, right: "0" }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,

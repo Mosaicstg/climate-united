@@ -2,7 +2,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { richTextRenderOptions } from "~/routes/about-the-greenhouse-gas-reduction-fund"
 import { type Page } from "~/models/page.server"
 import Header from "~/ui/components/Header"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type PageProps = Page
 
@@ -12,6 +12,8 @@ export function Page({
   mainContent,
   featuredImage,
 }: PageProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   const { url, description, width, height } = featuredImage
 
   return (
@@ -22,8 +24,12 @@ export function Page({
           <div className="flex flex-col items-center gap-12 md:flex-row">
             <div className="relative my-12 md:order-2 md:w-1/3">
               <motion.img
-                initial={{ opacity: 0, transform: "scale(0)" }}
+                initial={{
+                  opacity: prefersReducedMotion ? 1 : 0,
+                  transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+                }}
                 whileInView={{ opacity: 1, transform: "scale(1)" }}
+                viewport={{ once: true }}
                 transition={{
                   ease: "linear",
                   duration: 0.5,
@@ -35,8 +41,12 @@ export function Page({
                 height={height}
               />
               <motion.div
-                initial={{ opacity: 0, transform: "scale(0)" }}
+                initial={{
+                  opacity: prefersReducedMotion ? 1 : 0,
+                  transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+                }}
                 whileInView={{ opacity: 1, transform: "scale(1)" }}
+                viewport={{ once: true }}
                 transition={{
                   ease: "linear",
                   duration: 0.5,
@@ -45,8 +55,12 @@ export function Page({
                 className="absolute right-0 top-[-3rem] h-[156px] w-[156px] rounded-full bg-blue"
               ></motion.div>
               <motion.div
-                initial={{ opacity: 0, transform: "scale(0)" }}
+                initial={{
+                  opacity: prefersReducedMotion ? 1 : 0,
+                  transform: prefersReducedMotion ? "scale(1)" : "scale(0)",
+                }}
                 whileInView={{ opacity: 1, transform: "scale(1)" }}
+                viewport={{ once: true }}
                 transition={{
                   ease: "linear",
                   duration: 0.5,

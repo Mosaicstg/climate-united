@@ -1,6 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type CaseStudy } from "~/models/case-study.server"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type CaseStudyProps = CaseStudy
 
@@ -10,10 +10,15 @@ export function CaseStudy({
   excerpt,
   featuredImage,
 }: CaseStudyProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <div className="mb-12 flex flex-col gap-12 md:flex-row">
       <motion.div
-        initial={{ opacity: 0, left: "-5rem" }}
+        initial={{
+          opacity: prefersReducedMotion ? 1 : 0,
+          left: prefersReducedMotion ? "0" : "-5rem",
+        }}
         whileInView={{ opacity: 1, left: "0" }}
         viewport={{ once: true }}
         transition={{
@@ -34,7 +39,10 @@ export function CaseStudy({
         ) : null}
       </motion.div>
       <motion.div
-        initial={{ opacity: 0, right: "-5rem" }}
+        initial={{
+          opacity: prefersReducedMotion ? 1 : 0,
+          right: prefersReducedMotion ? "0" : "-5rem",
+        }}
         whileInView={{ opacity: 1, right: "0" }}
         viewport={{ once: true }}
         transition={{

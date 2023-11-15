@@ -1,7 +1,7 @@
 import { type TeamPage } from "~/models/team.server"
 import { TeamSection } from "~/ui/sections/Team"
 import Header from "~/ui/components/Header"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type TeamPageProps = TeamPage
 
@@ -11,6 +11,8 @@ export function TeamPage({
   featuredImage,
   sectionsCollection,
 }: TeamPageProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <>
       <Header />
@@ -18,8 +20,9 @@ export function TeamPage({
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
           {featuredImage ? (
             <motion.img
-              initial={{ opacity: 0 }}
+              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
               whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
               transition={{
                 ease: "linear",
                 duration: 0.5,

@@ -3,7 +3,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type BucketProps = Bucket & { shadowColor: string }
 
@@ -13,15 +13,23 @@ export function Bucket({
   bucketImage,
   shadowColor = "bg-green",
 }: BucketProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   const { url, description, width, height } = bucketImage
 
   const image = {
-    hidden: { opacity: 0, top: "-5rem" },
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      top: prefersReducedMotion ? "0" : "-5rem",
+    },
     show: { opacity: 1, top: "0" },
   }
 
   const text = {
-    hidden: { opacity: 0, bottom: "-5rem" },
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      bottom: prefersReducedMotion ? "0" : "-5rem",
+    },
     show: { opacity: 1, bottom: "0" },
   }
 

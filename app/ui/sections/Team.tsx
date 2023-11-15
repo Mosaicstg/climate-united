@@ -37,8 +37,12 @@ export function TeamSection({
       <section className={`w-full ${classes}`}>
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
           <motion.div
-            initial={{ opacity: 0, left: "-5rem" }}
+            initial={{
+              opacity: prefersReducedMotion ? 1 : 0,
+              left: prefersReducedMotion ? "0" : "-5rem",
+            }}
             whileInView={{ opacity: 1, left: "0" }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,
@@ -55,6 +59,7 @@ export function TeamSection({
             variants={container}
             initial="hidden"
             whileInView="show"
+            viewport={{ once: true }}
             className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-4"
           >
             {teamMembersCollection.items.map((teamMember, index) => {

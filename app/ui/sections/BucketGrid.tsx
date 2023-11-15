@@ -4,7 +4,7 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { Bucket } from "~/ui/components/Bucket"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type SectionBucketGridProps = SectionBucketGrid
 
@@ -14,6 +14,8 @@ export function BucketGridSection({
   mainContent,
   bucketsCollection,
 }: SectionBucketGridProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   const buckets = {
     hidden: {},
     show: {
@@ -28,8 +30,12 @@ export function BucketGridSection({
       <section className="overflow-hidden border-t-4 border-solid border-green text-darkBlue">
         <div className="mx-auto max-w-screen-xl px-6 py-12 text-center md:px-0">
           <motion.h2
-            initial={{ opacity: 0, top: "-5rem" }}
+            initial={{
+              opacity: prefersReducedMotion ? 1 : 0,
+              top: prefersReducedMotion ? "0" : "-5rem",
+            }}
             whileInView={{ opacity: 1, top: "0" }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,
@@ -43,6 +49,7 @@ export function BucketGridSection({
             variants={buckets}
             initial="hidden"
             whileInView="show"
+            viewport={{ once: true }}
             className="mb-10 flex flex-col gap-12 md:flex-row"
           >
             {bucketsCollection.items.map((bucket, index) => {
@@ -73,8 +80,12 @@ export function BucketGridSection({
             })}
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, bottom: "-5rem" }}
+            initial={{
+              opacity: prefersReducedMotion ? 1 : 0,
+              bottom: prefersReducedMotion ? "0" : "-5rem",
+            }}
             whileInView={{ opacity: 1, bottom: "0" }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,

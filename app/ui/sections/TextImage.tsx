@@ -3,7 +3,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type SectionTextImageProps = SectionTextImage
 
@@ -12,6 +12,8 @@ export function TextImageSection({
   mainContent,
   featuredImage,
 }: SectionTextImageProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   const { url, description, width, height } = featuredImage
 
   return (
@@ -19,8 +21,9 @@ export function TextImageSection({
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-0">
         <div className="mx-auto max-w-screen-lg py-12">
           <motion.img
-            initial={{ opacity: 0 }}
+            initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,
@@ -33,8 +36,12 @@ export function TextImageSection({
             height={height}
           />
           <motion.div
-            initial={{ opacity: 0, bottom: "-5rem" }}
+            initial={{
+              opacity: prefersReducedMotion ? 1 : 0,
+              bottom: prefersReducedMotion ? "0" : "-5rem",
+            }}
             whileInView={{ opacity: 1, bottom: "0" }}
+            viewport={{ once: true }}
             transition={{
               ease: "linear",
               duration: 0.5,

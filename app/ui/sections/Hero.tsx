@@ -3,7 +3,7 @@ import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type SectionHeroProps = SectionHero
 
@@ -12,6 +12,8 @@ export function HeroSection({
   mainContent,
   featuredImage,
 }: SectionHeroProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   const { url, description, width, height } = featuredImage
 
   return (
@@ -19,7 +21,10 @@ export function HeroSection({
       <section className="overflow-hidden bg-lightGreen text-white">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:px-0 md:py-[10rem]">
           <motion.div
-            initial={{ opacity: 0, left: "-5rem" }}
+            initial={{
+              opacity: prefersReducedMotion ? 1 : 0,
+              left: prefersReducedMotion ? "0" : "-5rem",
+            }}
             whileInView={{ opacity: 1, left: "0" }}
             viewport={{ once: true }}
             transition={{
@@ -33,7 +38,7 @@ export function HeroSection({
           </motion.div>
           <div className="relative md:w-1/2">
             <motion.div
-              initial={{ padding: "5rem" }}
+              initial={{ padding: prefersReducedMotion ? "0" : "5rem" }}
               whileInView={{ padding: "0" }}
               viewport={{ once: true }}
               transition={{
@@ -43,7 +48,7 @@ export function HeroSection({
               className="absolute -right-6 bottom-0 w-[150%] translate-x-[25%] translate-y-[40%] md:translate-x-[40%] md:translate-y-[45%]"
             >
               <motion.div
-                initial={{ padding: "0" }}
+                initial={{ padding: prefersReducedMotion ? "1.25rem" : "0" }}
                 whileInView={{ padding: "1.25rem" }}
                 viewport={{ once: true }}
                 transition={{
@@ -54,7 +59,7 @@ export function HeroSection({
                 className="rounded-full bg-[#52C4A5] p-5"
               >
                 <motion.div
-                  initial={{ padding: "0" }}
+                  initial={{ padding: prefersReducedMotion ? "1.25rem" : "0" }}
                   whileInView={{ padding: "1.25rem" }}
                   viewport={{ once: true }}
                   transition={{
@@ -65,7 +70,9 @@ export function HeroSection({
                   className="rounded-full bg-[#73CFB7] p-5"
                 >
                   <motion.div
-                    initial={{ padding: "0" }}
+                    initial={{
+                      padding: prefersReducedMotion ? "1.25rem" : "0",
+                    }}
                     whileInView={{ padding: "1.25rem" }}
                     viewport={{ once: true }}
                     transition={{
@@ -76,7 +83,9 @@ export function HeroSection({
                     className="rounded-full bg-[#A8E0D3] p-5"
                   >
                     <motion.div
-                      initial={{ padding: "0" }}
+                      initial={{
+                        padding: prefersReducedMotion ? "1.25rem" : "0",
+                      }}
                       whileInView={{ padding: "1.25rem" }}
                       viewport={{ once: true }}
                       transition={{
