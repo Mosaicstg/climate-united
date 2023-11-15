@@ -17,21 +17,6 @@ export function TeamSection({
 }: SectionTeamProps) {
   const prefersReducedMotion = useReducedMotion()
 
-  const container = {
-    hidden: { opacity: prefersReducedMotion ? 1 : 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.5,
-      },
-    },
-  }
-
-  const item = {
-    hidden: { opacity: prefersReducedMotion ? 1 : 0 },
-    show: { opacity: 1 },
-  }
-
   return (
     <>
       <section className={`w-full ${classes}`}>
@@ -55,13 +40,7 @@ export function TeamSection({
             </h2>
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-4"
-          >
+          <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-4">
             {teamMembersCollection.items.map((teamMember, index) => {
               let borderColor = "border-green"
               switch (index % 5) {
@@ -82,18 +61,16 @@ export function TeamSection({
                   break
               }
               return (
-                <motion.div variants={item} key={`${teamMember.name}-${index}`}>
-                  <TeamMember
-                    name={teamMember.name}
-                    position={teamMember.position}
-                    department={teamMember.department}
-                    featuredImage={teamMember.featuredImage}
-                    borderColor={borderColor}
-                  />
-                </motion.div>
+                <TeamMember
+                  name={teamMember.name}
+                  position={teamMember.position}
+                  department={teamMember.department}
+                  featuredImage={teamMember.featuredImage}
+                  borderColor={borderColor}
+                />
               )
             })}
-          </motion.div>
+          </div>
         </div>
       </section>
     </>

@@ -1,4 +1,5 @@
 import { type TeamMember } from "~/models/team-member.server"
+import { motion, useReducedMotion } from "framer-motion"
 
 type TeamMemberProps = TeamMember & {
   borderColor: string
@@ -11,8 +12,19 @@ export function TeamMember({
   featuredImage,
   borderColor = "border-green",
 }: TeamMemberProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
-    <div className="text-center">
+    <motion.div
+      initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        ease: "linear",
+        duration: 0.5,
+      }}
+      className="text-center"
+    >
       {featuredImage ? (
         <img
           className={`${borderColor} relative mx-auto mb-5 aspect-square w-1/2 rounded-full border-4 border-solid object-cover md:w-3/4`}
@@ -27,6 +39,6 @@ export function TeamMember({
         <p className="mb-2 leading-tight">{position}</p>
         <p>{department}</p>
       </div>
-    </div>
+    </motion.div>
   )
 }
