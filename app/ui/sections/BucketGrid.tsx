@@ -4,6 +4,7 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { Bucket } from "~/ui/components/Bucket"
+import { motion } from "framer-motion"
 
 type SectionBucketGridProps = SectionBucketGrid
 
@@ -13,12 +14,37 @@ export function BucketGridSection({
   mainContent,
   bucketsCollection,
 }: SectionBucketGridProps) {
+  const buckets = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.25,
+      },
+    },
+  }
+
   return (
     <>
-      <section className="border-t-4 border-solid border-green text-darkBlue">
+      <section className="overflow-hidden border-t-4 border-solid border-green text-darkBlue">
         <div className="mx-auto max-w-screen-xl px-6 py-12 text-center md:px-0">
-          <h2 className="mb-10 text-2xl font-bold md:text-3xl">{headline}</h2>
-          <div className="mb-10 flex flex-col gap-12 md:flex-row">
+          <motion.h2
+            initial={{ opacity: 0, top: "-5rem" }}
+            whileInView={{ opacity: 1, top: "0" }}
+            transition={{
+              ease: "linear",
+              duration: 0.5,
+              delay: 0.5,
+            }}
+            className="relative mb-10 text-2xl font-bold md:text-3xl"
+          >
+            {headline}
+          </motion.h2>
+          <motion.div
+            variants={buckets}
+            initial="hidden"
+            whileInView="show"
+            className="mb-10 flex flex-col gap-12 md:flex-row"
+          >
             {bucketsCollection.items.map((bucket, index) => {
               let shadowColor = "bg-green"
               switch (index % 4) {
@@ -45,10 +71,19 @@ export function BucketGridSection({
                 />
               )
             })}
-          </div>
-          <div className="mx-auto max-w-screen-md">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, bottom: "-5rem" }}
+            whileInView={{ opacity: 1, bottom: "0" }}
+            transition={{
+              ease: "linear",
+              duration: 0.5,
+              delay: 0.5,
+            }}
+            className="relative mx-auto max-w-screen-md"
+          >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

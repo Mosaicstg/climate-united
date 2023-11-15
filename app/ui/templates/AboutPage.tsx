@@ -2,6 +2,7 @@ import { type AboutPage } from "~/models/about.server"
 import { AboutSection } from "~/ui/sections/About"
 import { CaseStudy } from "~/ui/components/CaseStudy"
 import Header from "~/ui/components/Header"
+import { motion } from "framer-motion"
 
 type AboutPageProps = AboutPage
 
@@ -19,7 +20,13 @@ export function AboutPage({
       <Header />
       <main>
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
-          <img
+          <motion.img
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              ease: "linear",
+              duration: 0.5,
+            }}
             className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
             src={url}
             alt={description || ""}

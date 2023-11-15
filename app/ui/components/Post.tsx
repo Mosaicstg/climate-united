@@ -1,5 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type Post } from "~/models/post.server"
+import { motion } from "framer-motion"
 
 type PostProps = Post
 
@@ -14,7 +15,17 @@ export function Post({
 }: PostProps) {
   return (
     <div className="mb-12 flex flex-col gap-12 md:flex-row">
-      <div className="md:w-2/5">
+      <motion.div
+        initial={{ opacity: 0, left: "-5rem" }}
+        whileInView={{ opacity: 1, left: "0" }}
+        viewport={{ once: true }}
+        transition={{
+          ease: "linear",
+          duration: 0.5,
+          delay: 0.5,
+        }}
+        className="relative md:w-2/5"
+      >
         {featuredImage ? (
           <img
             className="aspect-[3/2] w-full rounded-xl object-cover"
@@ -24,8 +35,18 @@ export function Post({
             height={featuredImage.height}
           />
         ) : null}
-      </div>
-      <div className="md:w-3/5">
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, right: "-5rem" }}
+        whileInView={{ opacity: 1, right: "0" }}
+        viewport={{ once: true }}
+        transition={{
+          ease: "linear",
+          duration: 0.5,
+          delay: 0.5,
+        }}
+        className="relative md:w-3/5"
+      >
         <h3 className="mb-3 text-xl font-bold">
           <a
             className="text-darkBlue duration-300 ease-in-out hover:text-green"
@@ -43,7 +64,7 @@ export function Post({
         >
           Read More
         </a>
-      </div>
+      </motion.div>
     </div>
   )
 }

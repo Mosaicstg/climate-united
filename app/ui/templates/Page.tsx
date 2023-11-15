@@ -13,32 +13,48 @@ export function Page({
   featuredImage,
 }: PageProps) {
   const { url, description, width, height } = featuredImage
+
   return (
     <>
       <Header />
       <main>
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
           <div className="flex flex-col items-center gap-12 md:flex-row">
-            <motion.div
-              initial={{ opacity: 0, transform: "scale(0)" }}
-              whileInView={{ opacity: 1, transform: "scale(1)" }}
-              transition={{
-                ease: "linear",
-                duration: 1.25,
-                x: { duration: 1 },
-              }}
-              className="relative my-12 md:order-2 md:w-1/3"
-            >
-              <div className="right-3/5 absolute bottom-0 h-[156px] w-[156px] translate-x-1/2 translate-y-1/3 rounded-full bg-lightGreen"></div>
-              <div className="absolute right-1/4 top-0 h-[156px] w-[156px] -translate-y-1/2 translate-x-1/2 rounded-full bg-blue"></div>
-              <img
-                className="relative aspect-square w-full rounded-full object-cover"
+            <div className="relative my-12 md:order-2 md:w-1/3">
+              <motion.img
+                initial={{ opacity: 0, transform: "scale(0)" }}
+                whileInView={{ opacity: 1, transform: "scale(1)" }}
+                transition={{
+                  ease: "linear",
+                  duration: 0.5,
+                }}
+                className="relative z-10 aspect-square w-full rounded-full object-cover"
                 src={url}
                 alt={description || ""}
                 width={width}
                 height={height}
               />
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, transform: "scale(0)" }}
+                whileInView={{ opacity: 1, transform: "scale(1)" }}
+                transition={{
+                  ease: "linear",
+                  duration: 0.5,
+                  delay: 0.25,
+                }}
+                className="absolute right-0 top-[-3rem] h-[156px] w-[156px] rounded-full bg-blue"
+              ></motion.div>
+              <motion.div
+                initial={{ opacity: 0, transform: "scale(0)" }}
+                whileInView={{ opacity: 1, transform: "scale(1)" }}
+                transition={{
+                  ease: "linear",
+                  duration: 0.5,
+                  delay: 0.5,
+                }}
+                className="absolute bottom-[-3rem] left-[5rem] h-[156px] w-[156px] rounded-full bg-lightGreen"
+              ></motion.div>
+            </div>
             <div className="text-darkBlue md:order-1 md:w-2/3">
               <h1 className="mb-5 text-3xl font-bold">{headline}</h1>
               {documentToReactComponents(

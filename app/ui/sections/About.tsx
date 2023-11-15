@@ -3,6 +3,7 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type SectionAbout } from "~/schemas/sections/section.about.server"
+import { motion } from "framer-motion"
 
 type SectionAboutProps = SectionAbout
 
@@ -15,7 +16,13 @@ export function AboutSection({
     <section>
       <div className="mx-auto mb-12 max-w-screen-lg text-darkBlue">
         {featuredImage ? (
-          <img
+          <motion.img
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              ease: "linear",
+              duration: 0.5,
+            }}
             className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
             src={featuredImage.url}
             alt={featuredImage.description || ""}
@@ -23,7 +30,18 @@ export function AboutSection({
             height={featuredImage.height}
           />
         ) : null}
-        {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+        <motion.div
+          initial={{ opacity: 0, left: "-5rem" }}
+          whileInView={{ opacity: 1, left: "0" }}
+          transition={{
+            ease: "linear",
+            duration: 0.5,
+            delay: 0.5,
+          }}
+          className="relative"
+        >
+          {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+        </motion.div>
       </div>
     </section>
   )

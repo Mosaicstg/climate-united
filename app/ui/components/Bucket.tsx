@@ -3,6 +3,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
+import { motion } from "framer-motion"
 
 type BucketProps = Bucket & { shadowColor: string }
 
@@ -14,23 +15,34 @@ export function Bucket({
 }: BucketProps) {
   const { url, description, width, height } = bucketImage
 
+  const image = {
+    hidden: { opacity: 0, top: "-5rem" },
+    show: { opacity: 1, top: "0" },
+  }
+
+  const text = {
+    hidden: { opacity: 0, bottom: "-5rem" },
+    show: { opacity: 1, bottom: "0" },
+  }
+
   return (
     <div className="md:w-1/4">
       <div className="relative mx-auto mb-10 w-1/2 md:w-full">
-        <div
-          className={`absolute bottom-0 left-0 aspect-square w-full translate-y-[50%] scale-y-[.15] rounded-full ${shadowColor}`}
-        ></div>
-        <img
-          className="relative aspect-square w-full rounded-full object-cover"
+        <motion.img
+          variants={image}
+          className="relative z-10 aspect-square w-full rounded-full object-cover"
           src={url}
           alt={description || ""}
           width={width}
           height={height}
         />
+        <div
+          className={`absolute bottom-0 left-0 aspect-square w-full translate-y-[50%] scale-y-[.15] rounded-full ${shadowColor}`}
+        ></div>
       </div>
-      <div>
+      <motion.div variants={text} className="relative">
         {documentToReactComponents(bucketText.json, richTextRenderOptions)}
-      </div>
+      </motion.div>
     </div>
   )
 }
