@@ -23,7 +23,7 @@ export function TextImageSplitSection({
             <img
               className="relative aspect-square w-full rounded-full object-cover"
               src={url}
-              alt={description}
+              alt={description || ""}
               width={width}
               height={height}
             />

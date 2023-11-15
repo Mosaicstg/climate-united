@@ -34,7 +34,7 @@ export function TextMultiImageSplitSection({
                   <img
                     className={`aspect-square w-full rounded-full object-contain p-7 ${classes}`}
                     src={image.url}
-                    alt={image.description}
+                    alt={image.description || ""}
                     width={image.width}
                     height={image.height}
                   />

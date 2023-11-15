@@ -19,7 +19,7 @@ export function Post({
           <img
             className="aspect-[3/2] w-full rounded-xl object-cover"
             src={featuredImage.url}
-            alt={featuredImage.description}
+            alt={featuredImage.description || ""}
             width={featuredImage.width}
             height={featuredImage.height}
           />

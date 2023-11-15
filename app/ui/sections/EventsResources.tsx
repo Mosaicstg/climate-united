@@ -53,7 +53,7 @@ export function EventsResourcesSection({
                 <img
                   className="relative aspect-square w-full rounded-full object-cover"
                   src={featuredImage.url}
-                  alt={featuredImage.description}
+                  alt={featuredImage.description || ""}
                   width={featuredImage.width}
                   height={featuredImage.height}
                 />

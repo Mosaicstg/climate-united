@@ -29,7 +29,7 @@ export function HeroSection({
                       <img
                         className="w-full rounded-full"
                         src={url}
-                        alt={description}
+                        alt={description || ""}
                         width={width}
                         height={height}
                       />

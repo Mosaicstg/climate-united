@@ -18,7 +18,7 @@ export function AboutSection({
           <img
             className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
             src={featuredImage.url}
-            alt={featuredImage.description}
+            alt={featuredImage.description || ""}
             width={featuredImage.width}
             height={featuredImage.height}
           />

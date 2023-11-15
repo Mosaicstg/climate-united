@@ -20,7 +20,7 @@ export function TextImageSection({
           <img
             className="mb-12 w-full"
             src={url}
-            alt={description}
+            alt={description || ""}
             width={width}
             height={height}
           />

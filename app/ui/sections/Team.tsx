@@ -43,16 +43,14 @@ export function TeamSection({
                   break
               }
               return (
-                <>
-                  <TeamMember
-                    key={teamMember.name}
-                    name={teamMember.name}
-                    position={teamMember.position}
-                    department={teamMember.department}
-                    featuredImage={teamMember.featuredImage}
-                    borderColor={borderColor}
-                  />
-                </>
+                <TeamMember
+                  key={`${teamMember.name}-${index}`}
+                  name={teamMember.name}
+                  position={teamMember.position}
+                  department={teamMember.department}
+                  featuredImage={teamMember.featuredImage}
+                  borderColor={borderColor}
+                />
               )
             })}
           </div>

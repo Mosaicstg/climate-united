@@ -22,7 +22,7 @@ export function AboutPage({
           <img
             className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
             src={url}
-            alt={description}
+            alt={description || ""}
             width={width}
             height={height}
           />
