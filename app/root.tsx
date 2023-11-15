@@ -23,6 +23,7 @@ import Footer from "~/ui/components/Footer"
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
   { rel: "preload", href: tailwindStylesheet, as: "style" },
+  { rel: "preload", href: "https://use.typekit.net/wlp1ond.css", as: "style" },
   { rel: "stylesheet", href: tailwindStylesheet },
   {
     rel: "apple-touch-icon",
