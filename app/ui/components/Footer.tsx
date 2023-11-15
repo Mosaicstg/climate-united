@@ -66,6 +66,7 @@ export default function Footer() {
                     className="block h-[20px] w-[20px] text-white"
                     href={link.url}
                   >
+                    <span className="sr-only">{link.platform}</span>
                     <SocialIcon icon={link.platform} />
                   </a>
                 </li>
