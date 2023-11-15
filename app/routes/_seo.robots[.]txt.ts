@@ -6,6 +6,7 @@ export function loader({ request }: DataFunctionArgs) {
   return generateRobotsTxt(
     [
       // { type: "sitemap", value: `${getDomainUrl(request)}/sitemap.xml` },
+      { type: "userAgent", value: "*" },
       { type: "disallow", value: "/" },
     ],
     { appendOnDefaultPolicies: false },
