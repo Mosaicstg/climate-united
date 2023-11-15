@@ -14,9 +14,11 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
   return (
     <>
       <Header
+        altLogo={true}
         bgColor={"bg-lightGreen"}
         borderColor={"border-white"}
         linkColor={"text-white hover:text-blue"}
+        hamburgerColor={"text-white hover:text-blue focus:text-blue"}
       />
       <main>
         {sectionsCollection.items.map((section, index) => {

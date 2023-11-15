@@ -1,14 +1,19 @@
 import { useState } from "react"
 import Logo from "~/ui/components/Logo"
+import LogoWhite from "~/ui/components/Logo-White"
 
 export default function Header({
+  altLogo = false,
   bgColor = "bg-white",
   borderColor = "md:border-blue",
   linkColor = "text-green hover:text-blue",
+  hamburgerColor = "text-darkBlue hover:text-green focus:text-green",
 }: {
+  altLogo?: boolean
   bgColor?: string
   borderColor?: string
   linkColor?: string
+  hamburgerColor?: string
 }) {
   const [isNavOpen, setIsNavOpen] = useState(false)
 
@@ -22,13 +27,15 @@ export default function Header({
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <Logo />
+            <div className="w-[180px]">
+              {altLogo ? <LogoWhite /> : <Logo />}
+            </div>
             <span className="sr-only">Climate United</span>
           </a>
           <button
             data-collapse-toggle="navbar-main"
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-darkBlue hover:text-green focus:text-green focus:outline-none md:hidden"
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm ${hamburgerColor} focus:outline-none md:hidden`}
             aria-controls="navbar-default"
             aria-expanded={isNavOpen}
             onClick={() => setIsNavOpen(!isNavOpen)}
