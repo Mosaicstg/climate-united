@@ -101,6 +101,9 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
  *               }
  *             }
  *           }
+ *           textEvents {
+ *               json
+ *           }
  *           headlineResources
  *           resourcesCollection {
  *             items {
@@ -288,6 +291,9 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                                   }
                                 }
                             }
+                        }
+                        textEvents {
+                           json
                         }
                         headlineResources
                         resourcesCollection {

@@ -2,6 +2,7 @@ import { z } from "zod"
 import { ImageSchema } from "../contentful-fields/image.server"
 import { ResourceSchema } from "~/models/resource.server"
 import { EventSchema } from "~/models/event.server"
+import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 /**
  * query {
  *   sectionEventsResources(id: "6Kq0GW9PHpAdSwYopevujL") {
@@ -15,6 +16,9 @@ import { EventSchema } from "~/models/event.server"
  *           json
  *         }
  *       }
+ *     }
+ *     textEvents {
+ *       json
  *     }
  *     headlineResources
  *     resourcesCollection {
@@ -50,6 +54,7 @@ export const SectionEventsResourcesSchema = z.object({
       seo: true,
     }).array(),
   }),
+  textEvents: RichTextSchema.nullable().optional(),
   headlineResources: z.string(),
   resourcesCollection: z.object({
     items: ResourceSchema.array(),

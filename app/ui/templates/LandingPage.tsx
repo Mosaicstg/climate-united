@@ -76,6 +76,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
                   title={section.title}
                   headlineEvents={section.headlineEvents}
                   eventsCollection={section.eventsCollection}
+                  textEvents={section.textEvents}
                   headlineResources={section.headlineResources}
                   resourcesCollection={section.resourcesCollection}
                   featuredImage={section.featuredImage}

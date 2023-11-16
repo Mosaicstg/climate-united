@@ -2,6 +2,9 @@ import type { SectionEventsResources } from "~/schemas/sections/section.events-r
 import { Event } from "~/ui/components/Event"
 import { Resource } from "~/ui/components/Resource"
 import { motion, useReducedMotion } from "framer-motion"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import { Block, BLOCKS, Inline, INLINES } from "@contentful/rich-text-types"
+import { ReactNode } from "react"
 
 type SectionEventsResourcesProps = SectionEventsResources
 
@@ -9,6 +12,7 @@ export function EventsResourcesSection({
   title,
   headlineEvents,
   eventsCollection,
+  textEvents,
   headlineResources,
   resourcesCollection,
   featuredImage,
@@ -51,6 +55,27 @@ export function EventsResourcesSection({
                 )
               })}
             </motion.div>
+            {textEvents ? (
+              <motion.div
+                initial={{
+                  opacity: prefersReducedMotion ? 1 : 0,
+                  left: prefersReducedMotion ? "0" : "-5rem",
+                }}
+                whileInView={{ opacity: 1, left: "0" }}
+                viewport={{ once: true }}
+                transition={{
+                  ease: "linear",
+                  duration: 0.5,
+                  delay: 0.5,
+                }}
+                className="relative pt-12 md:pl-6"
+              >
+                {documentToReactComponents(
+                  textEvents.json,
+                  richTextRenderOptions,
+                )}
+              </motion.div>
+            ) : null}
           </div>
           <div className="md:w-1/2">
             <h2 className="mb-5 text-3xl font-bold">{headlineResources}</h2>
@@ -118,4 +143,31 @@ export function EventsResourcesSection({
       </section>
     </>
   )
+}
+
+export const richTextRenderOptions = {
+  renderNode: {
+    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
+      const { data } = node
+      const { uri } = data
+      return (
+        <a
+          className="text-primary underline dark:text-gray-400"
+          target="_blank"
+          rel="noreferrer"
+          href={uri}
+        >
+          {children}
+        </a>
+      )
+    },
+    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
+      return <p className="mb-4 text-base leading-relaxed">{children}</p>
+    },
+    [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h3 className="mx-auto mb-5 text-xl font-bold md:px-12">{children}</h3>
+      )
+    },
+  },
 }
