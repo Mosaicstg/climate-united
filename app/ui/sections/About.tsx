@@ -85,5 +85,19 @@ export const richTextRenderOptions = {
         <h3 className="mx-auto mb-5 text-xl font-bold md:px-12">{children}</h3>
       )
     },
+    [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ul className="list-disc md:px-12">{children}</ul>
+    },
+    [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ol className="list-decimal md:px-12">{children}</ol>
+    },
+    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
+      const transformedChildren = documentToReactComponents(node, {
+        renderNode: {
+          [BLOCKS.PARAGRAPH]: (node, children) => children,
+        },
+      })
+      return <li>{transformedChildren}</li>
+    },
   },
 }
