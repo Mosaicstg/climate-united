@@ -10,6 +10,7 @@ export function Resource({ title, file }: ResourceProps) {
           className="duration-300 ease-in-out hover:text-green"
           href={file.url}
           download={file.fileName}
+          target="_blank"
         >
           {title}
         </a>
