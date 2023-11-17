@@ -84,10 +84,10 @@ export const richTextRenderOptions = {
       return <h3 className="mx-auto mb-5 text-xl font-bold">{children}</h3>
     },
     [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
-      return <ul className="ml-5 list-disc">{children}</ul>
+      return <ul className="ml-12 list-disc">{children}</ul>
     },
     [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
-      return <ol className="ml-5 list-decimal">{children}</ol>
+      return <ol className="ml-12 list-decimal">{children}</ol>
     },
     [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
       return <li>{children}</li>
