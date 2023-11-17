@@ -26,13 +26,15 @@ export function AboutSection({
               ease: "linear",
               duration: 0.5,
             }}
-            className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
+            className="aspect-[32/9] w-full rounded-xl object-cover"
             src={featuredImage.url}
             alt={featuredImage.description || ""}
             width={featuredImage.width}
             height={featuredImage.height}
           />
         ) : null}
+      </div>
+      <div className="mx-auto mb-12 max-w-[912px] text-darkBlue">
         <motion.div
           initial={{
             opacity: prefersReducedMotion ? 1 : 0,
@@ -72,24 +74,20 @@ export const richTextRenderOptions = {
     },
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
       return (
-        <p className="mx-auto mb-4 text-base leading-relaxed md:px-12">
-          {children}
-        </p>
+        <p className="mx-auto mb-4 text-base leading-relaxed">{children}</p>
       )
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl font-bold">{children}</h2>
+      return <h2 className="mb-5 text-3xl font-bold md:-mx-12">{children}</h2>
     },
     [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
-      return (
-        <h3 className="mx-auto mb-5 text-xl font-bold md:px-12">{children}</h3>
-      )
+      return <h3 className="mx-auto mb-5 text-xl font-bold">{children}</h3>
     },
     [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
-      return <ul className="list-disc md:px-12">{children}</ul>
+      return <ul className="ml-5 list-disc">{children}</ul>
     },
     [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
-      return <ol className="list-decimal md:px-12">{children}</ol>
+      return <ol className="ml-5 list-decimal">{children}</ol>
     },
     [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
       return <li>{children}</li>
