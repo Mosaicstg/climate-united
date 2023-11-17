@@ -92,12 +92,7 @@ export const richTextRenderOptions = {
       return <ol className="list-decimal md:px-12">{children}</ol>
     },
     [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
-      const transformedChildren = documentToReactComponents(node, {
-        renderNode: {
-          [BLOCKS.PARAGRAPH]: (node, children) => children,
-        },
-      })
-      return <li>{transformedChildren}</li>
+      return <li>{children}</li>
     },
   },
 }
