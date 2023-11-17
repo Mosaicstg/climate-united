@@ -27,14 +27,18 @@ export function TeamPage({
                 ease: "linear",
                 duration: 0.5,
               }}
-              className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
+              className="aspect-[32/9] w-full rounded-xl object-cover"
               src={featuredImage.url}
               alt={featuredImage.description || ""}
               width={featuredImage.width}
               height={featuredImage.height}
             />
           ) : null}
-          <h1 className="-mb-6 text-3xl font-bold text-darkBlue">{headline}</h1>
+          {headline ? (
+            <h1 className="-mb-6 mt-12 text-3xl font-bold text-darkBlue">
+              {headline}
+            </h1>
+          ) : null}
         </div>
         <div>
           {sectionsCollection.items.map((section, index) => {

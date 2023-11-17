@@ -31,7 +31,7 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 export const SectionTeamSchema = z.object({
   title: z.string(),
-  headline: z.string(),
+  headline: z.string().nullable().optional(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema.nullable().optional(),
   teamMembersCollection: z.object({

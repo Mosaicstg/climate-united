@@ -36,8 +36,8 @@ export function TeamMember({
       ) : null}
       <div className="relative">
         <p className="font-bold">{name}</p>
-        <p className="mb-2 leading-tight">{position}</p>
-        <p>{department}</p>
+        <p className="leading-tight">{position}</p>
+        <p className="leading-tight">{department}</p>
       </div>
     </motion.div>
   )

@@ -35,9 +35,11 @@ export function TeamSection({
             }}
             className="relative max-w-3xl"
           >
-            <h2 className="mb-5 text-3xl font-bold text-darkBlue">
-              {headline}
-            </h2>
+            {headline ? (
+              <h2 className="mb-5 text-3xl font-bold text-darkBlue">
+                {headline}
+              </h2>
+            ) : null}
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
           <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-4">
