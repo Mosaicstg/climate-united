@@ -1,7 +1,7 @@
 import type { SectionTextImage } from "~/schemas/sections/section.text-image.server"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import type { Block, Inline } from "@contentful/rich-text-types"
-import { INLINES } from "@contentful/rich-text-types"
+import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 
@@ -71,6 +71,9 @@ export const richTextRenderOptions = {
           {children}
         </a>
       )
+    },
+    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
+      return <p className="text-lg">{children}</p>
     },
   },
 }
