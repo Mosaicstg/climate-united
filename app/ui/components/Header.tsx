@@ -74,8 +74,8 @@ export default function Header({
                 </a>
               </li>
               <li>
-                <a className={`${linkColor}`} href="/our-team">
-                  Meet the Team
+                <a className={`${linkColor}`} href="/our-people">
+                  Our People
                 </a>
               </li>
               <li>
