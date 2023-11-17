@@ -33,7 +33,7 @@ export default function Footer() {
                 <a href="/about-climate-united">About</a>
               </li>
               <li>
-                <a href="/our-team">Meet the Team</a>
+                <a href="/our-people">Our People</a>
               </li>
               <li>
                 <a href="/about-the-greenhouse-gas-reduction-fund">
