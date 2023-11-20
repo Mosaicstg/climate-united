@@ -43,7 +43,7 @@ export default function Footer() {
             </ul>
           </nav>
           <div className="col-span-2">
-            <p className="text-sm">
+            <p className="mb-5 text-sm">
               Climate United’s objectives and projections are conditioned upon a
               successful award of a grant from the National Clean Investment
               Fund competition being administered by the U.S. Environmental
@@ -51,6 +51,10 @@ export default function Footer() {
               and conditions of such grant award. Descriptions of pipeline
               opportunities are subject to change, and no financing commitments
               have been made to any partners.
+            </p>
+            <p className="text-sm">
+              Thank you to our partners Navajo Power, RE-volv, and SunWealth for
+              providing photos of their work that are featured on this website.
             </p>
           </div>
           <div className="col-span-2">
