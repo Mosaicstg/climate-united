@@ -30,13 +30,26 @@ export default function Footer() {
           <nav className="col-span-2">
             <ul>
               <li>
-                <a href="/about-climate-united">About</a>
+                <a
+                  className="duration-300 ease-in-out hover:text-blue"
+                  href="/about-climate-united"
+                >
+                  About
+                </a>
               </li>
               <li>
-                <a href="/our-people">Our People</a>
+                <a
+                  className="duration-300 ease-in-out hover:text-blue"
+                  href="/our-people"
+                >
+                  Our People
+                </a>
               </li>
               <li>
-                <a href="/about-the-greenhouse-gas-reduction-fund">
+                <a
+                  className="duration-300 ease-in-out hover:text-blue"
+                  href="/about-the-greenhouse-gas-reduction-fund"
+                >
                   About the GGRF
                 </a>
               </li>
@@ -53,8 +66,32 @@ export default function Footer() {
               have been made to any partners.
             </p>
             <p className="text-sm">
-              Thank you to our partners Navajo Power, RE-volv, and SunWealth for
-              providing photos of their work that are featured on this website.
+              Thank you to our partners{" "}
+              <a
+                className="underline duration-300 ease-in-out hover:text-blue"
+                href="https://www.navajopower.com/"
+                target="_blank"
+              >
+                Navajo Power
+              </a>
+              ,{" "}
+              <a
+                className="underline duration-300 ease-in-out hover:text-blue"
+                href="https://re-volv.org/"
+                target="_blank"
+              >
+                RE-volv
+              </a>
+              , and{" "}
+              <a
+                className="underline duration-300 ease-in-out hover:text-blue"
+                href="https://www.sunwealth.com/"
+                target="_blank"
+              >
+                SunWealth
+              </a>{" "}
+              for providing photos of their work that are featured on this
+              website.
             </p>
           </div>
           <div className="col-span-2">
