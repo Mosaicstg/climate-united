@@ -44,6 +44,7 @@ export function AboutPage({
                   title={section.title}
                   mainContent={section.mainContent}
                   featuredImage={section.featuredImage}
+                  imagesCollection={section.imagesCollection}
                 />
               )
             })}

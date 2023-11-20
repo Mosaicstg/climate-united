@@ -24,6 +24,9 @@ export const SectionAboutSchema = z.object({
   title: z.string(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema.nullable().optional(),
+  imagesCollection: z.object({
+    items: ImageSchema.array(),
+  }),
 })
 
 export type SectionAbout = z.infer<typeof SectionAboutSchema>

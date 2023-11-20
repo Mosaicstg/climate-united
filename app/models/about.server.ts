@@ -84,6 +84,14 @@ export async function getAboutPage(id: string): Promise<AboutPage | null> {
                         width
                         height
                     }
+                    imagesCollection {
+                      items {
+                        fileName
+                        url
+                        width
+                        height
+                      }
+                    }
                 }
             }
             caseStudiesHeadline
@@ -157,6 +165,14 @@ export async function getAboutPages(
                             description
                             width
                             height
+                        }
+                        imagesCollection {
+                          items {
+                            fileName
+                            url
+                            width
+                            height
+                          }
                         }
                     }
                 }

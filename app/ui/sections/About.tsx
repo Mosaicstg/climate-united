@@ -11,6 +11,7 @@ export function AboutSection({
   title,
   mainContent,
   featuredImage,
+  imagesCollection,
 }: SectionAboutProps) {
   const prefersReducedMotion = useReducedMotion()
 
@@ -50,6 +51,20 @@ export function AboutSection({
           className="relative"
         >
           {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+          <div>
+            {imagesCollection.items.map((image, index) => {
+              return (
+                <img
+                  className="mx-auto mt-8 w-3/4"
+                  key={image.url}
+                  src={image.url}
+                  alt={image.description || ""}
+                  width={image.width}
+                  height={image.height}
+                />
+              )
+            })}
+          </div>
         </motion.div>
       </div>
     </section>

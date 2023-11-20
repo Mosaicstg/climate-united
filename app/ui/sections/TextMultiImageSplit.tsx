@@ -69,7 +69,6 @@ export function TextMultiImageSplitSection({
                   classes = "bg-green md:-mt-1"
                   break
               }
-              console.log(animationVariant)
               return (
                 <div className="w-1/2 px-3" key={image.url}>
                   <motion.img
