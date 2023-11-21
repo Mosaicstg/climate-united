@@ -140,6 +140,20 @@ function App() {
         <meta name="theme-color" content="#ffffff" />
         <Meta />
         <Links />
+
+        {/*Google tag (gtag.js)*/}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-JR8YJYTRJK"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JR8YJYTRJK');`,
+          }}
+        ></script>
       </head>
       <body>
         <Outlet />
