@@ -106,6 +106,7 @@ export default function Footer() {
                   <a
                     className="block h-[20px] w-[20px] text-white"
                     href={link.url}
+                    target="_blank"
                   >
                     <span className="sr-only">{link.platform}</span>
                     <SocialIcon icon={link.platform} />
