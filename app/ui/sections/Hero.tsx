@@ -32,7 +32,7 @@ export function HeroSection({
               duration: 0.5,
               delay: 0.5,
             }}
-            className="relative w-4/5 pb-[15rem] md:w-1/2 md:pb-0"
+            className="relative w-4/5 pb-[18rem] md:w-1/2 md:pb-0"
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
