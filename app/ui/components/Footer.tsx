@@ -71,6 +71,7 @@ export default function Footer() {
                 className="underline duration-300 ease-in-out hover:text-blue"
                 href="https://www.navajopower.com/"
                 target="_blank"
+                rel="noreferrer"
               >
                 Navajo Power
               </a>
@@ -79,6 +80,7 @@ export default function Footer() {
                 className="underline duration-300 ease-in-out hover:text-blue"
                 href="https://re-volv.org/"
                 target="_blank"
+                rel="noreferrer"
               >
                 RE-volv
               </a>
@@ -87,6 +89,7 @@ export default function Footer() {
                 className="underline duration-300 ease-in-out hover:text-blue"
                 href="https://www.sunwealth.com/"
                 target="_blank"
+                rel="noreferrer"
               >
                 SunWealth
               </a>{" "}
@@ -107,6 +110,7 @@ export default function Footer() {
                     className="block h-[20px] w-[20px] text-white"
                     href={link.url}
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <span className="sr-only">{link.platform}</span>
                     <SocialIcon icon={link.platform} />

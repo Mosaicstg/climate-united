@@ -11,6 +11,7 @@ export function Resource({ title, file }: ResourceProps) {
           href={file.url}
           download={file.fileName}
           target="_blank"
+          rel="noreferrer"
         >
           {title}
         </a>

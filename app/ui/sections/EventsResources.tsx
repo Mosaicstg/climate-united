@@ -3,8 +3,9 @@ import { Event } from "~/ui/components/Event"
 import { Resource } from "~/ui/components/Resource"
 import { motion, useReducedMotion } from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { Block, BLOCKS, Inline, INLINES } from "@contentful/rich-text-types"
-import { ReactNode } from "react"
+import type { Block, Inline} from "@contentful/rich-text-types";
+import { BLOCKS, INLINES } from "@contentful/rich-text-types"
+import type { ReactNode } from "react"
 
 type SectionEventsResourcesProps = SectionEventsResources
 
