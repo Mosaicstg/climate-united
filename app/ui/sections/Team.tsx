@@ -64,6 +64,7 @@ export function TeamSection({
               }
               return (
                 <TeamMember
+                  key={index}
                   name={teamMember.name}
                   position={teamMember.position}
                   department={teamMember.department}
