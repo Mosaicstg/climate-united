@@ -21,6 +21,10 @@ export function getSocialMetas({
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:image", content: image },
+    {
+      property: "og:image:type",
+      content: "image/png",
+    },
     { property: "og:site_name", content: "Climate United" },
     { property: "og:locale", content: "en_US" },
     {
