@@ -17,12 +17,12 @@ export function getSocialMetas({
     { tagName: "link", rel: "canonical", href: url },
     { name: "keywords", content: keywords },
     { name: "image", content: image },
-    { name: "og:url", content: url },
-    { name: "og:title", content: title },
-    { name: "og:description", content: description },
-    { name: "og:image", content: image },
-    { name: "og:site_name", content: "Climate United" },
-    { name: "og:locale", content: "en_US" },
+    { property: "og:url", content: url },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: image },
+    { property: "og:site_name", content: "Climate United" },
+    { property: "og:locale", content: "en_US" },
     {
       name: "twitter:card",
       content: image ? "summary_large_image" : "summary",
@@ -31,5 +31,9 @@ export function getSocialMetas({
     { name: "twitter:description", content: description },
     { name: "twitter:image", content: image },
     { name: "twitter:image:alt", content: title },
+    {
+      name: "twitter:creator",
+      content: "@climate_united",
+    },
   ]
 }
