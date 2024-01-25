@@ -8,7 +8,7 @@ import { SectionEventsResourcesSchema } from "~/schemas/sections/section.events-
 import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-image-split.server"
 import { SectionNewsPressReleasesSchema } from "~/schemas/sections/section.news-press-releases.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
-import { SEO } from "./seo.server"
+import { SEOSchema } from "./seo.server"
 
 const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   SectionHeroSchema.merge(z.object({ __typename: z.literal("SectionHero") })),
@@ -37,7 +37,7 @@ export const LandingPageSchema = z.object({
   sectionsCollection: z.object({
     items: z.array(SectionsDiscriminatedUnion),
   }),
-  seo: SEO
+  seo: SEOSchema
 })
 
 export type LandingPage = z.infer<typeof LandingPageSchema>

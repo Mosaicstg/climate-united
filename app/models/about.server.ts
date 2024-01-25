@@ -4,47 +4,7 @@ import { SectionAboutSchema } from "~/schemas/sections/section.about.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
-import { SEO } from "./seo.server"
-
-/**
- * query {
- *   aboutPage(id: "6wHRbfqkflPjD7tVNmz4C") {
- *     title
- *     sectionsCollection {
- *       items {
- *         title
- *         mainContent {
- *           json
- *         }
- *         featuredImage {
- *           fileName
- *           url
- *           description
- *           width
- *           height
- *         }
- *       }
- *     }
- *     caseStudiesHeadline
- *     caseStudiesCollection {
- *       items {
- *         title
- *         headline
- *         excerpt {
- *           json
- *         }
- *         featuredImage {
- *           fileName
- *           url
- *           description
- *           width
- *           height
- *         }
- *       }
- *     }
- *   }
- * }
- */
+import { SEOSchema } from "./seo.server"
 
 export const AboutPageSchema = z.object({
   title: z.string(),
@@ -56,7 +16,7 @@ export const AboutPageSchema = z.object({
   caseStudiesCollection: z.object({
     items: z.array(CaseStudySchema),
   }),
-  seo: SEO
+  seo: SEOSchema
 })
 
 export const AboutPagesSchema = z.array(AboutPageSchema)

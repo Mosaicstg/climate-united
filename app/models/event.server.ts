@@ -2,7 +2,7 @@ import { typedFetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
-import { SEO } from "./seo.server"
+import { SEOSchema } from "./seo.server"
 
 // query {
 //     eventCollection(limit: 100) {
@@ -27,7 +27,7 @@ export const EventSchema = z.object({
   location: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
-  seo: SEO
+  seo: SEOSchema
 })
 
 export const EventsSchema = EventSchema.array()
