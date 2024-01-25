@@ -19,6 +19,9 @@ import rdtStylesheet from "remix-development-tools/index.css"
 import tailwindStylesheet from "~/tailwind.css"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
+import { GeneralErrorBoundary } from "./routes/$"
+import { Show404 } from "./ui/templates/404"
+import { Show500 } from "./ui/templates/500"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
@@ -157,6 +160,62 @@ function App() {
       </head>
       <body>
         <Outlet />
+        <Footer />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+        {/*<script*/}
+        {/*  dangerouslySetInnerHTML={{*/}
+        {/*    __html: `window.onUsersnapLoad = function(api) {*/}
+        {/*  api.init();*/}
+        {/*}*/}
+        {/*  var script = document.createElement('script');*/}
+        {/*  script.defer = 1;*/}
+        {/*  script.src = 'https://widget.usersnap.com/global/load/f13d0b58-e511-42a7-bc56-1fa9bb5c91b2?onload=onUsersnapLoad';*/}
+        {/*  document.getElementsByTagName('head')[0].appendChild(script);`,*/}
+        {/*  }}*/}
+        {/*></script>*/}
+      </body>
+    </html>
+  )
+}
+
+export function ErrorBoundary() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta
+          name="msapplication-TileImage"
+          content="/favicons/ms-icon-144x144.png"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <Meta />
+        <Links />
+
+        {/*Google tag (gtag.js)*/}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-JR8YJYTRJK"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JR8YJYTRJK');`,
+          }}
+        ></script>
+      </head>
+      <body>
+        <GeneralErrorBoundary
+          statusHandlers={{
+            404: () => <Show404 />,
+            500: () => <Show500 />,
+          }}
+        />
         <Footer />
         <ScrollRestoration />
         <Scripts />
