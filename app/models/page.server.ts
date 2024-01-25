@@ -3,14 +3,14 @@ import { z } from "zod"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
-import { SEO } from "./seo.server"
+import { SEOSchema } from "./seo.server"
 
 export const PageSchema = z.object({
   title: z.string(),
   headline: z.string(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema,
-  seo: SEO
+  seo: SEOSchema
 })
 
 export type Page = z.infer<typeof PageSchema>
