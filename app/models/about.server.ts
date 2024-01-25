@@ -4,6 +4,7 @@ import { SectionAboutSchema } from "~/schemas/sections/section.about.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
+import { SEO } from "./seo.server"
 
 /**
  * query {
@@ -55,11 +56,7 @@ export const AboutPageSchema = z.object({
   caseStudiesCollection: z.object({
     items: z.array(CaseStudySchema),
   }),
-  seo: z.object({
-    title: z.string(),
-    excerpt: z.string(),
-    image: ImageSchema,
-  }),
+  seo: SEO
 })
 
 export const AboutPagesSchema = z.array(AboutPageSchema)
@@ -128,6 +125,7 @@ export async function getAboutPage(id: string): Promise<AboutPage | null> {
                 width
                 height
               }
+              keywords
             }
         }
     }`
