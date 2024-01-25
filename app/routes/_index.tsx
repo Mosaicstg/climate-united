@@ -24,13 +24,15 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-          ...getSocialMetas({
-            title: `${data.landingPage.title} - Climate United`,
-            image: data.landingPage.seo.image.url,
-            description: data.landingPage.seo.excerpt,
-            url: `${domainURL}`,
-          }),
-        ]
+        ...getSocialMetas({
+          type: 'website',
+          title: `${data.landingPage.seo.title}`,
+          image: data.landingPage.seo.image.url,
+          description: data.landingPage.seo.excerpt,
+          url: `${domainURL}`,
+          keywords: `${data.landingPage.seo?.keywords ? data.landingPage.seo.keywords : ""}`
+        }),
+      ]
       : []),
   ]
 }

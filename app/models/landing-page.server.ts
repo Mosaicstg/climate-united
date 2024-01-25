@@ -1,4 +1,4 @@
-import { fetchGraphQL } from "~/services/contentful.server"
+import { typedFetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
 import { SectionHeroSchema } from "~/schemas/sections/section.hero.server"
 import { SectionTextMultiImageSplitSchema } from "~/schemas/sections/section.text-multi-image-split.server"
@@ -8,144 +8,7 @@ import { SectionEventsResourcesSchema } from "~/schemas/sections/section.events-
 import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-image-split.server"
 import { SectionNewsPressReleasesSchema } from "~/schemas/sections/section.news-press-releases.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
-import { ImageSchema } from "~/schemas/contentful-fields/image.server"
-
-/**
- * query {
- *   landingPage(id: "2OVuAnTbko7I7V8nzbBR8K") {
- *     title
- *     sectionsCollection {
- *       items {
- *         __typename
- *         ... on SectionHero {
- *           title
- *           mainContent {
- *             json
- *           }
- *           featuredImage {
- *             fileName
- *             url
- *             description
- *             width
- *             height
- *           }
- *         }
- *         ... on SectionTextMultiImageSplit {
- *           title
- *           mainContent {
- *             json
- *           }
- *           featuredImagesCollection {
- *             items {
- *               fileName
- *               url
- *               width
- *               height
- *             }
- *           }
- *         }
- *         ... on SectionTextImageSplit {
- *           title
- *           mainContent {
- *             json
- *           }
- *           featuredImage {
- *             fileName
- *             url
- *             width
- *             height
- *           }
- *         }
- *         ... on SectionBucketGrid {
- *           title
- *           headline
- *           mainContent {
- *             json
- *           }
- *           bucketsCollection {
- *             items {
- *               title
- *               bucketText {
- *                 json
- *               }
- *               bucketImage {
- *                 fileName
- *                 url
- *                 width
- *                 height
- *               }
- *             }
- *           }
- *         }
- *         ... on SectionTextImage {
- *           title
- *           mainContent {
- *             json
- *           }
- *           featuredImage {
- *             fileName
- *             url
- *             width
- *             height
- *           }
- *         }
- *         ... on SectionEventsResources {
- *           title
- *           headlineEvents
- *           eventsCollection {
- *             items {
- *               headline
- *               datetime
- *               excerpt {
- *                 json
- *               }
- *             }
- *           }
- *           textEvents {
- *               json
- *           }
- *           headlineResources
- *           resourcesCollection {
- *             items {
- *               title
- *               file {
- *                 fileName
- *                 url
- *               }
- *             }
- *           }
- *           featuredImage {
- *             fileName
- *             url
- *             width
- *             height
- *           }
- *         }
- *         ... on SectionNewsPressReleases {
- *           title
- *           headline
- *           postsCollection {
- *             items {
- *               title
- *               headline
- *               excerpt {
- *                 json
- *               }
- *               featuredImage {
- *                 fileName
- *                 url
- *                 description
- *                 width
- *                 height
- *               }
- *             }
- *           }
- *         }
- *       }
- *     }
- *   }
- * }
- */
+import { SEO } from "./seo.server"
 
 const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   SectionHeroSchema.merge(z.object({ __typename: z.literal("SectionHero") })),
@@ -174,16 +37,12 @@ export const LandingPageSchema = z.object({
   sectionsCollection: z.object({
     items: z.array(SectionsDiscriminatedUnion),
   }),
-  seo: z.object({
-    title: z.string(),
-    excerpt: z.string(),
-    image: ImageSchema,
-  }),
+  seo: SEO
 })
 
 export type LandingPage = z.infer<typeof LandingPageSchema>
 
-export async function getLandingPage(id: string): Promise<LandingPage> {
+export async function getLandingPage(id: string) {
   const query = `
     query {
         landingPage(id: "${id}") {
@@ -256,7 +115,7 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                         mainContent {
                             json
                         }
-                        featuredImage { 
+                        featuredImage {
                             fileName
                             url
                             width
@@ -289,6 +148,7 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                                     width
                                     height
                                   }
+                                  keywords
                                 }
                             }
                         }
@@ -344,6 +204,7 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                                     width
                                     height
                                   }
+                                  keywords
                                 }
                             }
                         }
@@ -360,12 +221,19 @@ export async function getLandingPage(id: string): Promise<LandingPage> {
                 width
                 height
               }
+              keywords
             }
         }
     }
     `
 
-  const response = await fetchGraphQL(query)
+  const response = await typedFetchGraphQL<{ landingPage: LandingPage }>(query)
+
+  if (!response.data) {
+    console.error(`Error for Landing Page with id:${id}`, response.errors)
+
+    return null
+  }
 
   const landingPage = response.data.landingPage
 
