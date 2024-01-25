@@ -6,7 +6,7 @@ export function fetchGraphQL(
   preview = false,
 ): Promise<any> {
   return fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
+    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/${process.env.CONTENTFUL_ENVIRONMENT}`,
     {
       method: "POST",
       headers: {
@@ -28,7 +28,7 @@ export async function typedFetchGraphQL<T>(
   preview = false,
 ): Promise<{ data: T } | { data: null; errors: Array<{ message: string }> }> {
   const response = await fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
+    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/${process.env.CONTENTFUL_ENVIRONMENT}`,
     {
       method: "POST",
       headers: {
