@@ -3,6 +3,7 @@ import { SectionTeamSchema } from "~/schemas/sections/section.team.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
+import { SEOSchema } from "./seo.server"
 /**
  * query {
  *   teamPage(id: "r4OYblQ1BKEvh8k7RHp09") {
@@ -42,11 +43,7 @@ export const TeamPageSchema = z.object({
   sectionsCollection: z.object({
     items: z.array(SectionTeamSchema),
   }),
-  seo: z.object({
-    title: z.string(),
-    excerpt: z.string(),
-    image: ImageSchema,
-  }),
+  seo: SEOSchema
 })
 
 export const TeamPagesSchema = z.array(TeamPageSchema)
@@ -98,6 +95,7 @@ export async function getTeamPage(id: string): Promise<TeamPage | null> {
                 width
                 height
               }
+              keywords
             }
     }
   }`
@@ -164,6 +162,7 @@ export async function getTeamPages(
                     width
                     height
                   }
+                  keywords
                 }
             }
         }
