@@ -1,8 +1,8 @@
-import { fetchGraphQL } from "~/services/contentful.server"
+import { typedFetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
-import { ImageSchema } from "~/schemas/contentful-fields/image.server"
+import { SEO } from "./seo.server"
 
 // query {
 //     eventCollection(limit: 100) {
@@ -27,54 +27,14 @@ export const EventSchema = z.object({
   location: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
-  seo: z.object({
-    title: z.string(),
-    excerpt: z.string(),
-    image: ImageSchema,
-  }),
+  seo: SEO
 })
 
 export const EventsSchema = EventSchema.array()
 
 export type Event = z.infer<typeof EventSchema>
 
-export async function getEvent(id: string): Promise<Event> {
-  const query = `
-    query {
-        event(id: "${id}") {
-            title
-            slug
-            headline
-            datetime
-            location
-            excerpt {
-                json
-            }
-            mainContent {
-                json
-            }
-            seo {
-              title
-              excerpt
-              image {
-                fileName
-                url
-                description
-                width
-                height
-              }
-            }
-        }
-    }
-    `
-
-  const response = await fetchGraphQL(query)
-  const event = response.data.event
-
-  return validateWithSchema(EventSchema, event)
-}
-
-export async function getEventBySlug(slug: string): Promise<Event> {
+export async function getEventBySlug(slug: string) {
   const query = `query {
         eventCollection(where: { slug: "${slug}" }) {
             items {
@@ -99,20 +59,24 @@ export async function getEventBySlug(slug: string): Promise<Event> {
                     width
                     height
                   }
+                  keywords
                 }
             }
         }
     }`
 
-  const response = await fetchGraphQL(query)
+  const response = await typedFetchGraphQL<{ eventCollection: { items: Array<Event> } }>(query)
+
+  if (!response.data) {
+    console.error(`Error for Event with slug:${slug}`, response.errors)
+
+    return null
+  }
 
   return response.data.eventCollection.items[0]
-
-  // const event = response.data.eventCollection.items[0]
-  // return validateWithSchema(EventSchema, event)
 }
 
-export async function getEvents(count: number = 10): Promise<Array<Event>> {
+export async function getEvents(count: number = 10) {
   const query = `
         query {
             eventCollection(order:sys_firstPublishedAt_DESC limit: ${count}) {
@@ -138,12 +102,20 @@ export async function getEvents(count: number = 10): Promise<Array<Event>> {
                         width
                         height
                       }
+                      keywords
                     }
                 }
-            }  
+            }
         }`
 
-  const response = await fetchGraphQL(query)
+  const response = await typedFetchGraphQL<{ eventCollection: { items: Array<Event> } }>(query)
+
+  if (!response.data) {
+    console.error(`Error for Events`, response.errors)
+
+    return []
+  }
+
   const events = response.data.eventCollection.items
 
   return validateWithSchema(EventsSchema, events)
