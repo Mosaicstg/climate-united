@@ -11,12 +11,10 @@ export function fetchGraphQL(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          preview
-            ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
-            : process.env.CONTENTFUL_ACCESS_TOKEN
-        }`,
-
+        Authorization: `Bearer ${preview
+          ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+          : process.env.CONTENTFUL_ACCESS_TOKEN
+          }`,
       },
       body: JSON.stringify({ query, variables }),
     },
@@ -34,17 +32,16 @@ export async function typedFetchGraphQL<T>(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          preview
-            ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
-            : process.env.CONTENTFUL_ACCESS_TOKEN
-        }`,
+        Authorization: `Bearer ${preview
+          ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+          : process.env.CONTENTFUL_ACCESS_TOKEN
+          }`,
       },
       body: JSON.stringify({ query, variables }),
     },
   )
 
-  invariantResponse(response.ok, "Failed to fetch Contentful API", {
+  invariantResponse(response.ok, "Failed to fetch from Contentful API", {
     status: response.status,
     statusText: response.statusText,
   })
