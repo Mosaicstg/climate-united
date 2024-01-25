@@ -4,25 +4,6 @@ import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 
-/**
- * query {
- *   caseStudy(id: "6ueMOUJagDMrM14R1W64Nn") {
- *     title
- *     headline
- *     excerpt {
- *       json
- *     }
- *     featuredImage {
- *       fileName
- *       url
- *       description
- *       width
- *       height
- *     }
- *   }
- * }
- */
-
 export const CaseStudySchema = z.object({
   title: z.string(),
   headline: z.string(),

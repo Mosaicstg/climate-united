@@ -4,21 +4,6 @@ import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { SEOSchema } from "./seo.server"
 
-// query {
-//     eventCollection(limit: 100) {
-//         items {
-//             headline
-//             datetime
-//             excerpt {
-//                 json
-//             }
-//             content {
-//                 json
-//             }
-//         }
-//     }
-// }
-
 export const EventSchema = z.object({
   title: z.string(),
   slug: z.string(),
