@@ -17,7 +17,7 @@ export function TeamPage({
     <>
       <Header />
       <main>
-        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
+        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
           {featuredImage ? (
             <motion.img
               initial={{ opacity: prefersReducedMotion ? 1 : 0 }}

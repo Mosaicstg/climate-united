@@ -23,7 +23,7 @@ export function EventsResourcesSection({
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:gap-[12rem] md:px-0">
+        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:gap-[12rem] md:px-5">
           <div className="md:w-1/2">
             <h2 className="mb-5 text-3xl font-bold">{headlineEvents}</h2>
             <motion.div
