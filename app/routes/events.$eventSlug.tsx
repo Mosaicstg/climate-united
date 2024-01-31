@@ -80,7 +80,7 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
     ...(data
       ? [
         ...getSocialMetas({
-          title: `${data.event.title} - Events - Climate United`,
+          title: `${data.event.seo?.title} - Events - Climate United`,
           url: `${domainURL}${pathname}`,
           description: `${data.event.seo.excerpt}`,
           image: `${data.event.seo.image.url}`,

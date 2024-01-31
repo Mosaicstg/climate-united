@@ -26,7 +26,7 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
       ? [
         ...getSocialMetas({
           type: 'website',
-          title: `${data.landingPage.seo.title}`,
+          title: `${data.landingPage.seo?.title}`,
           image: data.landingPage.seo.image.url,
           description: data.landingPage.seo.excerpt,
           url: `${domainURL}`,

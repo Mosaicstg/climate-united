@@ -58,7 +58,7 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
     ...(data
       ? [
         ...getSocialMetas({
-          title: `${data.page.seo.title}`,
+          title: `${data.page.seo?.title} | Climate United`,
           url: `${domainURL}${pathname}`,
           description: `${data.page.seo.excerpt}`,
           image: `${data.page.seo.image.url}`,
