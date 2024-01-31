@@ -1,28 +1,5 @@
 import { invariantResponse } from "~/utils/invariant.server"
 
-export function fetchGraphQL(
-  query: string,
-  variables = {},
-  preview = false,
-): Promise<any> {
-  return fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/${process.env.CONTENTFUL_ENVIRONMENT}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          preview
-            ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
-            : process.env.CONTENTFUL_ACCESS_TOKEN
-        }`,
-
-      },
-      body: JSON.stringify({ query, variables }),
-    },
-  ).then((response) => response.json())
-}
-
 export async function typedFetchGraphQL<T>(
   query: string,
   variables = {},
@@ -34,17 +11,16 @@ export async function typedFetchGraphQL<T>(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          preview
-            ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
-            : process.env.CONTENTFUL_ACCESS_TOKEN
-        }`,
+        Authorization: `Bearer ${preview
+          ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+          : process.env.CONTENTFUL_ACCESS_TOKEN
+          }`,
       },
       body: JSON.stringify({ query, variables }),
     },
   )
 
-  invariantResponse(response.ok, "Failed to fetch Contentful API", {
+  invariantResponse(response.ok, "Failed to fetch from Contentful API", {
     status: response.status,
     statusText: response.statusText,
   })

@@ -25,13 +25,14 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-          ...getSocialMetas({
-            url: `${domainURL}${pathname}`,
-            title: `${data.aboutPage.title} - Climate United`,
-            description: data.aboutPage.seo.excerpt,
-            image: data.aboutPage.seo.image.url,
-          }),
-        ]
+        ...getSocialMetas({
+          url: `${domainURL}${pathname}`,
+          title: `${data.aboutPage.seo?.title} | Climate United`,
+          description: data.aboutPage.seo.excerpt,
+          image: data.aboutPage.seo.image.url,
+          keywords: `${data.aboutPage.seo?.keywords ? data.aboutPage.seo.keywords : ""}`,
+        }),
+      ]
       : []),
   ]
 }

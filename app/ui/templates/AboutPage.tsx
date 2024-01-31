@@ -21,7 +21,7 @@ export function AboutPage({
     <>
       <Header />
       <main>
-        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
+        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
           <motion.img
             initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
             whileInView={{ opacity: 1 }}
@@ -51,7 +51,7 @@ export function AboutPage({
           </div>
         </div>
         <div className="border-t-4 border-solid border-green bg-paleGreen">
-          <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
+          <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
             <h2 className="mb-12 text-3xl font-bold text-darkBlue">
               {caseStudiesHeadline}
             </h2>

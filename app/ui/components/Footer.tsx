@@ -4,7 +4,7 @@ import { useLoaderData } from "@remix-run/react"
 import type { loader } from "~/root"
 
 export default function Footer() {
-  const { socialMedialLinks } = useLoaderData<typeof loader>()
+  const data = useLoaderData<typeof loader>()
 
   return (
     <footer className="border-t-4 border-solid border-green bg-darkBlue text-white">
@@ -103,7 +103,7 @@ export default function Footer() {
             </div>
           </div>
           <ul className="flex gap-4 self-end md:justify-end">
-            {socialMedialLinks.map((link, index) => {
+            {data?.socialMedialLinks?.map((link, index) => {
               return (
                 <li key={index}>
                   <a

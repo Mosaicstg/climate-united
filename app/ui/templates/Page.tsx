@@ -20,7 +20,7 @@ export function Page({
     <>
       <Header />
       <main>
-        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
+        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
           <div className="flex flex-col items-center gap-12 md:flex-row">
             <div className="relative my-12 md:order-2 md:w-1/3">
               <motion.img

@@ -93,7 +93,7 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl font-bold md:-mx-12">{children}</h2>
+      return <h2 className="mb-5 text-3xl font-bold md:-mx-8 xl:-mx-12">{children}</h2>
     },
     [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
       return <h3 className="mx-auto mb-5 text-xl font-bold">{children}</h3>
