@@ -24,15 +24,19 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-        ...getSocialMetas({
-          type: 'website',
-          title: `${data.landingPage.seo?.title}`,
-          image: data.landingPage.seo.image.url,
-          description: data.landingPage.seo.excerpt,
-          url: `${domainURL}`,
-          keywords: `${data.landingPage.seo?.keywords ? data.landingPage.seo.keywords : ""}`
-        }),
-      ]
+          ...getSocialMetas({
+            type: "website",
+            title: `${data.landingPage.seo?.title}`,
+            image: data.landingPage.seo.image.url,
+            description: data.landingPage.seo.excerpt,
+            url: `${domainURL}`,
+            keywords: `${
+              data.landingPage.seo?.keywords
+                ? data.landingPage.seo.keywords
+                : ""
+            }`,
+          }),
+        ]
       : []),
   ]
 }
