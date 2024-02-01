@@ -2,6 +2,7 @@ import {
   type DataFunctionArgs,
   type LinksFunction,
   type MetaFunction,
+  type HeadersFunction,
   json,
 } from "@remix-run/node"
 import { cssBundleHref } from "@remix-run/css-bundle"
@@ -111,6 +112,13 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   const socialMedialLinks = await getSocialMediaLinks()
 
   return json({ socialMedialLinks, domainURL: getDomainUrl(request) }, {})
+}
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    "Cache-Control": "public, max-age=600, must-revalidate, s-maxage=600, stale-while-revalidate=3600",
+    ...loaderHeaders,
+  }
 }
 
 export type RootLoader = typeof loader
