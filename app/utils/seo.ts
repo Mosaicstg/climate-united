@@ -4,12 +4,14 @@ export function getSocialMetas({
   description = "",
   image = "",
   keywords = "",
+  type = 'article'
 }: {
   image?: string
   url: string
   title?: string
   description?: string
-  keywords?: string
+  keywords?: string,
+  type?: string
 }) {
   return [
     { title },
@@ -17,6 +19,7 @@ export function getSocialMetas({
     { tagName: "link", rel: "canonical", href: url },
     { name: "keywords", content: keywords },
     { name: "image", content: image },
+    { property: "og:type", content: type },
     { property: "og:url", content: url },
     { property: "og:title", content: title },
     { property: "og:description", content: description },

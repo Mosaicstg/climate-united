@@ -19,7 +19,7 @@ export function HeroSection({
   return (
     <>
       <section className="overflow-hidden bg-lightGreen text-white">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:px-0 md:py-[10rem]">
+        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:px-0 md:pl-5 md:py-[10rem]">
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,

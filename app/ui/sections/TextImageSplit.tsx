@@ -19,7 +19,7 @@ export function TextImageSplitSection({
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen text-darkBlue">
-        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-0">
+        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
           <div className="relative my-12 w-3/4 md:order-2 md:w-2/5">
             <motion.img
               initial={{

@@ -11,7 +11,7 @@ export function NewsPressReleasesSection({
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen text-darkBlue">
-        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-0">
+        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
           <h2 className="mb-12 text-3xl font-bold">{headline}</h2>
           {postsCollection.items.map((post) => {
             return (

@@ -6,11 +6,13 @@
 // message for them than the Remix and/or browser default.
 
 import {
+  type MetaFunction,
   isRouteErrorResponse,
   useParams,
   useRouteError,
 } from "@remix-run/react"
 import { type ErrorResponse } from "@remix-run/router"
+import { type RootLoader } from "~/root"
 import { Show404 } from "~/ui/templates/404"
 import { Show500 } from "~/ui/templates/500"
 
@@ -71,6 +73,22 @@ export function GeneralErrorBoundary({
 export async function loader() {
   // TODO: Phase 2 - get current path, then query Page, Landing Page, About Page, Team Page (via slug)
   throw new Response("Not found", { status: 404 })
+}
+
+export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
+  error,
+}) => {
+  let title = "An error occurred - Climate United"
+
+  if (error && isRouteErrorResponse(error) && error.status === 404) {
+    title = "Not Found - Climate United"
+  }
+
+  return [
+    {
+      title,
+    },
+  ]
 }
 
 export default function NotFound() {
