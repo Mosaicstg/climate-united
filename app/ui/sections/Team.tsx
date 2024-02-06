@@ -65,6 +65,7 @@ export function TeamSection({
               return (
                 <TeamMember
                   key={index}
+                  slug={teamMember.slug}
                   name={teamMember.name}
                   position={teamMember.position}
                   department={teamMember.department}

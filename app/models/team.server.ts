@@ -12,7 +12,7 @@ export const TeamPageSchema = z.object({
   sectionsCollection: z.object({
     items: z.array(SectionTeamSchema),
   }),
-  seo: SEOSchema
+  seo: SEOSchema,
 })
 
 export const TeamPagesSchema = z.array(TeamPageSchema)
@@ -33,6 +33,7 @@ export async function getTeamPage(id: string) {
           }
           teamMembersCollection(limit: 54) {
             items {
+              slug
               name
               position
               department
@@ -83,9 +84,7 @@ export async function getTeamPage(id: string) {
 }
 
 // This function will crash the GraphQL server if the limit is too high
-export async function getTeamPages(
-  count: number = 10,
-) {
+export async function getTeamPages(count: number = 10) {
   const query = `query {
         teamPageCollection(limit: ${count}) {
             items {
@@ -100,6 +99,7 @@ export async function getTeamPages(
                         }
                         teamMembersCollection(limit: 20) {
                             items {
+                                slug
                                 name
                                 position
                                 department

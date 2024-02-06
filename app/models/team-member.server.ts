@@ -4,6 +4,7 @@ import { z } from "zod"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 export const TeamMemberSchema = z.object({
+  slug: z.string(),
   name: z.string(),
   position: z.string(),
   department: z.string(),
@@ -17,6 +18,7 @@ export type TeamMember = z.infer<typeof TeamMemberSchema>
 export async function getTeamMember(id: string) {
   const query = `query {
             teamMember(id: "${id}") {
+                slug
                 name
                 position
                 department
@@ -43,12 +45,11 @@ export async function getTeamMember(id: string) {
   return validateWithSchema(TeamMemberSchema, teamMember)
 }
 
-export async function getTeamMembers(
-  count: number = 10,
-) {
+export async function getTeamMembers(count: number = 10) {
   const query = `query {
   teamMemberCollection(limit: 100, order: sys_publishedAt_DESC) {
     items {
+      slug
       name
       position
       department
@@ -63,7 +64,9 @@ export async function getTeamMembers(
   }
 }`
 
-  const response = await typedFetchGraphQL<{ teamMemberCollection: { items: Array<TeamMember> } }>(query)
+  const response = await typedFetchGraphQL<{
+    teamMemberCollection: { items: Array<TeamMember> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Team Members`, response.errors)
