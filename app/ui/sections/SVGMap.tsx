@@ -62,7 +62,7 @@ export function SVGMapSection({
 
   const handleModalContentSelection = () => {
     const formData = new FormData()
-    const region = randomRegion()
+    const region = randomRegion() || ""
 
     formData.set("region", region)
 
