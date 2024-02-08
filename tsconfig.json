@@ -20,6 +20,8 @@
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
       "~/*": [
