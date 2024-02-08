@@ -1,5 +1,8 @@
 import { invariantResponse } from "~/utils/invariant.server"
 
+/**
+ * @throws {Response} If the fetch fails or the response is not valid
+ */
 export async function typedFetchGraphQL<T>(
   query: string,
   variables = {},
@@ -11,10 +14,11 @@ export async function typedFetchGraphQL<T>(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${preview
-          ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
-          : process.env.CONTENTFUL_ACCESS_TOKEN
-          }`,
+        Authorization: `Bearer ${
+          preview
+            ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+            : process.env.CONTENTFUL_ACCESS_TOKEN
+        }`,
       },
       body: JSON.stringify({ query, variables }),
     },
