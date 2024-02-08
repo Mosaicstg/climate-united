@@ -2,8 +2,12 @@ import { type ActionFunctionArgs, json } from "@remix-run/node"
 import { caseStudies, wait } from "~/mocks/epa-regions"
 import { z } from "zod"
 import { type CaseStudy } from "~/models/case-study.server"
+import {
+  getEPARegions,
+  getCaseStudyByEPARegionSlug,
+} from "~/models/epa-region.server"
 
-function getCaseStudiesByRegion(region: string) {
+function getMockCaseStudiesByRegion(region: string) {
   return caseStudies.filter((cs) => cs.region === region)
 }
 
@@ -20,8 +24,6 @@ export type EPARegionActionResponse =
     }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  console.log(request);
-
   const formData = await request.formData()
 
   const region = formData.get("region")
@@ -32,6 +34,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       { status: 400 },
     )
   }
+
+  const regions = await getEPARegions()
+
+  if (regions.length > 0) {
+    const selectedRegion = regions[0]
+
+    if (!selectedRegion) {
+      return json(
+        { success: false, error: "No region was found" },
+        { status: 400 },
+      )
+    }
+
+    const associatedCaseStudies = await getCaseStudyByEPARegionSlug(
+      selectedRegion.slug,
+    )
+
+    console.log({ associatedCaseStudies })
+  }
+
+  console.log({ regions })
 
   const result = z.string().safeParse(region)
 
@@ -45,7 +68,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // TODO: Remove this once we have real data
   await wait()
 
-  const filteredCaseStudies = getCaseStudiesByRegion(selectedRegion)
+  const filteredCaseStudies = getMockCaseStudiesByRegion(selectedRegion)
 
   return json(
     {
