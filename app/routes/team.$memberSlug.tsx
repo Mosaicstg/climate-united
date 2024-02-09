@@ -68,16 +68,17 @@ export const loader = async ({ params }: DataFunctionArgs) => {
     if (error instanceof Response) {
       const message = await error.text()
 
-      return new Response(message, { status: 404 })
+      throw new Response(message, { status: 404 })
     }
 
     if (error instanceof z.ZodError) {
       const errors = error.issues.map((error) => error.message)
+      const errorMessage = errors.join(", ")
 
-      return json({ errors }, { status: 404 })
+      throw new Response(errorMessage, { status: 404 })
     }
 
-    return json({ error }, { status: 500 })
+    throw new Response("Something went wrong!", { status: 500 })
   }
 }
 
