@@ -1,16 +1,8 @@
 import { type ActionFunctionArgs, json } from "@remix-run/node"
-import { caseStudies, wait } from "~/mocks/epa-regions"
 import { z } from "zod"
 import { type CaseStudy } from "~/models/case-study.server"
-import {
-  getEPARegions,
-  getCaseStudyByEPARegionSlug,
-} from "~/models/epa-region.server"
+import { getCaseStudyByEPARegionSlug } from "~/models/epa-region.server"
 import { isRouteErrorResponse } from "@remix-run/react"
-
-function getMockCaseStudiesByRegion(region: string) {
-  return caseStudies.filter((cs) => cs.region === region)
-}
 
 export type EPARegionActionResponse =
   | {
@@ -28,7 +20,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   try {
     const formData = await request.formData()
 
-    const region = formData.get("region")
+    const region = formData.get("region") || ""
 
     if (!region) {
       return json(
@@ -37,40 +29,26 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       )
     }
 
-    const regions = await getEPARegions()
-
-    if (regions.length > 0) {
-      const selectedRegion = regions[0]
-
-      if (!selectedRegion) {
-        return json(
-          { success: false, error: "No region was found" },
-          { status: 400 },
-        )
-      }
-
-      const associatedCaseStudies = await getCaseStudyByEPARegionSlug(
-        selectedRegion.slug,
-      )
-
-      console.log({ associatedCaseStudies })
-    }
-
-    console.log({ regions })
-
     const result = z.string().safeParse(region)
 
     if (!result.success) {
-      return json({ success: false, error: "Invalid region" }, { status: 400 })
+      return json(
+        { success: false, error: "Invalid selected region" },
+        { status: 400 },
+      )
     }
 
     const { data: selectedRegion } = result
 
-    // The following is used to simulate a slow network request
-    // TODO: Remove this once we have real data
-    await wait()
+    const filteredCaseStudies =
+      await getCaseStudyByEPARegionSlug(selectedRegion)
 
-    const filteredCaseStudies = getMockCaseStudiesByRegion(selectedRegion)
+    if (filteredCaseStudies.length === 0) {
+      return json(
+        { success: false, error: "No case studies found for selected region" },
+        { status: 404 },
+      )
+    }
 
     return json(
       {
@@ -78,7 +56,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         data: {
           caseStudies: filteredCaseStudies,
         },
-      },
+      } as const,
       {
         headers: {
           "Cache-Control": "public, max-age=3600",
@@ -89,7 +67,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (error instanceof Response) {
       const message = await error.text()
 
-      return json({ success: false, error: message }, { status: error.status })
+      return json(
+        {
+          success: false,
+          error: message,
+        },
+        { status: error.status },
+      )
     }
 
     if (isRouteErrorResponse(error)) {
@@ -109,6 +93,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         { status: 400 },
       )
     }
+
+    console.error("An unexpected error occurred", error)
 
     return json(
       { success: false, error: "An unexpected error occurred" },
