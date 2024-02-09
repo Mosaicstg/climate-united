@@ -10,6 +10,7 @@
       "DOM.Iterable",
       "ES2019"
     ],
+    "module": "esnext",
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -20,6 +21,8 @@
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
       "~/*": [
