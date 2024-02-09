@@ -1,7 +1,7 @@
 import { type TeamMember } from "~/models/team-member.server"
 import { motion, useReducedMotion } from "framer-motion"
 
-type TeamMemberProps = TeamMember & {
+type TeamMemberProps = Omit<TeamMember, "seo" | "mainContent"> & {
   borderColor: string
 }
 
@@ -40,7 +40,7 @@ export function TeamMember({
         <p className="leading-tight">{position}</p>
         <p className="leading-tight">{department}</p>
         <p className="mt-4 leading-tight">
-          <a className="font-bold uppercase text-green" href={slug}>
+          <a className="font-bold uppercase text-green" href={`team/${slug}`}>
             Read More
           </a>
         </p>
