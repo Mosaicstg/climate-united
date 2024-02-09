@@ -6,7 +6,7 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import { SEOSchema } from "~/models/seo.server"
 
 export const TeamMemberSchema = z.object({
-  slug: z.string(),
+  slug: z.string().nullable(),
   name: z.string(),
   position: z.string(),
   department: z.string(),

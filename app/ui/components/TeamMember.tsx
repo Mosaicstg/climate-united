@@ -39,11 +39,13 @@ export function TeamMember({
         <p className="font-bold">{name}</p>
         <p className="leading-tight">{position}</p>
         <p className="leading-tight">{department}</p>
-        <p className="mt-4 leading-tight">
-          <a className="font-bold uppercase text-green" href={`team/${slug}`}>
-            Read More
-          </a>
-        </p>
+        {slug ? (
+          <p className="mt-4 leading-tight">
+            <a className="font-bold uppercase text-green" href={`team/${slug}`}>
+              Read More
+            </a>
+          </p>
+        ) : null}
       </div>
     </motion.div>
   )

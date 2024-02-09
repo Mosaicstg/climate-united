@@ -20,6 +20,8 @@ import type { RootLoader } from "~/root"
 import { getSocialMetas } from "~/utils/seo"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
+import { z } from "zod"
+import { err } from "@remix-run/dev/dist/result"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -53,12 +55,30 @@ export const loader = async ({ params }: DataFunctionArgs) => {
 
   invariantResponse(memberSlug, "Page slug not found.", { status: 404 })
 
-  const member = await getTeamMemberBySlug(memberSlug)
-  const response = TeamMemberSchema.safeParse(member)
+  try {
+    const member = await getTeamMemberBySlug(memberSlug)
 
-  invariantResponse(response.success, "Member not found.", { status: 404 })
+    invariantResponse(member, "Member not found.", { status: 404 })
 
-  return json({ post: response.data })
+    return json({ post: member })
+  } catch (error) {
+    // Log this on the server
+    console.error(error)
+
+    if (error instanceof Response) {
+      const message = await error.text()
+
+      return new Response(message, { status: 404 })
+    }
+
+    if (error instanceof z.ZodError) {
+      const errors = error.issues.map((error) => error.message)
+
+      return json({ errors }, { status: 404 })
+    }
+
+    return json({ error }, { status: 500 })
+  }
 }
 
 export const handle: SEOHandle = {
