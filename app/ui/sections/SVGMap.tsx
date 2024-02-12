@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 import { type EPARegionActionResponse } from "~/routes/action.epa-region"
+import { EPARegionSVGMap } from "~/ui/components/EPARegionSVGMap"
 
 type SectionTextImageProps = SectionTextImage
 
@@ -60,16 +61,18 @@ export function SVGMapSection({
 
   useResize(resizeListener)
 
-  const handleModalContentSelection = () => {
+  const handleModalContentSelection = (region: string) => {
     const formData = new FormData()
-    const region = randomRegion() || ""
+    let selectedRegion = region || ""
 
-    formData.set("region", region)
+    formData.set("region", selectedRegion)
 
     epaRegionFetcher.submit(formData, {
       action: "action/epa-region",
       method: "post",
     })
+
+    console.log("selectedRegion", selectedRegion)
 
     setIsModalOpen(true)
   }
@@ -89,29 +92,12 @@ export function SVGMapSection({
     setIsModalOpen(open)
   }
 
-  const { url, description, width, height } = featuredImage
-
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-5">
         <div className="mx-auto max-w-screen-lg py-12">
           <epaRegionFetcher.Form method="post" action="/action/epa-region">
-            <motion.img
-              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                ease: "linear",
-                duration: 0.5,
-                delay: 0.5,
-              }}
-              className="mb-12 hidden w-full md:block"
-              src={url}
-              alt={description || ""}
-              width={width}
-              height={height}
-              onClick={handleModalContentSelection}
-            />
+            <EPARegionSVGMap onClick={handleModalContentSelection} />
             <motion.div
               initial={{
                 opacity: prefersReducedMotion ? 1 : 0,

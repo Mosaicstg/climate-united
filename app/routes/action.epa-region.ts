@@ -1,4 +1,8 @@
-import { type ActionFunctionArgs, json } from "@remix-run/node"
+import {
+  type ActionFunctionArgs,
+  type TypedResponse,
+  json,
+} from "@remix-run/node"
 import { z } from "zod"
 import { type CaseStudy } from "~/models/case-study.server"
 import { getCaseStudyByEPARegionSlug } from "~/models/epa-region.server"
@@ -16,7 +20,9 @@ export type EPARegionActionResponse =
       error: string
     }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({
+  request,
+}: ActionFunctionArgs): Promise<TypedResponse<EPARegionActionResponse>> => {
   try {
     const formData = await request.formData()
 
