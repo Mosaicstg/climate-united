@@ -37,7 +37,15 @@ export async function getEPARegions(limit: number = 10) {
 
   const epaRegions = response.data.epaRegionCollection.items
 
-  return validateWithSchema(EPARegionSchema.array(), epaRegions)
+  const result = EPARegionSchema.array().safeParse(epaRegions);
+
+  if (!result.success) {
+    console.error("Failed to validate EPA regions", result.error)
+
+    return []
+  }
+
+  return result.data
 }
 
 /**
