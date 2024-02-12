@@ -32,9 +32,6 @@ export const EPARegionSVGMap = ({
         groupID = group.id
       }
 
-      // TODO: Update modal title with selected region name
-      // TODO: query API for lists of regions
-
       if (!groupID) {
         return
       }
