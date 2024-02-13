@@ -1,8 +1,5 @@
 import type { SectionTextImage } from "~/schemas/sections/section.text-image.server"
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import type { Block, Inline } from "@contentful/rich-text-types"
-import { BLOCKS, INLINES } from "@contentful/rich-text-types"
-import { useState, type ReactNode, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import {
   Dialog,
@@ -11,8 +8,7 @@ import {
   DialogOverlay,
   DialogTitle,
 } from "~/components/ui/dialog"
-import { useFetcher } from "@remix-run/react"
-import { randomRegion, regions } from "~/mocks/epa-regions"
+import { useFetcher, useLoaderData } from "@remix-run/react"
 import { RefreshCcw } from "lucide-react"
 import { ScrollArea } from "~/components/ui/scroll-area"
 import {
@@ -22,7 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
-import { type EPARegionActionResponse } from "~/routes/action.epa-region"
+import { type action as epaAction } from "~/routes/action.epa-region"
+import { EPARegionSVGMap } from "~/ui/components/EPARegionSVGMap"
+import type { loader as indexLoader } from "~/routes/_index"
 
 type SectionTextImageProps = SectionTextImage
 
@@ -36,21 +34,17 @@ const useResize = (callback: () => void) => {
   }, [callback])
 }
 
-export function SVGMapSection({
-  title,
-  mainContent,
-  featuredImage,
-}: SectionTextImageProps) {
-  const epaRegionFetcher = useFetcher<EPARegionActionResponse>({
+export function SVGMapSection({ title }: SectionTextImageProps) {
+  const { regions } = useLoaderData<typeof indexLoader>()
+  const epaRegionFetcher = useFetcher<typeof epaAction>({
     key: "epa-region",
   })
+  const [selectedRegionName, setSelectedRegionName] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
   const prefersReducedMotion = useReducedMotion()
   const epaRegionDataIsLoading =
     "loading" === epaRegionFetcher.state ||
     "submitting" === epaRegionFetcher.state
-      ? true
-      : false
 
   const resizeListener = useCallback(() => {
     if (window.innerWidth < 768) {
@@ -60,77 +54,53 @@ export function SVGMapSection({
 
   useResize(resizeListener)
 
-  const handleModalContentSelection = () => {
+  const handleModalContentSelection = (region: string) => {
     const formData = new FormData()
-    const region = randomRegion() || ""
+    let selectedRegion = region || ""
 
-    formData.set("region", region)
+    formData.set("region", selectedRegion)
 
     epaRegionFetcher.submit(formData, {
       action: "action/epa-region",
       method: "post",
     })
 
+    setSelectedRegionName(() => {
+      return regions.find((r) => r.slug === selectedRegion)?.name || ""
+    })
     setIsModalOpen(true)
   }
 
-  const handleRegionSelection = (value: string) => {
+  const handleRegionSelection = (region: string) => {
     const formData = new FormData()
+    let selectedRegion = region || ""
 
-    formData.set("region", value)
+    formData.set("region", selectedRegion)
 
     epaRegionFetcher.submit(formData, {
       action: "action/epa-region",
       method: "post",
     })
+
+    setSelectedRegionName(() => {
+      return regions.find((r) => r.slug === selectedRegion)?.name || ""
+    })
+    setIsModalOpen(false)
   }
 
   const onOpenChange = (open: boolean) => {
     setIsModalOpen(open)
   }
 
-  const { url, description, width, height } = featuredImage
-
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-5">
         <div className="mx-auto max-w-screen-lg py-12">
+          <h2 className="mb-4 text-center text-2xl font-bold md:text-3xl">
+            {title}
+          </h2>
           <epaRegionFetcher.Form method="post" action="/action/epa-region">
-            <motion.img
-              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                ease: "linear",
-                duration: 0.5,
-                delay: 0.5,
-              }}
-              className="mb-12 hidden w-full md:block"
-              src={url}
-              alt={description || ""}
-              width={width}
-              height={height}
-              onClick={handleModalContentSelection}
-            />
-            <motion.div
-              initial={{
-                opacity: prefersReducedMotion ? 1 : 0,
-                bottom: prefersReducedMotion ? "0" : "-5rem",
-              }}
-              whileInView={{ opacity: 1, bottom: "0" }}
-              viewport={{ once: true }}
-              transition={{
-                ease: "linear",
-                duration: 0.5,
-                delay: 0.5,
-              }}
-              className="relative"
-            >
-              {documentToReactComponents(
-                mainContent.json,
-                richTextRenderOptions,
-              )}
-            </motion.div>
+            <EPARegionSVGMap onClick={handleModalContentSelection} />
             <div className="mt-8 text-left md:hidden">
               <Select onValueChange={handleRegionSelection}>
                 <SelectTrigger className="border-darkBlue text-lg focus:ring-green">
@@ -148,8 +118,12 @@ export function SVGMapSection({
                   }}
                 >
                   {regions.map((region, index) => (
-                    <SelectItem className="text-md" key={index} value={region}>
-                      {region}
+                    <SelectItem
+                      className="text-md"
+                      key={index}
+                      value={region.slug}
+                    >
+                      {region.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -198,7 +172,11 @@ export function SVGMapSection({
             <DialogContent className="hidden max-w-2xl border-green bg-white md:block">
               <DialogHeader>
                 <DialogTitle>
-                  <p className="mb-10 text-2xl">EPA Case Studies</p>
+                  <p className="mb-10 text-2xl">
+                    {selectedRegionName
+                      ? `${selectedRegionName}: Case Studies`
+                      : "EPA Region Case Studies"}
+                  </p>
                 </DialogTitle>
               </DialogHeader>
               {epaRegionDataIsLoading ? (
@@ -226,25 +204,4 @@ export function SVGMapSection({
       </section>
     </>
   )
-}
-
-export const richTextRenderOptions = {
-  renderNode: {
-    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
-      const { data } = node
-      const { uri } = data
-      return (
-        <a
-          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen"
-          rel="noreferrer"
-          href={uri}
-        >
-          {children}
-        </a>
-      )
-    },
-    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return <p className="text-lg">{children}</p>
-    },
-  },
 }
