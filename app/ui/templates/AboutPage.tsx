@@ -61,6 +61,7 @@ export function AboutPage({
                   <CaseStudy
                     key={caseStudy.title}
                     title={caseStudy.title}
+                    slug={caseStudy.slug}
                     headline={caseStudy.headline}
                     excerpt={caseStudy.excerpt}
                     featuredImage={caseStudy.featuredImage}

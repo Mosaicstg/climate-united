@@ -3,12 +3,16 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
+import { SEOSchema } from "~/models/seo.server"
 
 export const CaseStudySchema = z.object({
+  slug: z.string().nullable().optional(),
   title: z.string(),
   headline: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
-  featuredImage: ImageSchema.nullable().optional(),
+  mainContent: RichTextSchema.nullable().optional(),
+  featuredImage: ImageSchema,
+  seo: SEOSchema.nullable().optional(),
 })
 
 export const CaseStudiesSchema = z.array(CaseStudySchema)
@@ -19,6 +23,7 @@ export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
   const query = `
     query {
         caseStudy(id: "${id}") {
+            slug
             title
             headline
             excerpt {
@@ -47,13 +52,12 @@ export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
   return validateWithSchema(CaseStudySchema, caseStudy)
 }
 
-export async function getCaseStudies(
-  count: number = 10,
-): Promise<Array<CaseStudy>> {
+export async function getCaseStudies(count: number = 10) {
   const query = `
         query {
             caseStudyCollection(limit: ${count}, order: sys_publishedAt_DESC) {
                 items {
+                    slug
                     title
                     headline
                     excerpt {
@@ -83,4 +87,52 @@ export async function getCaseStudies(
   const caseStudies = response.data.caseStudyCollection.items
 
   return validateWithSchema(CaseStudiesSchema, caseStudies)
+}
+
+export async function getCaseStudyBySlug(slug: string) {
+  const query = `query {
+        caseStudyCollection(where: { slug: "${slug}" }) {
+            items {
+                slug
+                title
+                headline
+                mainContent {
+                    json
+                }
+                featuredImage {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                }
+                seo {
+                  title
+                  excerpt
+                  image {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
+                  keywords
+                }
+            }
+        }
+    }`
+
+  const response = await typedFetchGraphQL<{
+    caseStudyCollection: { items: Array<CaseStudy> }
+  }>(query)
+
+  if (!response.data) {
+    console.error(`Error for Case Study with slug: ${slug}`, response.errors)
+
+    return null
+  }
+
+  const study = response.data.caseStudyCollection.items[0]
+  console.log(study)
+  return validateWithSchema(CaseStudySchema, study)
 }
