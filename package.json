@@ -14,6 +14,8 @@
     "eslint": "eslint --ext .js,.jsx,.ts,.tsx . --fix"
   },
   "dependencies": {
+    "@conform-to/react": "^1.0.1",
+    "@conform-to/zod": "^1.0.1",
     "@contentful/rich-text-react-renderer": "^15.19.0",
     "@contentful/rich-text-types": "^16.3.0",
     "@nasa-gcn/remix-seo": "^2.0.0",
@@ -22,9 +24,11 @@
     "@remix-run/css-bundle": "^2.3.1",
     "@remix-run/react": "^2.3.1",
     "cross-env": "^7.0.3",
+    "crypto-js": "^4.2.0",
     "framer-motion": "^11.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "remix-utils": "^7.5.0",
     "shx": "^0.3.4",
     "zod": "^3.22.4"
   },
