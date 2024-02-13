@@ -74,7 +74,7 @@ export function NewsletterSignUp() {
               {fields.email.errors}
             </div>
             {!hasErrors && fetcher.data && !fetcher.data.initialValue ? (
-              <p className="italic">
+              <p aria-live="polite" className="italic">
                 You've successfully subscribed to our newsletter!
               </p>
             ) : null}

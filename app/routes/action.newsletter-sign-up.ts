@@ -21,6 +21,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
+  // TODO: Send the email to the newsletter service
+  // TODO: Will use Campaign Monitor
+
   console.log("Newsletter sign up successful!", submission.value)
 
   return submission.reply({ resetForm: true })
