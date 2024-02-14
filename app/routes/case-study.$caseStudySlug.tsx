@@ -7,11 +7,8 @@ import {
 import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
-import {
-  getTeamMemberBySlug,
-  getTeamMembers,
-} from "~/models/team-member.server"
-import { TeamMember } from "~/ui/templates/TeamMember"
+import { getCaseStudies, getCaseStudyBySlug } from "~/models/case-study.server"
+import { CaseStudy } from "~/ui/templates/CaseStudy"
 import { invariantResponse } from "~/utils/invariant.server"
 import { GeneralErrorBoundary } from "~/routes/$"
 import { Show404 } from "~/ui/templates/404"
@@ -49,16 +46,16 @@ export const richTextRenderOptions = {
 }
 
 export const loader = async ({ params }: DataFunctionArgs) => {
-  const { memberSlug } = params
+  const { caseStudySlug } = params
 
-  invariantResponse(memberSlug, "Page slug not found.", { status: 404 })
+  invariantResponse(caseStudySlug, "Page slug not found.", { status: 404 })
 
   try {
-    const member = await getTeamMemberBySlug(memberSlug)
+    const study = await getCaseStudyBySlug(caseStudySlug)
 
-    invariantResponse(member, "Member not found.", { status: 404 })
+    invariantResponse(study, "Case Study not found.", { status: 404 })
 
-    return json({ post: member })
+    return json({ post: study })
   } catch (error) {
     // Log this on the server
     console.error(error)
@@ -82,9 +79,9 @@ export const loader = async ({ params }: DataFunctionArgs) => {
 
 export const handle: SEOHandle = {
   getSitemapEntries: async (request) => {
-    const team = await getTeamMembers(100)
-    return team.map((post) => ({
-      route: `/team/${post.slug}`,
+    const studies = await getCaseStudies(100)
+    return studies.map((post) => ({
+      route: `/case-study/${post.slug}`,
       priority: 0.7,
     }))
   },
@@ -102,7 +99,7 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
     ...(data
       ? [
           ...getSocialMetas({
-            title: `${data.post.seo?.title ? data.post.seo.title : data.post.name} - Team - Climate United`,
+            title: `${data.post.seo?.title ? data.post.seo.title : data.post.title} - Case Studies - Climate United`,
             url: `${domainURL}${pathname}`,
             image: `${data.post.seo?.image.url ? data.post.seo.image.url : ""}`,
             description: `${data.post.seo?.excerpt ? data.post.seo?.excerpt : ""}`,
@@ -113,15 +110,14 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   ]
 }
 
-export default function Member() {
+export default function Study() {
   const { post } = useLoaderData<typeof loader>()
 
   return (
-    <TeamMember
+    <CaseStudy
       slug={post.slug}
-      name={post.name}
-      position={post.position}
-      department={post.department}
+      title={post.title}
+      headline={post.headline}
       mainContent={post.mainContent}
       featuredImage={post.featuredImage}
       seo={post.seo}

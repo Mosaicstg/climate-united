@@ -6,6 +6,7 @@ import { TextImageSection } from "~/ui/sections/TextImage"
 import { NewsPressReleasesSection } from "~/ui/sections/NewsPressReleases"
 import { EventsResourcesSection } from "~/ui/sections/EventsResources"
 import { BucketGridSection } from "~/ui/sections/BucketGrid"
+import { SocialMediaCtaSection } from "~/ui/sections/SocialMediaCta"
 import Header from "~/ui/components/Header"
 
 type LandingPageProps = LandingPage
@@ -80,6 +81,17 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
                   headlineResources={section.headlineResources}
                   resourcesCollection={section.resourcesCollection}
                   featuredImage={section.featuredImage}
+                />
+              )
+            case "SectionSocialMediaCta":
+              return (
+                <SocialMediaCtaSection
+                  key={`${section.title}-${index}}`}
+                  title={section.title}
+                  headline={section.headline}
+                  socialMediaLinksCollection={
+                    section.socialMediaLinksCollection
+                  }
                 />
               )
             case "SectionNewsPressReleases":

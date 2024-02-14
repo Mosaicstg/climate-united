@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion"
 type CaseStudyProps = CaseStudy
 
 export function CaseStudy({
+  slug,
   title,
   headline,
   excerpt,

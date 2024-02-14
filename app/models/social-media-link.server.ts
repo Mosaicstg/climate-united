@@ -1,6 +1,6 @@
 import { typedFetchGraphQL } from "~/services/contentful.server"
-import { z } from "zod"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
+import { z } from "zod"
 
 export const SocialMediaLinkSchema = z.object({
   platform: z.string(),
@@ -11,29 +11,27 @@ export const SocialMediaLinksSchema = SocialMediaLinkSchema.array()
 
 export type SocialMediaLink = z.infer<typeof SocialMediaLinkSchema>
 
-export async function getSocialMediaLinks() {
-  const query = `
-       query {
-            socialMediaLinkCollection(limit: 6, order: [platform_ASC]) {
-                items {
-                    platform
-                    url
-                }
+export async function getSocialMediaLinks(count: number = 10) {
+  const query = `query {
+        socialMediaLinkCollection(limit: ${count}) {
+            items {
+                platform
+                url
             }
         }
-    `
+    }`
 
   const response = await typedFetchGraphQL<{
     socialMediaLinkCollection: { items: Array<SocialMediaLink> }
   }>(query)
 
   if (!response.data) {
-    console.error("Failed to fetch social media links", response.errors)
+    console.error(`Error for Social Media Links`, response.errors)
 
     return []
   }
 
-  const socialMediaLinks = response.data.socialMediaLinkCollection.items
+  const links = response.data.socialMediaLinkCollection.items
 
-  return validateWithSchema(SocialMediaLinksSchema, socialMediaLinks)
+  return validateWithSchema(SocialMediaLinksSchema, links)
 }
