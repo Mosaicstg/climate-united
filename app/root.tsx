@@ -13,6 +13,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
 import { withDevTools } from "remix-development-tools"
@@ -23,6 +24,8 @@ import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"
 import { Show404 } from "./ui/templates/404"
 import { Show500 } from "./ui/templates/500"
+import { honeypot } from "./utils/honeypot.server"
+import { HoneypotProvider } from "remix-utils/honeypot/react"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
@@ -111,12 +114,20 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request }: DataFunctionArgs) => {
   const socialMedialLinks = await getSocialMediaLinks()
 
-  return json({ socialMedialLinks, domainURL: getDomainUrl(request) }, {})
+  return json(
+    {
+      socialMedialLinks,
+      domainURL: getDomainUrl(request),
+      honeypotInputProps: honeypot.getInputProps(),
+    },
+    {},
+  )
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
-    "Cache-Control": "public, max-age=600, must-revalidate, s-maxage=600, stale-while-revalidate=3600",
+    "Cache-Control":
+      "public, max-age=600, must-revalidate, s-maxage=600, stale-while-revalidate=3600",
     ...loaderHeaders,
   }
 }
@@ -138,6 +149,8 @@ if (process.env.NODE_ENV === "development") {
 export default AppExport
 
 function App() {
+  const { honeypotInputProps } = useLoaderData<RootLoader>()
+
   return (
     <html lang="en">
       <head>
@@ -167,8 +180,10 @@ function App() {
         ></script>
       </head>
       <body>
-        <Outlet />
-        <Footer />
+        <HoneypotProvider {...honeypotInputProps}>
+          <Outlet />
+          <Footer />
+        </HoneypotProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
