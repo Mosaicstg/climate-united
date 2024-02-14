@@ -33,8 +33,14 @@ export function SocialMediaCtaSection({
             >
               <h2 className="mb-6 text-3xl font-bold">{headline}</h2>
               <ul className="flex gap-4">
-                {socialMediaLinksCollection.items.map((link) => {
-                  return <SocialLink platform={link.platform} url={link.url} />
+                {socialMediaLinksCollection.items.map((link, index) => {
+                  return (
+                    <SocialLink
+                      key={index}
+                      platform={link.platform}
+                      url={link.url}
+                    />
+                  )
                 })}
               </ul>
             </motion.div>
