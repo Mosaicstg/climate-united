@@ -126,8 +126,10 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
-    "Cache-Control":
-      "public, max-age=600, must-revalidate, s-maxage=600, stale-while-revalidate=3600",
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    // Fresh for 10 minutes, then stale for a week while it revalidates on Netlify's CDN
+    "Netlify-CDN-Cache-Control":
+      "public, s-maxage=600, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
