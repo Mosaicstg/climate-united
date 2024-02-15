@@ -63,9 +63,9 @@ function renderOptions(links: z.infer<typeof LinksSchema>) {
           <div className="my-6 w-full">
             <figure>
               <picture>
-                <source type="image/avif" srcSet={`${url}?fm=avif`} />
-                <source type="image/webp" srcSet={`${url}?fm=webp`} />
-                <source type="image/webp" srcSet={`${url}?fm=png`} />
+                <source type="image/avif" srcSet={`${url}?fm=avif&w=2000`} />
+                <source type="image/webp" srcSet={`${url}?fm=webp&w=2000`} />
+                <source type="image/webp" srcSet={`${url}?fm=png&w=2000`} />
                 <motion.img
                   src={url}
                   alt={title}
