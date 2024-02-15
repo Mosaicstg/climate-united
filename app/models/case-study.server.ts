@@ -1,6 +1,10 @@
 import { z } from "zod"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
-import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
+import {
+  LinksSchema,
+  RichTextSchema,
+  createRichTextSchemaWithEmbeddedAssets,
+} from "~/schemas/contentful-fields/rich-text.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { SEOSchema } from "~/models/seo.server"
@@ -10,7 +14,13 @@ export const CaseStudySchema = z.object({
   title: z.string(),
   headline: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
-  mainContent: RichTextSchema.nullable().optional(),
+  mainContent: createRichTextSchemaWithEmbeddedAssets(
+    z.object({
+      links: LinksSchema,
+    }),
+  )
+    .nullable()
+    .optional(),
   featuredImage: ImageSchema,
   seo: SEOSchema.nullable().optional(),
 })
@@ -91,20 +101,35 @@ export async function getCaseStudies(count: number = 10) {
 
 export async function getCaseStudyBySlug(slug: string) {
   const query = `query {
-        caseStudyCollection(where: { slug: "${slug}" }) {
+        caseStudyCollection(where: { slug: "${slug}" }, limit: 1) {
             items {
                 slug
                 title
                 headline
                 mainContent {
-                    json
+                  json
+                  links {
+                    assets {
+                      block {
+                        sys {
+                          id
+                        }
+                        url
+                        title
+                        width
+                        height
+                        description
+                        fileName
+                      }
+                    }
+                  }
                 }
                 featuredImage {
-                    fileName
-                    url
-                    description
-                    width
-                    height
+                  fileName
+                  url
+                  description
+                  width
+                  height
                 }
                 seo {
                   title
@@ -133,6 +158,6 @@ export async function getCaseStudyBySlug(slug: string) {
   }
 
   const study = response.data.caseStudyCollection.items[0]
-  console.log(study)
+
   return validateWithSchema(CaseStudySchema, study)
 }

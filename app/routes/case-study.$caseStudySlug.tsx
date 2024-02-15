@@ -1,12 +1,5 @@
-import {
-  BLOCKS,
-  INLINES,
-  type Block,
-  type Inline,
-} from "@contentful/rich-text-types"
 import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { type ReactNode } from "react"
 import { getCaseStudies, getCaseStudyBySlug } from "~/models/case-study.server"
 import { CaseStudy } from "~/ui/templates/CaseStudy"
 import { invariantResponse } from "~/utils/invariant.server"
@@ -17,33 +10,6 @@ import { getSocialMetas } from "~/utils/seo"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
 import { z } from "zod"
-
-export const richTextRenderOptions = {
-  renderNode: {
-    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
-      const { data } = node
-      const { uri } = data
-      return (
-        <a
-          className="text-primary underline dark:text-gray-400"
-          target="_blank"
-          rel="noreferrer"
-          href={uri}
-        >
-          {children}
-        </a>
-      )
-    },
-    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return (
-        <p className="mb-4 text-base leading-relaxed text-black">{children}</p>
-      )
-    },
-    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
-    },
-  },
-}
 
 export const loader = async ({ params }: DataFunctionArgs) => {
   const { caseStudySlug } = params
