@@ -13,6 +13,11 @@ import type {
 
 type CaseStudyProps = CaseStudy
 
+/**
+ * Render options for the rich text renderer and the linked assets
+ *
+ * @link https://www.contentful.com/developers/docs/concepts/rich-text/#rendering-the-rich-text-response-from-the-graphql-api-with-linked-assets-and-entries-on-the-front-end
+ */
 function renderOptions(links: z.infer<typeof LinksSchema>) {
   // create an asset map
   const assetMap = new Map<string, z.infer<typeof AssetLinkSchema>>()
