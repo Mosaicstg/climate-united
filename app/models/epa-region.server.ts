@@ -1,14 +1,25 @@
 import { z } from "zod"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
-import { type CaseStudy, CaseStudySchema } from "./case-study.server"
+import { type CaseStudy } from "./case-study.server"
 
 export const EPARegionSchema = z.object({
   name: z.string(),
   slug: z.string(),
+  description: z.string().optional().nullable(),
 })
 
 export type EPARegion = z.infer<typeof EPARegionSchema>
+
+export const CaseStudyByRepaRegionSchema = z.object({
+  title: z.string(),
+  slug: z.string(),
+  headline: z.string(),
+  epaRegion: z.object({
+    name: z.string(),
+    description: z.string().optional().nullable(),
+  }),
+})
 
 /**
  * @throws {Response} If the fetch fails or the response is not valid
@@ -20,6 +31,7 @@ export async function getEPARegions(limit: number = 10) {
                 items {
                     name
                     slug
+                    description
                 }
             }
         }
@@ -37,7 +49,7 @@ export async function getEPARegions(limit: number = 10) {
 
   const epaRegions = response.data.epaRegionCollection.items
 
-  const result = EPARegionSchema.array().safeParse(epaRegions);
+  const result = EPARegionSchema.array().safeParse(epaRegions)
 
   if (!result.success) {
     console.error("Failed to validate EPA regions", result.error)
@@ -56,6 +68,7 @@ export async function getCaseStudyByEPARegionSlug(slug: string) {
         caseStudyCollection( where: { epaRegion: { slug: "${slug}" } }, order: sys_publishedAt_DESC) {
             items {
                 title
+                slug
                 headline
                 epaRegion {
                     name
@@ -79,5 +92,5 @@ export async function getCaseStudyByEPARegionSlug(slug: string) {
 
   const caseStudies = response.data.caseStudyCollection.items
 
-  return validateWithSchema(CaseStudySchema.passthrough().array(), caseStudies)
+  return validateWithSchema(CaseStudyByRepaRegionSchema.array(), caseStudies)
 }
