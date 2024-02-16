@@ -1,10 +1,96 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { richTextRenderOptions } from "~/routes/case-study.$caseStudySlug"
 import { type CaseStudy } from "~/models/case-study.server"
 import Header from "~/ui/components/Header"
 import { motion, useReducedMotion } from "framer-motion"
+import type { Block, Inline } from "@contentful/rich-text-types"
+import { BLOCKS, INLINES } from "@contentful/rich-text-types"
+import type { z } from "zod"
+import type { ReactNode } from "react"
+import type {
+  AssetLinkSchema,
+  LinksSchema,
+} from "~/schemas/contentful-fields/rich-text.server"
 
 type CaseStudyProps = CaseStudy
+
+/**
+ * Render options for the rich text renderer and the linked assets
+ *
+ * @link https://www.contentful.com/developers/docs/concepts/rich-text/#rendering-the-rich-text-response-from-the-graphql-api-with-linked-assets-and-entries-on-the-front-end
+ */
+function renderOptions(links: z.infer<typeof LinksSchema>) {
+  // create an asset map
+  const assetMap = new Map<string, z.infer<typeof AssetLinkSchema>>()
+
+  // loop through the assets and add them to the map
+  for (const asset of links.assets.block) {
+    assetMap.set(asset.sys.id, asset)
+  }
+
+  return {
+    renderNode: {
+      [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
+        const { data } = node
+        const { uri } = data
+        return (
+          <a
+            className="text-primary underline dark:text-gray-400"
+            target="_blank"
+            rel="noreferrer"
+            href={uri}
+          >
+            {children}
+          </a>
+        )
+      },
+      [BLOCKS.PARAGRAPH]: (_: Block | Inline, children: ReactNode) => {
+        return (
+          <p className="mb-4 text-base leading-relaxed text-black">
+            {children}
+          </p>
+        )
+      },
+      [BLOCKS.HEADING_2]: (_: Block | Inline, children: ReactNode) => {
+        return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
+      },
+      [BLOCKS.EMBEDDED_ASSET]: (node: Block | Inline) => {
+        const { data } = node
+        const { target } = data
+        const asset = assetMap.get(target.sys.id)
+
+        if (!asset) {
+          return null
+        }
+
+        const { title, description, url, width, height } = asset
+
+        return (
+          <div className="my-6 w-full">
+            <figure>
+              <picture>
+                <source type="image/avif" srcSet={`${url}?fm=avif&w=2000`} />
+                <source type="image/webp" srcSet={`${url}?fm=webp&w=2000`} />
+                <source type="image/webp" srcSet={`${url}?fm=png&w=2000`} />
+                <motion.img
+                  src={url}
+                  alt={title}
+                  className="w-full overflow-hidden rounded-xl border"
+                  width={width}
+                  height={height}
+                />
+              </picture>
+              {description ? (
+                <figcaption className="bg-gray-100 p-4 text-center dark:bg-gray-800">
+                  {description}
+                </figcaption>
+              ) : null}
+            </figure>
+          </div>
+        )
+      },
+    },
+  }
+}
 
 export function CaseStudy({
   headline,
@@ -40,7 +126,10 @@ export function CaseStudy({
             {headline}
           </h1>
           {mainContent
-            ? documentToReactComponents(mainContent.json, richTextRenderOptions)
+            ? documentToReactComponents(
+                mainContent.json,
+                renderOptions(mainContent?.links),
+              )
             : null}
         </div>
       </main>
