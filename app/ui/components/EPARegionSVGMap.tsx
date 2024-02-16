@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from "framer-motion"
-import { type ElementRef, useEffect, useRef } from "react"
 
 type EPARegionSVGMapProps = {
   onClick: (region: string) => void
@@ -9,56 +8,52 @@ export const EPARegionSVGMap = ({
   onClick = () => {},
 }: EPARegionSVGMapProps) => {
   const prefersReducedMotion = useReducedMotion()
-  const svgRef = useRef<ElementRef<"svg">>(null)
 
-  useEffect(() => {
-    const svg = svgRef.current
+  function handleClick(
+    event: React.MouseEvent<SVGElement> | React.KeyboardEvent<SVGElement>,
+  ) {
+    const target = event.target
 
-    if (!svg) {
+    if (target === null) {
       return
     }
 
-    const handleRegionClick = (event: MouseEvent | KeyboardEvent) => {
-      const target = event.target as SVGElement
-      let groupID: string | null = null
-
-      if (target.tagName === "g") {
-        groupID = target.id
-      }
-
-      const group = target.closest("g")
-
-      if (group) {
-        groupID = group.id
-      }
-
-      if (!groupID) {
-        return
-      }
-
-      if (!groupID.startsWith("region-")) {
-        return
-      }
-
-      onClick(groupID)
+    if (!(target instanceof SVGElement)) {
+      return
     }
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        event.preventDefault()
+    let groupID: string | null = null
 
-        handleRegionClick(event)
-      }
+    if (target.tagName === "g") {
+      groupID = target.id
     }
 
-    svg.addEventListener("click", handleRegionClick)
-    svg.addEventListener("keydown", handleKeyDown)
+    const group = target.closest("g")
 
-    return () => {
-      svg.removeEventListener("click", handleRegionClick)
-      svg.removeEventListener("keydown", handleKeyDown)
+    if (group) {
+      groupID = group.id
     }
-  }, [onClick])
+
+    if (!groupID) {
+      return
+    }
+
+    if (!groupID.startsWith("region-")) {
+      return
+    }
+
+    console.log("groupID", groupID)
+
+    onClick(groupID)
+  }
+
+  function handleKeyDown(event: React.KeyboardEvent<SVGElement>) {
+    if (event.key === "Enter") {
+      event.preventDefault()
+
+      handleClick(event)
+    }
+  }
 
   return (
     <motion.div
@@ -77,7 +72,8 @@ export const EPARegionSVGMap = ({
         viewBox="0 0 1218 667"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        ref={svgRef}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
       >
         <title>EPA Regions Map</title>
         <desc>Map of the United States with EPA regions highlighted</desc>
