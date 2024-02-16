@@ -1,24 +1,25 @@
 import { motion, useReducedMotion } from "framer-motion"
+import { type ComponentProps } from "react"
+import { cn } from "~/lib/utils"
 
-type EPARegionSVGMapProps = {
+type EPARegionSVGMapProps = Omit<ComponentProps<"div">, "onClick"> & {
   onClick: (region: string) => void
 }
 
 export const EPARegionSVGMap = ({
-  onClick = () => {},
+  onClick = (region: string) => {},
+  className,
 }: EPARegionSVGMapProps) => {
   const prefersReducedMotion = useReducedMotion()
 
   function handleClick(
     event: React.MouseEvent<SVGElement> | React.KeyboardEvent<SVGElement>,
   ) {
-    const target = event.target
+    const target = event.target as SVGElement
+
+    console.log("target", target);
 
     if (target === null) {
-      return
-    }
-
-    if (!(target instanceof SVGElement)) {
       return
     }
 
@@ -29,6 +30,8 @@ export const EPARegionSVGMap = ({
     }
 
     const group = target.closest("g")
+
+    console.log("group", group);
 
     if (group) {
       groupID = group.id
@@ -65,7 +68,7 @@ export const EPARegionSVGMap = ({
         duration: 0.5,
         delay: 0.5,
       }}
-      className="epa-region-map-container"
+      className={cn(`epa-region-map-container`, className)}
     >
       <svg
         className="has block h-auto w-full"

@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogOverlay,
   DialogTitle,
@@ -18,9 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
-import { type action as epaAction } from "~/routes/action.epa-region"
 import { EPARegionSVGMap } from "~/ui/components/EPARegionSVGMap"
-import type { loader as indexLoader } from "~/routes/_index"
+import { type action as epaAction } from "~/routes/action.epa-region"
+import { type loader as indexLoader } from "~/routes/_index"
+import { cn } from "~/lib/utils"
 
 type SectionTextImageProps = SectionTextImage
 
@@ -34,14 +36,29 @@ const useResize = (callback: () => void) => {
   }, [callback])
 }
 
+type Unpacked<T> = T extends (infer U)[]
+  ? U
+  : T extends (...args: any[]) => infer U
+    ? U
+    : T extends Promise<infer U>
+      ? U
+      : T
+
 export function SVGMapSection({ title }: SectionTextImageProps) {
   const { regions } = useLoaderData<typeof indexLoader>()
+
   const epaRegionFetcher = useFetcher<typeof epaAction>({
     key: "epa-region",
   })
-  const [selectedRegionName, setSelectedRegionName] = useState("")
+
+  const [selectedRegion, setSelectedRegion] = useState<Unpacked<
+    typeof regions
+  > | null>(null)
+
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   const prefersReducedMotion = useReducedMotion()
+
   const epaRegionDataIsLoading =
     "loading" === epaRegionFetcher.state ||
     "submitting" === epaRegionFetcher.state
@@ -54,9 +71,11 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
 
   useResize(resizeListener)
 
-  const handleModalContentSelection = (region: string) => {
+  function handleModalContentSelection(region: string) {
     const formData = new FormData()
     let selectedRegion = region || ""
+
+    console.log("selectedRegion", selectedRegion)
 
     formData.set("region", selectedRegion)
 
@@ -65,13 +84,14 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
       method: "post",
     })
 
-    setSelectedRegionName(() => {
-      return regions.find((r) => r.slug === selectedRegion)?.name || ""
+    setSelectedRegion(() => {
+      return regions.find((r) => r.slug === selectedRegion) || null
     })
+
     setIsModalOpen(true)
   }
 
-  const handleRegionSelection = (region: string) => {
+  function handleRegionSelection(region: string) {
     const formData = new FormData()
     let selectedRegion = region || ""
 
@@ -82,13 +102,14 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
       method: "post",
     })
 
-    setSelectedRegionName(() => {
-      return regions.find((r) => r.slug === selectedRegion)?.name || ""
+    setSelectedRegion(() => {
+      return regions.find((r) => r.slug === selectedRegion) || null
     })
+
     setIsModalOpen(false)
   }
 
-  const onOpenChange = (open: boolean) => {
+  function onModalOpenChange(open: boolean) {
     setIsModalOpen(open)
   }
 
@@ -100,9 +121,15 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
             {title}
           </h2>
           <epaRegionFetcher.Form method="post" action="/action/epa-region">
-            <EPARegionSVGMap onClick={handleModalContentSelection} />
+            <EPARegionSVGMap
+              onClick={handleModalContentSelection}
+              className="hidden md:block"
+            />
             <div className="mt-8 text-left md:hidden">
-              <Select onValueChange={handleRegionSelection}>
+              <Select
+                onValueChange={handleRegionSelection}
+                value={selectedRegion?.slug}
+              >
                 <SelectTrigger className="border-darkBlue text-lg focus:ring-green">
                   <SelectValue placeholder="Select an EPA region" />
                 </SelectTrigger>
@@ -110,6 +137,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                   // This is a workaround for mobile device where a user selects an item
                   // and a element underneath the option is clicked/touched.
                   // @see: https://github.com/shadcn-ui/ui/issues/2620#issuecomment-1918404840
+                  className="max-w-[--radix-select-trigger-width]"
                   ref={(ref) => {
                     if (!ref) return
                     ref.ontouchstart = (e) => {
@@ -119,7 +147,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                 >
                   {regions.map((region, index) => (
                     <SelectItem
-                      className="text-md"
+                      className="text-md max-w-full"
                       key={index}
                       value={region.slug}
                     >
@@ -167,29 +195,55 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
               </div>
             </div>
           </epaRegionFetcher.Form>
-          <Dialog open={isModalOpen} onOpenChange={onOpenChange}>
+          <Dialog open={isModalOpen} onOpenChange={onModalOpenChange}>
             <DialogOverlay className="hidden bg-paleGreen/60 md:block" />
-            <DialogContent className="hidden max-w-2xl border-green bg-white md:block">
-              <DialogHeader>
+            <DialogContent
+              className={cn(
+                `hidden max-w-2xl border-green bg-white transition-opacity md:block`,
+                isModalOpen ? "opacity-100" : "opacity-0",
+              )}
+            >
+              <DialogHeader className="mb-6">
                 <DialogTitle>
-                  <p className="mb-10 text-2xl">
-                    {selectedRegionName
-                      ? `${selectedRegionName}: Case Studies`
+                  <p className="text-2xl">
+                    {selectedRegion
+                      ? `${selectedRegion.name} Case Studies`
                       : "EPA Region Case Studies"}
                   </p>
                 </DialogTitle>
+                {selectedRegion && selectedRegion.description ? (
+                  <DialogDescription>
+                    {selectedRegion.description}
+                  </DialogDescription>
+                ) : null}
               </DialogHeader>
               {epaRegionDataIsLoading ? (
                 <RefreshCcw className="color-green animate-spin" />
               ) : epaRegionFetcher.data && epaRegionFetcher.data.success ? (
-                <ScrollArea className="h-[350px]">
-                  <ul className="flex flex-col gap-8">
+                <ScrollArea className="">
+                  <ul className="flex flex-col gap-8 pt-2">
                     {epaRegionFetcher?.data?.data.caseStudies.map(
                       (caseStudy, index) => (
-                        <li key={index} className="">
-                          <h3 className="text-lg font-bold">
-                            {caseStudy.title}
-                          </h3>
+                        <li
+                          key={index}
+                          className="flex items-center justify-between gap-4 pr-2"
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm uppercase">Category</p>
+                            <h3 className="flex-grow text-lg font-bold">
+                              {caseStudy.title}
+                            </h3>
+                            <p className="text-sm">Location, U.S.</p>
+                          </div>
+                          <div className="">
+                            <a
+                              href={`/case-study/${caseStudy.slug}`}
+                              className="inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-2 font-bold outline-none duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen focus:bg-darkBlue focus:text-white focus:ring-2 focus:ring-darkBlue focus:ring-offset-4"
+                              aria-label={`Read more about the ${caseStudy.title} case study`}
+                            >
+                              Read More
+                            </a>
+                          </div>
                         </li>
                       ),
                     )}
