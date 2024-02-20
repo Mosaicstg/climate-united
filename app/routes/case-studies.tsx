@@ -12,7 +12,7 @@ import { invariantResponse } from "~/utils/invariant.server"
 import { getSocialMetas } from "~/utils/seo"
 import { getCaseStudiesPage } from "~/models/case-studies.server"
 import { CaseStudiesPage } from "~/ui/templates/CaseStudiesPage"
-import { getCaseStudies } from "~/models/case-study.server"
+import { getEPARegionsWithCaseStudies } from "~/models/epa-region.server"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -46,9 +46,12 @@ export const loader = async (_: DataFunctionArgs) => {
     status: 404,
   })
 
-  const caseStudies = await getCaseStudies()
+  const epaRegionsWithCaseStudies = await getEPARegionsWithCaseStudies()
 
-  return json({ page: caseStudiesPage, caseStudies } as const)
+  return json({
+    page: caseStudiesPage,
+    epaRegionsWithCaseStudies,
+  } as const)
 }
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({

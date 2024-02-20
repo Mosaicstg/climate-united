@@ -1,12 +1,16 @@
 import type { CaseStudies } from "~/models/case-studies.server"
 import Header from "~/ui/components/Header"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion"
 import { motion, useReducedMotion } from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { richTextRenderOptions } from "~/routes/about-the-greenhouse-gas-reduction-fund"
 import { useLoaderData } from "@remix-run/react"
 import type { loader } from "~/routes/case-studies"
-import React from "react"
-import { CaseStudyAccordion } from "~/ui/components/CaseStudy"
 
 type CaseStudiesPageProps = CaseStudies
 
@@ -21,7 +25,7 @@ export function CaseStudiesPage({
 
   const { url, description, width, height } = featuredImage
 
-  const { caseStudies } = useLoaderData<typeof loader>()
+  const { epaRegionsWithCaseStudies } = useLoaderData<typeof loader>()
 
   return (
     <>
@@ -42,19 +46,82 @@ export function CaseStudiesPage({
             width={width}
             height={height}
           />
-          <h2 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h2>
-          {mainContent
-            ? documentToReactComponents(mainContent.json, richTextRenderOptions)
-            : null}
-          {caseStudies.map((caseStudy, index) => (
-            <CaseStudyAccordion
-              key={index}
-              title={caseStudy.title}
-              slug={caseStudy.slug}
-              headline={caseStudy.headline}
-              epaRegion={caseStudy.epaRegion}
-            />
-          ))}
+          <h1 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h1>
+          {mainContent ? (
+            <div className="">
+              {documentToReactComponents(
+                mainContent.json,
+                richTextRenderOptions,
+              )}
+            </div>
+          ) : null}
+          <Accordion
+            type="multiple"
+            className="mt-10 border-t-2 border-t-green"
+          >
+            {epaRegionsWithCaseStudies.map((epaRegion) => {
+              const {
+                slug,
+                name,
+                description,
+                linkedFrom: {
+                  caseStudyCollection: { items: caseStudies },
+                },
+              } = epaRegion
+              return (
+                <AccordionItem
+                  key={slug}
+                  value={slug}
+                  className="border-b-2 border-b-green py-5 lg:px-10"
+                >
+                  <AccordionTrigger
+                    aria-label={name}
+                    className="hover:no-underline"
+                  >
+                    <span className="flex flex-col items-start gap-2 text-darkBlue">
+                      <span className="block text-2xl font-bold leading-none">
+                        {name}
+                      </span>
+                      <span className="text-md block">{description}</span>
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="flex flex-col gap-8 md:px-6 md:pb-8 md:pt-6">
+                    {caseStudies.map((caseStudy, index) => (
+                      <div
+                        className="flex justify-between gap-4 lg:gap-8"
+                        key={index}
+                      >
+                        <div className="max-w-lg">
+                          <p className="uppercase">Category</p>
+                          <h4 className="text-xl font-bold">
+                            {caseStudy.headline}
+                          </h4>
+                          <p className="">Case Study Location, US</p>
+                          {caseStudy.excerpt ? (
+                            <div className="text-md mt-4">
+                              {documentToReactComponents(
+                                caseStudy.excerpt.json,
+                                richTextRenderOptions,
+                              )}
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="pt-4">
+                          <a
+                            href={`/case-study/${caseStudy.slug}`}
+                            className="rounded-full border-2 border-darkBlue px-4 py-2 font-bold text-darkBlue transition-colors duration-300 ease-in-out hover:bg-darkBlue hover:text-white focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2"
+                            aria-label={`Read more about ${caseStudy.title} case study`}
+                          >
+                            Read more
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              )
+            })}
+          </Accordion>
         </div>
       </main>
     </>
