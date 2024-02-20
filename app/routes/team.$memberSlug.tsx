@@ -43,7 +43,39 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
+      return (
+        <h2 className="mb-5 text-3xl font-bold dark:text-gray-200">
+          {children}
+        </h2>
+      )
+    },
+    [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h3 className="mb-4 text-2xl font-bold dark:text-gray-200">
+          {children}
+        </h3>
+      )
+    },
+    [BLOCKS.HEADING_4]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h4 className="mb-4 text-xl uppercase dark:text-gray-200">
+          {children}
+        </h4>
+      )
+    },
+    [BLOCKS.HEADING_5]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h5 className="mb-4 text-lg font-bold dark:text-gray-200">
+          {children}
+        </h5>
+      )
+    },
+    [BLOCKS.HEADING_6]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h6 className="text-md mb-4 font-bold uppercase dark:text-gray-200">
+          {children}
+        </h6>
+      )
     },
   },
 }
