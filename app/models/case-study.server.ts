@@ -98,7 +98,7 @@ export async function getCaseStudies(count: number = 10) {
 
 export async function getCaseStudyBySlug(slug: string) {
   const query = `query {
-        caseStudyCollection(where: { slug: "${slug}" }) {
+        caseStudyCollection(limit: 1, where: { slug: "${slug}" }) {
             items {
                 slug
                 title
@@ -140,6 +140,6 @@ export async function getCaseStudyBySlug(slug: string) {
   }
 
   const study = response.data.caseStudyCollection.items[0]
-  console.log(study)
+
   return validateWithSchema(CaseStudySchema, study)
 }
