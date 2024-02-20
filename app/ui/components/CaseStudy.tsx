@@ -1,6 +1,7 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type CaseStudy } from "~/models/case-study.server"
 import { motion, useReducedMotion } from "framer-motion"
+import React from "react"
 
 type CaseStudyProps = CaseStudy
 
@@ -58,6 +59,25 @@ export function CaseStudy({
           ? documentToReactComponents(excerpt.json, richTextRenderOptions)
           : null}
       </motion.div>
+    </div>
+  )
+}
+
+export function CaseStudyAccordion({
+  slug,
+  title,
+  headline,
+  epaRegion,
+}: CaseStudy) {
+  return (
+    <div>
+      <h4>{headline}</h4>
+      {epaRegion ? (
+        <div>
+          <h2>{epaRegion?.name}</h2>
+          <p>{epaRegion?.description}</p>
+        </div>
+      ) : null}
     </div>
   )
 }

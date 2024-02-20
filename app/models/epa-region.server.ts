@@ -6,6 +6,7 @@ import { type CaseStudy, CaseStudySchema } from "./case-study.server"
 export const EPARegionSchema = z.object({
   name: z.string(),
   slug: z.string(),
+  description: z.string(),
 })
 
 export type EPARegion = z.infer<typeof EPARegionSchema>
@@ -20,6 +21,7 @@ export async function getEPARegions(limit: number = 10) {
                 items {
                     name
                     slug
+                    description
                 }
             }
         }
@@ -37,7 +39,7 @@ export async function getEPARegions(limit: number = 10) {
 
   const epaRegions = response.data.epaRegionCollection.items
 
-  const result = EPARegionSchema.array().safeParse(epaRegions);
+  const result = EPARegionSchema.array().safeParse(epaRegions)
 
   if (!result.success) {
     console.error("Failed to validate EPA regions", result.error)
@@ -59,6 +61,7 @@ export async function getCaseStudyByEPARegionSlug(slug: string) {
                 headline
                 epaRegion {
                     name
+                    description
                 }
             }
         }

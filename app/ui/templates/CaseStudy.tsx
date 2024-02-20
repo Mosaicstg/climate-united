@@ -13,8 +13,6 @@ export function CaseStudy({
 }: CaseStudyProps) {
   const prefersReducedMotion = useReducedMotion()
 
-  const { url, description, width, height } = featuredImage
-
   return (
     <>
       <Header />
@@ -30,10 +28,10 @@ export function CaseStudy({
                 duration: 0.5,
               }}
               className="mb-12 aspect-square w-full rounded-full object-cover"
-              src={url}
-              alt={description || ""}
-              width={width}
-              height={height}
+              src={featuredImage?.url}
+              alt={featuredImage?.description || ""}
+              width={featuredImage?.width}
+              height={featuredImage?.height}
             />
           </div>
           <h1 className="text-center text-3xl font-bold text-darkBlue">

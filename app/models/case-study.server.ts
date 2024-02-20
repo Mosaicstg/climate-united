@@ -4,6 +4,7 @@ import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { SEOSchema } from "~/models/seo.server"
+import { EPARegionSchema } from "~/models/epa-region.server"
 
 export const CaseStudySchema = z.object({
   slug: z.string().nullable().optional(),
@@ -11,7 +12,8 @@ export const CaseStudySchema = z.object({
   headline: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema.nullable().optional(),
-  featuredImage: ImageSchema,
+  featuredImage: ImageSchema.optional(),
+  epaRegion: EPARegionSchema.optional(),
   seo: SEOSchema.nullable().optional(),
 })
 
@@ -69,6 +71,11 @@ export async function getCaseStudies(count: number = 10) {
                         description
                         width
                         height
+                    }
+                    epaRegion {
+                        name
+                        slug
+                        description
                     }
                 }
             }
