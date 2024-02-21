@@ -38,8 +38,8 @@ export function NewsletterSignUp() {
   const hasErrors = hasFormErrors || hasFieldErrors
 
   return (
-    <section className="grid grid-cols-2 gap-0 bg-lightGreen text-white">
-      <div className="w-full px-6 py-10 pl-5 pr-10 md:ml-auto md:max-w-screen-sm md:pl-5 lg:py-20 lg:pr-20">
+    <section className="gap-0 overflow-hidden bg-lightGreen text-white md:grid md:grid-cols-2">
+      <div className="w-full px-6 py-10 md:ml-auto md:max-w-screen-sm md:pl-5 md:pr-10 lg:py-20 lg:pr-20">
         <h2 className="mb-2 text-2xl font-bold md:text-3xl">
           Get Our Monthly Impact Updates
         </h2>
@@ -99,6 +99,7 @@ export function NewsletterSignUp() {
               className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1 font-bold uppercase text-green duration-300 ease-in-out hover:bg-darkBlue hover:text-white"
               type="submit"
               disabled={fetcher.state === "submitting"}
+              aria-label="Sign up with your email to receive our monthly impact updates"
             >
               Sign Up{" "}
               {fetcher.state === "submitting" && (
@@ -121,7 +122,7 @@ export function NewsletterSignUp() {
           </div>
         </fetcher.Form>
       </div>
-      <div className="aspect-video min-h-full max-w-full bg-[#82A59C]">
+      <div className="max-w-full bg-[#82A59C] md:aspect-video md:min-h-full">
         <picture>
           <source type="image/avif" srcSet="/assets/newsletter-sign-up.avif" />
           <source type="image/webp" srcSet="/assets/newsletter-sign-up.webp" />
@@ -130,7 +131,7 @@ export function NewsletterSignUp() {
             width={1500}
             src="/assets/newsletter-sign-up.jpg"
             alt="Newsletter Sign Up"
-            className="min-h-full object-cover"
+            className="min-h-full object-cover object-center"
           />
         </picture>
       </div>
