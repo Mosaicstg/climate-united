@@ -79,7 +79,7 @@ export const handle: SEOHandle = {
   getSitemapEntries: async (request) => {
     const studies = await getCaseStudies(100)
     return studies.map((post) => ({
-      route: `/case-studies/${post.slug}`,
+      route: `/case-study/${post.slug}`,
       priority: 0.7,
     }))
   },
