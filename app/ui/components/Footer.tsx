@@ -53,6 +53,14 @@ export default function Footer() {
                   About the GGRF
                 </a>
               </li>
+              <li>
+                <a
+                  className="duration-300 ease-in-out hover:text-blue"
+                  href="/case-studies"
+                >
+                  Case Studies
+                </a>
+              </li>
             </ul>
           </nav>
           <div className="col-span-2">

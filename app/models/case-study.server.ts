@@ -7,13 +7,20 @@ import { SEOSchema } from "~/models/seo.server"
 import { EPARegionSchema } from "~/models/epa-region.server"
 
 export const CaseStudySchema = z.object({
-  slug: z.string().nullable().optional(),
   title: z.string(),
+  slug: z.string().nullable().optional(),
+  partnerLogo: ImageSchema.nullable().optional(),
   headline: z.string(),
-  excerpt: RichTextSchema.nullable().optional(),
-  mainContent: RichTextSchema.nullable().optional(),
-  featuredImage: ImageSchema.optional(),
   epaRegion: EPARegionSchema.optional(),
+  category: z.string().nullable().optional(),
+  location: z.string().nullable().optional(),
+  description: RichTextSchema.nullable().optional(),
+  mainImage: ImageSchema.nullable().optional(),
+  mainContent: RichTextSchema.nullable().optional(),
+  excerpt: RichTextSchema.nullable().optional(),
+  ctaText: z.string().nullable().optional(),
+  ctaUrl: z.string().nullable().optional(),
+  featuredImage: ImageSchema.optional(),
   seo: SEOSchema.nullable().optional(),
 })
 
@@ -25,9 +32,11 @@ export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
   const query = `
     query {
         caseStudy(id: "${id}") {
-            slug
             title
+            slug
             headline
+            category
+            location
             excerpt {
                 json
             }
@@ -59,9 +68,15 @@ export async function getCaseStudies(count: number = 10) {
         query {
             caseStudyCollection(limit: ${count}, order: sys_publishedAt_DESC) {
                 items {
-                    slug
                     title
+                    slug
                     headline
+                    category
+                    epaRegion {
+                        name
+                        slug
+                        description
+                    }
                     excerpt {
                         json
                     }
@@ -71,11 +86,6 @@ export async function getCaseStudies(count: number = 10) {
                         description
                         width
                         height
-                    }
-                    epaRegion {
-                        name
-                        slug
-                        description
                     }
                 }
             }
@@ -100,12 +110,33 @@ export async function getCaseStudyBySlug(slug: string) {
   const query = `query {
         caseStudyCollection(limit: 1, where: { slug: "${slug}" }) {
             items {
-                slug
                 title
+                slug
                 headline
+                partnerLogo {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                }
+                category
+                location
+                description {
+                    json
+                }
+                mainImage {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                }
                 mainContent {
                     json
                 }
+                ctaText
+                ctaUrl
                 featuredImage {
                     fileName
                     url

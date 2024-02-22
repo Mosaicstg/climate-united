@@ -63,25 +63,6 @@ export function CaseStudy({
   )
 }
 
-export function CaseStudyAccordion({
-  slug,
-  title,
-  headline,
-  epaRegion,
-}: CaseStudy) {
-  return (
-    <div>
-      <h4>{headline}</h4>
-      {epaRegion ? (
-        <div>
-          <h2>{epaRegion?.name}</h2>
-          <p>{epaRegion?.description}</p>
-        </div>
-      ) : null}
-    </div>
-  )
-}
-
 export const richTextRenderOptions = {
   renderNode: {},
 }

@@ -88,15 +88,19 @@ export function CaseStudiesPage({
                   <AccordionContent className="flex flex-col gap-8 md:px-6 md:pb-8 md:pt-6">
                     {caseStudies.map((caseStudy, index) => (
                       <div
-                        className="flex justify-between gap-4 lg:gap-8"
+                        className="flex justify-between gap-4 text-darkBlue lg:gap-8"
                         key={index}
                       >
                         <div className="max-w-lg">
-                          <p className="uppercase">Category</p>
+                          {caseStudy.category ? (
+                            <p className="uppercase">{caseStudy.category}</p>
+                          ) : null}
                           <h4 className="text-xl font-bold">
                             {caseStudy.headline}
                           </h4>
-                          <p className="">Case Study Location, US</p>
+                          {caseStudy.location ? (
+                            <p className="">{caseStudy.location}</p>
+                          ) : null}
                           {caseStudy.excerpt ? (
                             <div className="text-md mt-4">
                               {documentToReactComponents(

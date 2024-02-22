@@ -21,6 +21,8 @@ export const EPARegionsWithCaseStudiesSchema = z.object({
           slug: z.string(),
           title: z.string(),
           headline: z.string(),
+          category: z.string().nullable().optional(),
+          location: z.string().nullable().optional(),
           excerpt: RichTextSchema.nullable().optional(),
         })
         .array(),
@@ -118,6 +120,8 @@ export async function getEPARegionsWithCaseStudies() {
                                 slug
                                 title
                                 headline
+                                category
+                                location
                                 excerpt {
                                     json
                                 }

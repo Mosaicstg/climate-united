@@ -63,7 +63,7 @@ export default function Header({
             } w-full md:block md:w-auto`}
             id="navbar-default"
           >
-            <ul className="flex flex-col font-bold rtl:space-x-reverse md:flex-row md:space-x-8 md:border-0 md:p-0">
+            <ul className="flex flex-col font-bold md:flex-row md:space-x-8 md:border-0 md:p-0 rtl:space-x-reverse">
               <li>
                 <a
                   className={`${linkColor}`}
@@ -84,6 +84,11 @@ export default function Header({
                   href="/about-the-greenhouse-gas-reduction-fund"
                 >
                   About the GGRF
+                </a>
+              </li>
+              <li>
+                <a className={`${linkColor}`} href="/case-studies">
+                  Case Studies
                 </a>
               </li>
             </ul>

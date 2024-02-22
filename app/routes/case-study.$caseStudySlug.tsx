@@ -35,9 +35,7 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return (
-        <p className="mb-4 text-base leading-relaxed text-black">{children}</p>
-      )
+      return <p className="mb-4 leading-relaxed text-black">{children}</p>
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
       return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
@@ -81,7 +79,7 @@ export const handle: SEOHandle = {
   getSitemapEntries: async (request) => {
     const studies = await getCaseStudies(100)
     return studies.map((post) => ({
-      route: `/case-study/${post.slug}`,
+      route: `/case-studies/${post.slug}`,
       priority: 0.7,
     }))
   },
@@ -115,11 +113,17 @@ export default function Study() {
 
   return (
     <CaseStudy
-      slug={post.slug}
       title={post.title}
+      slug={post.slug}
+      partnerLogo={post.partnerLogo}
       headline={post.headline}
+      category={post.category}
+      location={post.location}
+      description={post.description}
+      mainImage={post.mainImage}
       mainContent={post.mainContent}
-      featuredImage={post.featuredImage}
+      ctaText={post.ctaText}
+      ctaUrl={post.ctaUrl}
       seo={post.seo}
     />
   )
