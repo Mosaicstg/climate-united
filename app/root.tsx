@@ -26,6 +26,7 @@ import { Show404 } from "./ui/templates/404"
 import { Show500 } from "./ui/templates/500"
 import { honeypot } from "./utils/honeypot.server"
 import { HoneypotProvider } from "remix-utils/honeypot/react"
+import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
@@ -182,6 +183,7 @@ function App() {
       <body>
         <HoneypotProvider {...honeypotInputProps}>
           <Outlet />
+          <NewsletterSignUp />
           <Footer />
         </HoneypotProvider>
         <ScrollRestoration />
