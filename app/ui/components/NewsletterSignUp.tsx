@@ -16,7 +16,7 @@ export function NewsletterSignUp() {
 
   const [form, fields] = useForm({
     defaultValue: { email: "" },
-    lastResult: fetcher.data,
+    lastResult: fetcher.data?.submission,
     constraint: getZodConstraint(NewsletterSignUpForm),
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: NewsletterSignUpForm })
@@ -38,8 +38,8 @@ export function NewsletterSignUp() {
   const hasErrors = hasFormErrors || hasFieldErrors
 
   return (
-    <section className="grid grid-cols-2 gap-0 bg-lightGreen text-white">
-      <div className="w-full px-6 py-10 pl-5 pr-10 md:ml-auto md:max-w-screen-sm md:pl-5 lg:py-20 lg:pr-20">
+    <section className="gap-0 overflow-hidden bg-lightGreen text-white md:grid md:grid-cols-2">
+      <div className="w-full px-6 py-10 md:ml-auto md:max-w-screen-sm md:pl-5 md:pr-10 lg:py-20 lg:pr-20">
         <h2 className="mb-2 text-2xl font-bold md:text-3xl">
           Get Our Monthly Impact Updates
         </h2>
@@ -50,9 +50,9 @@ export function NewsletterSignUp() {
         </p>
         <fetcher.Form
           method="post"
-          {...getFormProps(form)}
           action="/action/newsletter-sign-up"
           className="flex flex-col gap-4"
+          {...getFormProps(form)}
         >
           <HoneypotInputs label="Please leave this field blank" />
           <div className="flex flex-col gap-3">
@@ -73,17 +73,33 @@ export function NewsletterSignUp() {
             >
               {fields.email.errors}
             </div>
-            {!hasErrors && fetcher.data && !fetcher.data.initialValue ? (
+            {!hasErrors &&
+            fetcher.data &&
+            !fetcher.data.submission.initialValue &&
+            fetcher.state !== "submitting" ? (
               <p aria-live="polite" className="italic">
                 You've successfully subscribed to our newsletter!
               </p>
             ) : null}
           </div>
+          {hasFormErrors ? (
+            <p
+              className="border-2 border-red-400 bg-red-50 px-2 py-1 font-medium text-red-800"
+              aria-live="polite"
+            >
+              {form.errors?.map((error) => (
+                <span key={error} className="block">
+                  {error}
+                </span>
+              ))}
+            </p>
+          ) : null}
           <div className="">
             <button
-              className="inline-block rounded-full bg-white px-4 py-1 font-bold uppercase text-green duration-300 ease-in-out hover:bg-darkBlue hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1 font-bold uppercase text-green duration-300 ease-in-out hover:bg-darkBlue hover:text-white"
               type="submit"
               disabled={fetcher.state === "submitting"}
+              aria-label="Sign up with your email to receive our monthly impact updates"
             >
               Sign Up{" "}
               {fetcher.state === "submitting" && (
@@ -93,7 +109,7 @@ export function NewsletterSignUp() {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="h-6 w-6 animate-spin stroke-lightGreen"
+                  className="h-3 w-3 animate-spin"
                 >
                   <path
                     strokeLinecap="round"
@@ -106,7 +122,19 @@ export function NewsletterSignUp() {
           </div>
         </fetcher.Form>
       </div>
-      <div className="aspect-video min-h-full bg-[#82A59C] max-w-full"></div>
+      <div className="max-w-full bg-[#82A59C] md:aspect-video md:min-h-full">
+        <picture>
+          <source type="image/avif" srcSet="/assets/newsletter-sign-up.avif" />
+          <source type="image/webp" srcSet="/assets/newsletter-sign-up.webp" />
+          <img
+            height={2000}
+            width={1500}
+            src="/assets/newsletter-sign-up.jpg"
+            alt="Newsletter Sign Up"
+            className="min-h-full object-cover object-center"
+          />
+        </picture>
+      </div>
     </section>
   )
 }
