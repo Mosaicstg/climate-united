@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import {
+  AssetLinkSchema,
   LinksSchema,
   RichTextSchema,
   createRichTextSchemaWithEmbeddedAssets,
@@ -8,12 +9,18 @@ import {
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { SEOSchema } from "~/models/seo.server"
+import { EPARegionSchema } from "~/models/epa-region.server"
 
 export const CaseStudySchema = z.object({
-  slug: z.string().nullable().optional(),
   title: z.string(),
+  slug: z.string().nullable().optional(),
+  partnerLogo: ImageSchema.nullable().optional(),
   headline: z.string(),
-  excerpt: RichTextSchema.nullable().optional(),
+  epaRegion: EPARegionSchema.optional(),
+  category: z.string().nullable().optional(),
+  location: z.string().nullable().optional(),
+  description: RichTextSchema.nullable().optional(),
+  mainImage: ImageSchema.nullable().optional(),
   mainContent: createRichTextSchemaWithEmbeddedAssets(
     z.object({
       links: LinksSchema,
@@ -21,7 +28,10 @@ export const CaseStudySchema = z.object({
   )
     .nullable()
     .optional(),
-  featuredImage: ImageSchema,
+  excerpt: RichTextSchema.nullable().optional(),
+  ctaText: z.string().nullable().optional(),
+  ctaUrl: z.string().nullable().optional(),
+  featuredImage: ImageSchema.optional(),
   seo: SEOSchema.nullable().optional(),
 })
 
@@ -33,9 +43,11 @@ export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
   const query = `
     query {
         caseStudy(id: "${id}") {
-            slug
             title
+            slug
             headline
+            category
+            location
             excerpt {
                 json
             }
@@ -67,9 +79,15 @@ export async function getCaseStudies(count: number = 10) {
         query {
             caseStudyCollection(limit: ${count}, order: sys_publishedAt_DESC) {
                 items {
-                    slug
                     title
+                    slug
                     headline
+                    category
+                    epaRegion {
+                        name
+                        slug
+                        description
+                    }
                     excerpt {
                         json
                     }
@@ -101,14 +119,33 @@ export async function getCaseStudies(count: number = 10) {
 
 export async function getCaseStudyBySlug(slug: string) {
   const query = `query {
-        caseStudyCollection(where: { slug: "${slug}" }, limit: 1) {
+        caseStudyCollection(limit: 1, where: { slug: "${slug}" }) {
             items {
-                slug
                 title
+                slug
                 headline
+                partnerLogo {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                }
+                category
+                location
+                description {
+                    json
+                }
+                mainImage {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                }
                 mainContent {
-                  json
-                  links {
+                    json
+                    links {
                     assets {
                       block {
                         sys {
@@ -124,12 +161,14 @@ export async function getCaseStudyBySlug(slug: string) {
                     }
                   }
                 }
+                ctaText
+                ctaUrl
                 featuredImage {
-                  fileName
-                  url
-                  description
-                  width
-                  height
+                    fileName
+                    url
+                    description
+                    width
+                    height
                 }
                 seo {
                   title
