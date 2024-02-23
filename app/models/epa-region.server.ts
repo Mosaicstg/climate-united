@@ -1,12 +1,33 @@
 import { z } from "zod"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
-import { type CaseStudy } from "./case-study.server"
+import { type CaseStudy, CaseStudySchema } from "./case-study.server"
+import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 
 export const EPARegionSchema = z.object({
   name: z.string(),
   slug: z.string(),
-  description: z.string().optional().nullable(),
+  description: z.string(),
+})
+
+export const EPARegionsWithCaseStudiesSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  description: z.string(),
+  linkedFrom: z.object({
+    caseStudyCollection: z.object({
+      items: z
+        .object({
+          slug: z.string(),
+          title: z.string(),
+          headline: z.string(),
+          category: z.string().nullable().optional(),
+          location: z.string().nullable().optional(),
+          excerpt: RichTextSchema.nullable().optional(),
+        })
+        .array(),
+    }),
+  }),
 })
 
 export type EPARegion = z.infer<typeof EPARegionSchema>
@@ -72,6 +93,7 @@ export async function getCaseStudyByEPARegionSlug(slug: string) {
                 headline
                 epaRegion {
                     name
+                    description
                 }
             }
         }
@@ -93,4 +115,69 @@ export async function getCaseStudyByEPARegionSlug(slug: string) {
   const caseStudies = response.data.caseStudyCollection.items
 
   return validateWithSchema(CaseStudyByRepaRegionSchema.array(), caseStudies)
+}
+
+export async function getEPARegionsWithCaseStudies() {
+  const query = `
+        query {
+            epaRegionCollection(limit: 100, order: slug_ASC) {
+                items {
+                    name
+                    slug
+                    description
+                    linkedFrom {
+                        caseStudyCollection(limit: 10, order: sys_publishedAt_DESC) {
+                            items {
+                                slug
+                                title
+                                headline
+                                category
+                                location
+                                excerpt {
+                                    json
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `
+  let response
+
+  try {
+    response = await typedFetchGraphQL<{
+      epaRegionCollection: {
+        items: Array<z.infer<typeof EPARegionsWithCaseStudiesSchema>>
+      }
+    }>(query)
+  } catch (e) {
+    console.error("Failed to fetch EPA regions with case studies", e)
+
+    return []
+  }
+
+  if (!response.data) {
+    console.error(
+      "Failed to fetch EPA regions with case studies",
+      response.errors,
+    )
+
+    return []
+  }
+
+  const epaRegions = response.data.epaRegionCollection.items
+
+  const result = EPARegionsWithCaseStudiesSchema.array().safeParse(epaRegions)
+
+  if (!result.success) {
+    console.error(
+      "Failed to validate EPA regions with case studies",
+      result.error,
+    )
+
+    return []
+  }
+
+  return result.data
 }
