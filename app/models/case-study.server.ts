@@ -1,6 +1,11 @@
 import { z } from "zod"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
-import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
+import {
+  AssetLinkSchema,
+  LinksSchema,
+  RichTextSchema,
+  createRichTextSchemaWithEmbeddedAssets,
+} from "~/schemas/contentful-fields/rich-text.server"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { SEOSchema } from "~/models/seo.server"
@@ -16,7 +21,13 @@ export const CaseStudySchema = z.object({
   location: z.string().nullable().optional(),
   description: RichTextSchema.nullable().optional(),
   mainImage: ImageSchema.nullable().optional(),
-  mainContent: RichTextSchema.nullable().optional(),
+  mainContent: createRichTextSchemaWithEmbeddedAssets(
+    z.object({
+      links: LinksSchema,
+    }),
+  )
+    .nullable()
+    .optional(),
   excerpt: RichTextSchema.nullable().optional(),
   ctaText: z.string().nullable().optional(),
   ctaUrl: z.string().nullable().optional(),
@@ -134,6 +145,21 @@ export async function getCaseStudyBySlug(slug: string) {
                 }
                 mainContent {
                     json
+                    links {
+                    assets {
+                      block {
+                        sys {
+                          id
+                        }
+                        url
+                        title
+                        width
+                        height
+                        description
+                        fileName
+                      }
+                    }
+                  }
                 }
                 ctaText
                 ctaUrl
