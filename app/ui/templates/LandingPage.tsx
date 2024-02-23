@@ -8,6 +8,7 @@ import { EventsResourcesSection } from "~/ui/sections/EventsResources"
 import { BucketGridSection } from "~/ui/sections/BucketGrid"
 import { SocialMediaCtaSection } from "~/ui/sections/SocialMediaCta"
 import Header from "~/ui/components/Header"
+import { SVGMapSection } from "../sections/SVGMap"
 
 type LandingPageProps = LandingPage
 
@@ -63,7 +64,7 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
               )
             case "SectionTextImage":
               return (
-                <TextImageSection
+                <SVGMapSection
                   key={`${section.title}-${index}}`}
                   title={section.title}
                   mainContent={section.mainContent}

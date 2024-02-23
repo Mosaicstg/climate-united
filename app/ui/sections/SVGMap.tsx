@@ -75,7 +75,9 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
     const formData = new FormData()
     let selectedRegion = region || ""
 
-    console.log("selectedRegion", selectedRegion)
+    if (!selectedRegion) {
+      return
+    }
 
     formData.set("region", selectedRegion)
 
@@ -94,6 +96,10 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
   function handleRegionSelection(region: string) {
     const formData = new FormData()
     let selectedRegion = region || ""
+
+    if (!selectedRegion) {
+      return
+    }
 
     formData.set("region", selectedRegion)
 
@@ -116,7 +122,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-5">
-        <div className="mx-auto max-w-screen-lg py-12">
+        <div className="mx-auto max-w-screen-xl py-12">
           <h2 className="mb-4 text-center text-2xl font-bold md:text-3xl">
             {title}
           </h2>
@@ -130,7 +136,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                 onValueChange={handleRegionSelection}
                 value={selectedRegion?.slug}
               >
-                <SelectTrigger className="border-darkBlue text-lg focus:ring-green">
+                <SelectTrigger className="border-darkBlue text-md focus:ring-green">
                   <SelectValue placeholder="Select an EPA region" />
                 </SelectTrigger>
                 <SelectContent
@@ -156,9 +162,9 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                   ))}
                 </SelectContent>
               </Select>
-              <div className="mt-4">
+              <div className="mt-5">
                 {epaRegionDataIsLoading ? (
-                  <p className="flex items-center gap-2 text-lg">
+                  <p className="flex items-center gap-2 text-lg mb-2">
                     <span>Loading case studies</span>
                     <RefreshCcw className="color-green animate-spin" />
                   </p>
@@ -181,10 +187,15 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                           key={index}
                           className="flex-col gap-1"
                         >
+                          {caseStudy.category ? (
+                            <p className="uppercase text-sm">{caseStudy.category}</p>
+                          ) : null}
                           <h3 className="text-lg font-bold">
                             {caseStudy.title}
                           </h3>
-                          <p>Sample, Location U.S.</p>
+                          {caseStudy.location ? (
+                            <p className="text-sm">{caseStudy.location}</p>
+                          ) : null}
                         </motion.li>
                       ),
                     )}
@@ -229,11 +240,17 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                           className="flex items-center justify-between gap-4 pr-2"
                         >
                           <div className="flex flex-col">
-                            <p className="text-sm uppercase">Category</p>
+                            {caseStudy.category ? (
+                              <p className="text-sm uppercase">
+                                {caseStudy.category}
+                              </p>
+                            ) : null}
                             <h3 className="flex-grow text-lg font-bold">
                               {caseStudy.title}
                             </h3>
-                            <p className="text-sm">Location, U.S.</p>
+                            {caseStudy.location ? (
+                              <p className="text-sm">{caseStudy.location}</p>
+                            ) : null}
                           </div>
                           <div className="">
                             <a

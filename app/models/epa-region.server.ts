@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
-import { type CaseStudy, CaseStudySchema } from "./case-study.server"
+import { type CaseStudy } from "./case-study.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 
 export const EPARegionSchema = z.object({
@@ -36,6 +36,8 @@ export const CaseStudyByRepaRegionSchema = z.object({
   title: z.string(),
   slug: z.string(),
   headline: z.string(),
+  location: z.string().nullable().optional(),
+  category: z.string().nullable().optional(),
   epaRegion: z.object({
     name: z.string(),
     description: z.string().optional().nullable(),
@@ -91,6 +93,8 @@ export async function getCaseStudyByEPARegionSlug(slug: string) {
                 title
                 slug
                 headline
+                category
+                location
                 epaRegion {
                     name
                     description
