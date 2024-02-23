@@ -1,7 +1,6 @@
 import { z } from "zod"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import {
-  AssetLinkSchema,
   LinksSchema,
   RichTextSchema,
   createRichTextSchemaWithEmbeddedAssets,
