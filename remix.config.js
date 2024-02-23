@@ -10,6 +10,5 @@ export default {
   watchPaths: ["./tailwind.config.ts"],
   dev: {
     manual: true,
-
   },
 };

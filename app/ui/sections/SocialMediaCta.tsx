@@ -1,7 +1,6 @@
 import type { SectionSocialMediaCta } from "~/schemas/sections/section.social-media-cta.server"
 import { motion, useReducedMotion } from "framer-motion"
 import { SocialLink } from "~/ui/components/SocialMediaLink"
-import SocialIcon from "~/ui/components/Social-Icon"
 
 type SectionSocialMediaCtaProps = SectionSocialMediaCta
 

@@ -4,15 +4,17 @@ import {
   json,
 } from "@remix-run/node"
 import { z } from "zod"
-import { type CaseStudy } from "~/models/case-study.server"
-import { getCaseStudyByEPARegionSlug } from "~/models/epa-region.server"
+import {
+  type CaseStudyByRepaRegionSchema,
+  getCaseStudyByEPARegionSlug,
+} from "~/models/epa-region.server"
 import { isRouteErrorResponse } from "@remix-run/react"
 
 export type EPARegionActionResponse =
   | {
       success: true
       data: {
-        caseStudies: Array<CaseStudy>
+        caseStudies: Array<z.infer<typeof CaseStudyByRepaRegionSchema>>
       }
     }
   | {
@@ -62,7 +64,7 @@ export const action = async ({
         data: {
           caseStudies: filteredCaseStudies,
         },
-      } as const,
+      },
       {
         headers: {
           "Cache-Control": "public, max-age=3600",
@@ -92,7 +94,7 @@ export const action = async ({
     if (error instanceof z.ZodError) {
       const issues = error.issues.map((issue) => issue.message)
 
-      console.log({ issues })
+      console.error({ issues })
 
       return json(
         { success: false, error: "Invalid form submission" },

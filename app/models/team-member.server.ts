@@ -128,6 +128,6 @@ export async function getTeamMemberBySlug(slug: string) {
   }
 
   const member = response.data.teamMemberCollection.items[0]
-  console.log(member)
+
   return validateWithSchema(TeamMemberSchema, member)
 }

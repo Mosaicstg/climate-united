@@ -26,10 +26,10 @@ html {
   }
 }
 
-.epa-region-map-container path {
-  @apply stroke-black;
+[id*="region"] {
+  @apply rounded border-none focus-within:outline focus-within:outline-2 focus-within:outline-darkBlue focus:outline-darkBlue;
 }
 
-[id*="region"] {
-  @apply focus-within:outline-darkBlue focus:outline-darkBlue border-none focus-within:outline focus-within:outline-2 rounded;
+[id*="region"] > path {
+  @apply stroke-black;
 }
