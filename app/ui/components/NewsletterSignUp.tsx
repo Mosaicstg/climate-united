@@ -38,7 +38,7 @@ export function NewsletterSignUp() {
   const hasErrors = hasFormErrors || hasFieldErrors
 
   return (
-    <section className="gap-0 overflow-hidden bg-lightGreen text-white md:grid md:grid-cols-2">
+    <section className="items-center gap-0 overflow-hidden bg-lightGreen text-white md:grid md:grid-cols-2">
       <div className="w-full px-6 py-10 md:ml-auto md:max-w-screen-sm md:pl-5 md:pr-10 lg:py-20 lg:pr-20">
         <h2 className="mb-2 text-2xl font-bold md:text-3xl">
           Get Our Monthly Impact Updates

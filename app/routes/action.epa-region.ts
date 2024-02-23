@@ -94,7 +94,7 @@ export const action = async ({
     if (error instanceof z.ZodError) {
       const issues = error.issues.map((issue) => issue.message)
 
-      console.log({ issues })
+      console.error({ issues })
 
       return json(
         { success: false, error: "Invalid form submission" },
