@@ -182,8 +182,8 @@ export function CaseStudy({
               {video.videoIdEnglish && video.videoIdSpanish ? (
                 <Tabs defaultValue="english" className="w-full">
                   <TabsList>
-                    <TabsTrigger value="english">English</TabsTrigger>
-                    <TabsTrigger value="spanish">Spanish</TabsTrigger>
+                    <TabsTrigger value="english" aria-label="View English video">English</TabsTrigger>
+                    <TabsTrigger value="spanish" aria-label="View Spanish video">Spanish</TabsTrigger>
                   </TabsList>
                   <TabsContent value="english">
                     <ClientOnly>
