@@ -25,6 +25,7 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@remix-run/css-bundle": "^2.3.1",
     "@remix-run/react": "^2.3.1",
     "@u-wave/react-vimeo": "^0.9.10",

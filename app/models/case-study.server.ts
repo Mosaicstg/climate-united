@@ -148,13 +148,6 @@ export async function getCaseStudyBySlug(slug: string) {
                   title
                   videoIdEnglish
                   videoIdSpanish
-                  posterImage {
-                    fileName
-                    url
-                    description
-                    width
-                    height
-                  }
                 }
                 mainContent {
                     json

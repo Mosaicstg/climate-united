@@ -12,6 +12,8 @@ import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import Vimeo from "@u-wave/react-vimeo"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
+import { vi } from "@faker-js/faker"
 
 type CaseStudyProps = CaseStudy
 
@@ -177,19 +179,41 @@ export function CaseStudy({
           ) : null}
           {video ? (
             <div className="mt-12">
-              {video.videoIdEnglish ? (
+              {video.videoIdEnglish && video.videoIdSpanish ? (
+                <Tabs defaultValue="english" className="w-full">
+                  <TabsList>
+                    <TabsTrigger value="english">English</TabsTrigger>
+                    <TabsTrigger value="spanish">Spanish</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="english">
+                    <Vimeo
+                      video={video.videoIdEnglish}
+                      width="979"
+                      className="overflow-hidden rounded-xl"
+                      responsive={true}
+                    />
+                  </TabsContent>
+                  <TabsContent value="spanish">
+                    <Vimeo
+                      video={video.videoIdSpanish}
+                      width="979"
+                      className="overflow-hidden rounded-xl"
+                      responsive={true}
+                    />
+                  </TabsContent>
+                </Tabs>
+              ) : video.videoIdEnglish ? (
                 <Vimeo
                   video={video.videoIdEnglish}
                   width="979"
-                  className="mt-12 overflow-hidden rounded-xl"
+                  className="overflow-hidden rounded-xl"
                   responsive={true}
                 />
-              ) : null}
-              {video.videoIdSpanish ? (
+              ) : video.videoIdSpanish ? (
                 <Vimeo
                   video={video.videoIdSpanish}
                   width="979"
-                  className="mt-12 overflow-hidden rounded-xl"
+                  className="overflow-hidden rounded-xl"
                   responsive={true}
                 />
               ) : null}
