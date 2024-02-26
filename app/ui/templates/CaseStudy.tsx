@@ -11,6 +11,7 @@ import type { z } from "zod"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
+import Vimeo from "@u-wave/react-vimeo"
 
 type CaseStudyProps = CaseStudy
 
@@ -96,6 +97,7 @@ export function CaseStudy({
   location,
   description,
   mainImage,
+  video,
   mainContent,
   ctaText,
   ctaUrl,
@@ -171,6 +173,26 @@ export function CaseStudy({
                   </figcaption>
                 ) : null}
               </figure>
+            </div>
+          ) : null}
+          {video ? (
+            <div className="mt-12">
+              {video.videoIdEnglish ? (
+                <Vimeo
+                  video={video.videoIdEnglish}
+                  width="979"
+                  className="mt-12 overflow-hidden rounded-xl"
+                  responsive={true}
+                />
+              ) : null}
+              {video.videoIdSpanish ? (
+                <Vimeo
+                  video={video.videoIdSpanish}
+                  width="979"
+                  className="mt-12 overflow-hidden rounded-xl"
+                  responsive={true}
+                />
+              ) : null}
             </div>
           ) : null}
           {mainContent ? (

@@ -9,6 +9,7 @@ import { typedFetchGraphQL } from "~/services/contentful.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { SEOSchema } from "~/models/seo.server"
 import { EPARegionSchema } from "~/models/epa-region.server"
+import { VideoSchema } from "~/models/video.server"
 
 export const CaseStudySchema = z.object({
   title: z.string(),
@@ -27,6 +28,7 @@ export const CaseStudySchema = z.object({
   )
     .nullable()
     .optional(),
+  video: VideoSchema.nullable().optional(),
   excerpt: RichTextSchema.nullable().optional(),
   ctaText: z.string().nullable().optional(),
   ctaUrl: z.string().nullable().optional(),
@@ -141,6 +143,18 @@ export async function getCaseStudyBySlug(slug: string) {
                     description
                     width
                     height
+                }
+                video {
+                  title
+                  videoIdEnglish
+                  videoIdSpanish
+                  posterImage {
+                    fileName
+                    url
+                    description
+                    width
+                    height
+                  }
                 }
                 mainContent {
                     json

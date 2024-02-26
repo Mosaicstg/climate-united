@@ -27,6 +27,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@remix-run/css-bundle": "^2.3.1",
     "@remix-run/react": "^2.3.1",
+    "@u-wave/react-vimeo": "^0.9.10",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cross-env": "^7.0.3",

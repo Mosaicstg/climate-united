@@ -121,6 +121,7 @@ export default function Study() {
       location={post.location}
       description={post.description}
       mainImage={post.mainImage}
+      video={post.video}
       mainContent={post.mainContent}
       ctaText={post.ctaText}
       ctaUrl={post.ctaUrl}
