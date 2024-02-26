@@ -11,6 +11,9 @@ import type { z } from "zod"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
+import Vimeo from "@u-wave/react-vimeo"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
+import { ClientOnly } from "remix-utils/client-only"
 
 type CaseStudyProps = CaseStudy
 
@@ -96,6 +99,7 @@ export function CaseStudy({
   location,
   description,
   mainImage,
+  video,
   mainContent,
   ctaText,
   ctaUrl,
@@ -171,6 +175,64 @@ export function CaseStudy({
                   </figcaption>
                 ) : null}
               </figure>
+            </div>
+          ) : null}
+          {video ? (
+            <div className="mt-12">
+              {video.videoIdEnglish && video.videoIdSpanish ? (
+                <Tabs defaultValue="english" className="w-full">
+                  <TabsList>
+                    <TabsTrigger value="english" aria-label="View English video">English</TabsTrigger>
+                    <TabsTrigger value="spanish" aria-label="View Spanish video">Spanish</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="english">
+                    <ClientOnly>
+                      {() => (
+                        <Vimeo
+                          video={video.videoIdEnglish || ""}
+                          width="979"
+                          className="overflow-hidden rounded-xl"
+                          responsive={true}
+                        />
+                      )}
+                    </ClientOnly>
+                  </TabsContent>
+                  <TabsContent value="spanish">
+                    <ClientOnly>
+                      {() => (
+                        <Vimeo
+                          video={video.videoIdSpanish || ""}
+                          width="979"
+                          className="overflow-hidden rounded-xl"
+                          responsive={true}
+                        />
+                      )}
+                    </ClientOnly>
+                  </TabsContent>
+                </Tabs>
+              ) : video.videoIdEnglish ? (
+                <ClientOnly>
+                  {() => (
+                    <Vimeo
+                      video={video.videoIdEnglish || ""}
+                      width="979"
+                      className="overflow-hidden rounded-xl"
+                      responsive={true}
+                    />
+                  )}
+                </ClientOnly>
+              ) : video.videoIdSpanish ? (
+                <ClientOnly>
+                  {() => (
+                    <Vimeo
+                      video={video.videoIdSpanish || ""}
+                      width="979"
+                      className="overflow-hidden rounded-xl"
+                      responsive={true}
+                    />
+                  )}
+                </ClientOnly>
+              ) : null}
             </div>
           ) : null}
           {mainContent ? (
