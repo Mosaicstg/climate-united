@@ -13,7 +13,7 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import Vimeo from "@u-wave/react-vimeo"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
-import { vi } from "@faker-js/faker"
+import { ClientOnly } from "remix-utils/client-only"
 
 type CaseStudyProps = CaseStudy
 
@@ -186,36 +186,52 @@ export function CaseStudy({
                     <TabsTrigger value="spanish">Spanish</TabsTrigger>
                   </TabsList>
                   <TabsContent value="english">
-                    <Vimeo
-                      video={video.videoIdEnglish}
-                      width="979"
-                      className="overflow-hidden rounded-xl"
-                      responsive={true}
-                    />
+                    <ClientOnly>
+                      {() => (
+                        <Vimeo
+                          video={video.videoIdEnglish || ""}
+                          width="979"
+                          className="overflow-hidden rounded-xl"
+                          responsive={true}
+                        />
+                      )}
+                    </ClientOnly>
                   </TabsContent>
                   <TabsContent value="spanish">
-                    <Vimeo
-                      video={video.videoIdSpanish}
-                      width="979"
-                      className="overflow-hidden rounded-xl"
-                      responsive={true}
-                    />
+                    <ClientOnly>
+                      {() => (
+                        <Vimeo
+                          video={video.videoIdSpanish || ""}
+                          width="979"
+                          className="overflow-hidden rounded-xl"
+                          responsive={true}
+                        />
+                      )}
+                    </ClientOnly>
                   </TabsContent>
                 </Tabs>
               ) : video.videoIdEnglish ? (
-                <Vimeo
-                  video={video.videoIdEnglish}
-                  width="979"
-                  className="overflow-hidden rounded-xl"
-                  responsive={true}
-                />
+                <ClientOnly>
+                  {() => (
+                    <Vimeo
+                      video={video.videoIdEnglish || ""}
+                      width="979"
+                      className="overflow-hidden rounded-xl"
+                      responsive={true}
+                    />
+                  )}
+                </ClientOnly>
               ) : video.videoIdSpanish ? (
-                <Vimeo
-                  video={video.videoIdSpanish}
-                  width="979"
-                  className="overflow-hidden rounded-xl"
-                  responsive={true}
-                />
+                <ClientOnly>
+                  {() => (
+                    <Vimeo
+                      video={video.videoIdSpanish || ""}
+                      width="979"
+                      className="overflow-hidden rounded-xl"
+                      responsive={true}
+                    />
+                  )}
+                </ClientOnly>
               ) : null}
             </div>
           ) : null}
