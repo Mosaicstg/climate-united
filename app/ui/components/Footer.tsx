@@ -92,7 +92,7 @@ export default function Footer() {
               >
                 RE-volv
               </a>
-              , and{" "}
+              ,{" "}and{" "}
               <a
                 className="underline duration-300 ease-in-out hover:text-blue"
                 href="https://www.sunwealth.com/"
