@@ -96,7 +96,7 @@ export function NewsletterSignUp() {
           ) : null}
           <div className="">
             <button
-              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1 font-bold uppercase text-green duration-300 ease-in-out hover:bg-darkBlue hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1 font-bold uppercase text-lightGreen duration-300 ease-in-out hover:bg-darkBlue hover:text-white"
               type="submit"
               disabled={fetcher.state === "submitting"}
               aria-label="Sign up with your email to receive our monthly impact updates"
