@@ -136,7 +136,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                 onValueChange={handleRegionSelection}
                 value={selectedRegion?.slug}
               >
-                <SelectTrigger className="border-darkBlue text-md focus:ring-green" aria-label="Click to select an EPA Region to view related case studies">
+                <SelectTrigger className="border-darkBlue text-md focus:ring-green" aria-label="Click to select an EPA Region and to view its related case studies">
                   <SelectValue placeholder="Select an EPA region" />
                 </SelectTrigger>
                 <SelectContent
