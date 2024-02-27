@@ -3,7 +3,7 @@ import { json } from "@remix-run/node"
 import { getLandingPage } from "~/models/landing-page.server"
 import { invariantResponse } from "~/utils/invariant.server"
 import { LandingPage } from "~/ui/templates/LandingPage"
-import { getSocialMetas } from "~/utils/seo.server"
+import { getSocialMetas } from "~/utils/seo"
 import { type RootLoader } from "~/root"
 import { getEPARegions } from "~/models/epa-region.server"
 

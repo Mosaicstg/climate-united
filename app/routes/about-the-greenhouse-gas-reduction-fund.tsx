@@ -11,7 +11,7 @@ import { getPage } from "~/models/page.server"
 import { type RootLoader } from "~/root"
 import { Page } from "~/ui/templates/Page"
 import { invariantResponse } from "~/utils/invariant.server"
-import { getSocialMetas } from "~/utils/seo.server"
+import { getSocialMetas } from "~/utils/seo"
 
 export const richTextRenderOptions = {
   renderNode: {
