@@ -1,5 +1,4 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { richTextRenderOptions } from "~/routes/case-study.$caseStudySlug"
 import { type CaseStudy } from "~/models/case-study.server"
 import Header from "~/ui/components/Header"
 import { motion, useReducedMotion } from "framer-motion"
@@ -16,6 +15,31 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { ClientOnly } from "remix-utils/client-only"
 
 type CaseStudyProps = CaseStudy
+
+const richTextRenderOptions = {
+  renderNode: {
+    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
+      const { data } = node
+      const { uri } = data
+      return (
+        <a
+          className="text-primary underline dark:text-gray-400"
+          target="_blank"
+          rel="noreferrer"
+          href={uri}
+        >
+          {children}
+        </a>
+      )
+    },
+    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
+      return <p className="mb-4 leading-relaxed text-black">{children}</p>
+    },
+    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
+      return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
+    },
+  },
+}
 
 /**
  * Render options for the rich text renderer and the linked assets

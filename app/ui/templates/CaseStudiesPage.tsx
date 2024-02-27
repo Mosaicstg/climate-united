@@ -8,11 +8,42 @@ import {
 } from "~/components/ui/accordion"
 import { motion, useReducedMotion } from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { richTextRenderOptions } from "~/routes/about-the-greenhouse-gas-reduction-fund"
 import { useLoaderData } from "@remix-run/react"
 import type { loader } from "~/routes/case-studies"
+import {
+  BLOCKS,
+  type Block,
+  INLINES,
+  type Inline,
+} from "@contentful/rich-text-types"
+import { type ReactNode } from "react"
 
 type CaseStudiesPageProps = CaseStudies
+
+const richTextRenderOptions = {
+  renderNode: {
+    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
+      const { data } = node
+      const { uri } = data
+      return (
+        <a
+          className="text-primary underline dark:text-gray-400"
+          target="_blank"
+          rel="noreferrer"
+          href={uri}
+        >
+          {children}
+        </a>
+      )
+    },
+    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
+      return <p className="mb-4 text-base leading-relaxed">{children}</p>
+    },
+    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
+      return <h2 className="mb-5 text-3xl">{children}</h2>
+    },
+  },
+}
 
 export function CaseStudiesPage({
   title,

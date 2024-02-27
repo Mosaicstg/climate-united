@@ -1,12 +1,5 @@
-import {
-  BLOCKS,
-  INLINES,
-  type Block,
-  type Inline,
-} from "@contentful/rich-text-types"
 import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { type MetaFunction, useLoaderData } from "@remix-run/react"
-import { type ReactNode } from "react"
 import { getPage } from "~/models/page.server"
 import { type RootLoader } from "~/root"
 import { Page } from "~/ui/templates/Page"

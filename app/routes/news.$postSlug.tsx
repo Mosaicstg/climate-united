@@ -1,16 +1,9 @@
 import {
-  BLOCKS,
-  INLINES,
-  type Block,
-  type Inline,
-} from "@contentful/rich-text-types"
-import {
   json,
   type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { type ReactNode } from "react"
 import { getPostBySlug, getPosts, PostSchema } from "~/models/post.server"
 import { Post } from "~/ui/templates/Post"
 import { invariantResponse } from "~/utils/invariant.server"
@@ -21,33 +14,6 @@ import { getSocialMetas } from "~/utils/seo"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
 import { serverOnly$ } from "vite-env-only"
-
-export const richTextRenderOptions = {
-  renderNode: {
-    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
-      const { data } = node
-      const { uri } = data
-      return (
-        <a
-          className="text-primary underline dark:text-gray-400"
-          target="_blank"
-          rel="noreferrer"
-          href={uri}
-        >
-          {children}
-        </a>
-      )
-    },
-    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return (
-        <p className="mb-4 text-base leading-relaxed text-black">{children}</p>
-      )
-    },
-    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
-    },
-  },
-}
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { postSlug } = params
