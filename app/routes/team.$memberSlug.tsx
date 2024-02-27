@@ -4,7 +4,11 @@ import {
   type Block,
   type Inline,
 } from "@contentful/rich-text-types"
-import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
+import {
+  json,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import {
@@ -16,10 +20,11 @@ import { invariantResponse } from "~/utils/invariant.server"
 import { GeneralErrorBoundary } from "~/routes/$"
 import { Show404 } from "~/ui/templates/404"
 import type { RootLoader } from "~/root"
-import { getSocialMetas } from "~/utils/seo"
+import { getSocialMetas } from "~/utils/seo.server"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
 import { z } from "zod"
+import { serverOnly$ } from "vite-env-only"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -80,7 +85,7 @@ export const richTextRenderOptions = {
   },
 }
 
-export const loader = async ({ params }: DataFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { memberSlug } = params
 
   invariantResponse(memberSlug, "Page slug not found.", { status: 404 })
@@ -112,7 +117,7 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   }
 }
 
-export const handle: SEOHandle = {
+export const handle: SEOHandle | undefined = serverOnly$({
   getSitemapEntries: async (request) => {
     const team = await getTeamMembers(100)
     return team.map((post) => ({
@@ -120,7 +125,7 @@ export const handle: SEOHandle = {
       priority: 0.7,
     }))
   },
-}
+})
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,

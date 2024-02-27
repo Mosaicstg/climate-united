@@ -4,14 +4,14 @@ import {
   type Block,
   type Inline,
 } from "@contentful/rich-text-types"
-import { type DataFunctionArgs, json } from "@remix-run/node"
+import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { type MetaFunction, useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getPage } from "~/models/page.server"
 import { type RootLoader } from "~/root"
 import { Page } from "~/ui/templates/Page"
 import { invariantResponse } from "~/utils/invariant.server"
-import { getSocialMetas } from "~/utils/seo"
+import { getSocialMetas } from "~/utils/seo.server"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -38,7 +38,7 @@ export const richTextRenderOptions = {
   },
 }
 
-export const loader = async (_: DataFunctionArgs) => {
+export const loader = async (_: LoaderFunctionArgs) => {
   const page = await getPage("1ydvGd1x8TYHNWeNUbqFeC")
 
   invariantResponse(page, "About page not found.", { status: 404 })
@@ -57,14 +57,14 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-        ...getSocialMetas({
-          title: `${data.page.seo?.title} - Climate United`,
-          url: `${domainURL}${pathname}`,
-          description: `${data.page.seo.excerpt}`,
-          image: `${data.page.seo.image.url}`,
-          keywords: `${data.page.seo?.keywords ? data.page.seo.keywords : ""}`,
-        }),
-      ]
+          ...getSocialMetas({
+            title: `${data.page.seo?.title} - Climate United`,
+            url: `${domainURL}${pathname}`,
+            description: `${data.page.seo.excerpt}`,
+            image: `${data.page.seo.image.url}`,
+            keywords: `${data.page.seo?.keywords ? data.page.seo.keywords : ""}`,
+          }),
+        ]
       : []),
   ]
 }

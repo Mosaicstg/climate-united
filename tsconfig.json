@@ -1,6 +1,6 @@
 {
   "include": [
-    "remix.env.d.ts",
+    "env.d.ts",
     "**/*.ts",
     "**/*.tsx",
   ],
@@ -10,13 +10,13 @@
       "DOM.Iterable",
       "ES2019"
     ],
-    "module": "esnext",
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "resolveJsonModule": true,
     "target": "ES2019",
     "skipLibCheck": true,
+    "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
     "allowJs": true,

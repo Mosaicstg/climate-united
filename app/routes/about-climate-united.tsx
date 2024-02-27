@@ -4,7 +4,7 @@ import { getAboutPage } from "~/models/about.server"
 import { invariantResponse } from "~/utils/invariant.server"
 import { AboutPage } from "~/ui/templates/AboutPage"
 import type { RootLoader } from "~/root"
-import { getSocialMetas } from "~/utils/seo"
+import { getSocialMetas } from "~/utils/seo.server"
 
 export const loader = async () => {
   const aboutPage = await getAboutPage("6wHRbfqkflPjD7tVNmz4C")

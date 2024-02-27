@@ -3,7 +3,7 @@ import { json } from "@remix-run/node"
 import { invariantResponse } from "~/utils/invariant.server"
 import { getTeamPage } from "~/models/team.server"
 import { TeamPage } from "~/ui/templates/TeamPage"
-import { getSocialMetas } from "~/utils/seo"
+import { getSocialMetas } from "~/utils/seo.server"
 import { type RootLoader } from "~/root"
 
 export const loader = async () => {

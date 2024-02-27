@@ -4,7 +4,11 @@ import {
   type Block,
   type Inline,
 } from "@contentful/rich-text-types"
-import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
+import {
+  json,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { getEventBySlug, EventSchema, getEvents } from "~/models/event.server"
@@ -12,10 +16,11 @@ import { Event } from "~/ui/templates/Event"
 import { invariantResponse } from "~/utils/invariant.server"
 import { GeneralErrorBoundary } from "~/routes/$"
 import { Show404 } from "~/ui/templates/404"
-import { getSocialMetas } from "~/utils/seo"
+import { getSocialMetas } from "~/utils/seo.server"
 import type { RootLoader } from "~/root"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
+import { serverOnly$ } from "vite-env-only"
 
 export const richTextRenderOptions = {
   renderNode: {
@@ -44,7 +49,7 @@ export const richTextRenderOptions = {
   },
 }
 
-export const loader = async ({ params }: DataFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { eventSlug } = params
 
   invariantResponse(eventSlug, "Event slug not found.", { status: 404 })
@@ -57,7 +62,7 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   return json({ event: response.data })
 }
 
-export const handle: SEOHandle = {
+export const handle: SEOHandle | undefined = serverOnly$({
   getSitemapEntries: async (request) => {
     const eventsData = await getEvents(100)
 
@@ -66,7 +71,7 @@ export const handle: SEOHandle = {
       priority: 0.7,
     }))
   },
-}
+})
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,
@@ -79,14 +84,14 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-        ...getSocialMetas({
-          title: `${data.event.seo?.title} - Events - Climate United`,
-          url: `${domainURL}${pathname}`,
-          description: `${data.event.seo.excerpt}`,
-          image: `${data.event.seo.image.url}`,
-          keywords: `${data.event.seo?.keywords ? data.event.seo.keywords : ''}`
-        }),
-      ]
+          ...getSocialMetas({
+            title: `${data.event.seo?.title} - Events - Climate United`,
+            url: `${domainURL}${pathname}`,
+            description: `${data.event.seo.excerpt}`,
+            image: `${data.event.seo.image.url}`,
+            keywords: `${data.event.seo?.keywords ? data.event.seo.keywords : ""}`,
+          }),
+        ]
       : []),
   ]
 }
