@@ -4,7 +4,7 @@ import {
   type Block,
   type Inline,
 } from "@contentful/rich-text-types"
-import { type DataFunctionArgs, json } from "@remix-run/node"
+import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { type MetaFunction, useLoaderData } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { type RootLoader } from "~/root"
@@ -39,7 +39,7 @@ export const richTextRenderOptions = {
   },
 }
 
-export const loader = async (_: DataFunctionArgs) => {
+export const loader = async (_: LoaderFunctionArgs) => {
   const caseStudiesPage = await getCaseStudiesPage("4d7g9VYoTaIuUCuVEJu4U2")
 
   invariantResponse(caseStudiesPage, "Case Studies page not found.", {

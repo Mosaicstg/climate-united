@@ -1,14 +1,12 @@
 import {
-  type DataFunctionArgs,
   type LinksFunction,
   type MetaFunction,
   type HeadersFunction,
   json,
+  type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { cssBundleHref } from "@remix-run/css-bundle"
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -16,9 +14,7 @@ import {
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import { withDevTools } from "remix-development-tools"
-import rdtStylesheet from "remix-development-tools/index.css"
-import tailwindStylesheet from "~/tailwind.css"
+import tailwindStylesheet from "~/tailwind.css?url"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"
@@ -106,13 +102,9 @@ export const links: LinksFunction = () => [
     rel: "manifest",
     href: "/favicons/manifest.json",
   },
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-  ...(process.env.NODE_ENV === "development"
-    ? [{ rel: "stylesheet", href: rdtStylesheet }]
-    : []),
 ]
 
-export const loader = async ({ request }: DataFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const socialMedialLinks = await getSocialMediaLinks()
 
   return json(
@@ -141,15 +133,7 @@ export const meta: MetaFunction = () => [
   },
 ]
 
-let AppExport = App
-
-if (process.env.NODE_ENV === "development") {
-  AppExport = withDevTools(App)
-}
-
-export default AppExport
-
-function App() {
+export default function App() {
   const { honeypotInputProps } = useLoaderData<RootLoader>()
 
   return (
@@ -188,7 +172,6 @@ function App() {
         </HoneypotProvider>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
         {/*<script*/}
         {/*  dangerouslySetInnerHTML={{*/}
         {/*    __html: `window.onUsersnapLoad = function(api) {*/}
@@ -244,7 +227,6 @@ export function ErrorBoundary() {
         <Footer />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
         {/*<script*/}
         {/*  dangerouslySetInnerHTML={{*/}
         {/*    __html: `window.onUsersnapLoad = function(api) {*/}

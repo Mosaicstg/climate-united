@@ -136,12 +136,12 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                 onValueChange={handleRegionSelection}
                 value={selectedRegion?.slug}
               >
-                <SelectTrigger className="border-darkBlue text-md focus:ring-green">
+                <SelectTrigger className="border-darkBlue text-md focus:ring-green" aria-label="Select an EPA Region">
                   <SelectValue placeholder="Select an EPA region" />
                 </SelectTrigger>
                 <SelectContent
                   // This is a workaround for mobile device where a user selects an item
-                  // and a element underneath the option is clicked/touched.
+                  // and an element underneath the option is clicked/touched.
                   // @see: https://github.com/shadcn-ui/ui/issues/2620#issuecomment-1918404840
                   className="max-w-[--radix-select-trigger-width]"
                   ref={(ref) => {
