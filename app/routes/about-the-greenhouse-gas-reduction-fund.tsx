@@ -13,31 +13,6 @@ import { Page } from "~/ui/templates/Page"
 import { invariantResponse } from "~/utils/invariant.server"
 import { getSocialMetas } from "~/utils/seo"
 
-export const richTextRenderOptions = {
-  renderNode: {
-    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
-      const { data } = node
-      const { uri } = data
-      return (
-        <a
-          className="text-primary underline dark:text-gray-400"
-          target="_blank"
-          rel="noreferrer"
-          href={uri}
-        >
-          {children}
-        </a>
-      )
-    },
-    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return <p className="mb-4 text-base leading-relaxed">{children}</p>
-    },
-    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl">{children}</h2>
-    },
-  },
-}
-
 export const loader = async (_: LoaderFunctionArgs) => {
   const page = await getPage("1ydvGd1x8TYHNWeNUbqFeC")
 
