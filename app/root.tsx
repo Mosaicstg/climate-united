@@ -123,7 +123,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
     "Cache-Control": "public, max-age=0, must-revalidate",
     // Tell the CDN to treat it as fresh for 5 minutes, but for a week after that return a stale version while it revalidates
     "Netlify-CDN-Cache-Control":
-      "public, s-maxage=300, stale-while-revalidate=604800",
+      "public, s-maxage=600, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
