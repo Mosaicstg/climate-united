@@ -25,14 +25,14 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-        ...getSocialMetas({
-          url: `${domainURL}${pathname}`,
-          title: `${data.aboutPage.seo?.title} - Climate United`,
-          description: data.aboutPage.seo.excerpt,
-          image: data.aboutPage.seo.image.url,
-          keywords: `${data.aboutPage.seo?.keywords ? data.aboutPage.seo.keywords : ""}`,
-        }),
-      ]
+          ...getSocialMetas({
+            url: `${domainURL}${pathname}`,
+            title: `${data.aboutPage.seo?.title} - Climate United`,
+            description: data.aboutPage.seo.excerpt,
+            image: data.aboutPage.seo.image.url,
+            keywords: `${data.aboutPage.seo?.keywords ? data.aboutPage.seo.keywords : ""}`,
+          }),
+        ]
       : []),
   ]
 }
@@ -42,11 +42,8 @@ export default function AboutClimateUnited() {
 
   return (
     <AboutPage
-      title={aboutPage.title}
       featuredImage={aboutPage.featuredImage}
       sectionsCollection={aboutPage.sectionsCollection}
-      caseStudiesHeadline={aboutPage.caseStudiesHeadline}
-      caseStudiesCollection={aboutPage.caseStudiesCollection}
       seo={aboutPage.seo}
     />
   )
