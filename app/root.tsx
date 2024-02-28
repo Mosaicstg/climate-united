@@ -173,17 +173,6 @@ export default function App() {
         </HoneypotProvider>
         <ScrollRestoration />
         <Scripts />
-        {/*<script*/}
-        {/*  dangerouslySetInnerHTML={{*/}
-        {/*    __html: `window.onUsersnapLoad = function(api) {*/}
-        {/*  api.init();*/}
-        {/*}*/}
-        {/*  var script = document.createElement('script');*/}
-        {/*  script.defer = 1;*/}
-        {/*  script.src = 'https://widget.usersnap.com/global/load/f13d0b58-e511-42a7-bc56-1fa9bb5c91b2?onload=onUsersnapLoad';*/}
-        {/*  document.getElementsByTagName('head')[0].appendChild(script);`,*/}
-        {/*  }}*/}
-        {/*></script>*/}
       </body>
     </html>
   )
@@ -228,17 +217,6 @@ export function ErrorBoundary() {
         <Footer />
         <ScrollRestoration />
         <Scripts />
-        {/*<script*/}
-        {/*  dangerouslySetInnerHTML={{*/}
-        {/*    __html: `window.onUsersnapLoad = function(api) {*/}
-        {/*  api.init();*/}
-        {/*}*/}
-        {/*  var script = document.createElement('script');*/}
-        {/*  script.defer = 1;*/}
-        {/*  script.src = 'https://widget.usersnap.com/global/load/f13d0b58-e511-42a7-bc56-1fa9bb5c91b2?onload=onUsersnapLoad';*/}
-        {/*  document.getElementsByTagName('head')[0].appendChild(script);`,*/}
-        {/*  }}*/}
-        {/*></script>*/}
       </body>
     </html>
   )
