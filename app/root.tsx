@@ -14,7 +14,7 @@ import {
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import tailwindStylesheet from "~/tailwind.css?url"
+import "~/tailwind.css"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"
@@ -26,9 +26,7 @@ import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
-  { rel: "preload", href: tailwindStylesheet, as: "style" },
   { rel: "preload", href: "https://use.typekit.net/wlp1ond.css", as: "style" },
-  { rel: "stylesheet", href: tailwindStylesheet },
   {
     rel: "apple-touch-icon",
     sizes: "57x57",
