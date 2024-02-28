@@ -52,13 +52,6 @@ export async function getCaseStudy(id: string): Promise<CaseStudy | null> {
             excerpt {
                 json
             }
-            featuredImage {
-                fileName
-                url
-                description
-                width
-                height
-            }
         }
     }`
 
@@ -91,13 +84,6 @@ export async function getCaseStudies(count: number = 10) {
                     }
                     excerpt {
                         json
-                    }
-                    featuredImage {
-                        fileName
-                        url
-                        description
-                        width
-                        height
                     }
                 }
             }
@@ -169,13 +155,6 @@ export async function getCaseStudyBySlug(slug: string) {
                 }
                 ctaText
                 ctaUrl
-                featuredImage {
-                    fileName
-                    url
-                    description
-                    width
-                    height
-                }
                 seo {
                   title
                   excerpt
