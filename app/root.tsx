@@ -14,7 +14,7 @@ import {
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import "~/tailwind.css"
+import tailwindStyles from "~/tailwind.css?url"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"
@@ -26,7 +26,9 @@ import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
+  { rel: "preload", href: tailwindStyles, as: "style" },
   { rel: "preload", href: "https://use.typekit.net/wlp1ond.css", as: "style" },
+  { rel: "stylesheet", href: tailwindStyles },
   {
     rel: "apple-touch-icon",
     sizes: "57x57",
@@ -118,7 +120,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
     // Tell the browser to always check the freshness of the cache
-    "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=600, stale-while-revalidate=604800",
+    "Cache-Control":
+      "public, max-age=0, must-revalidate, s-maxage=600, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
