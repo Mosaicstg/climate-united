@@ -26,8 +26,8 @@ import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
-  { rel: "preload", href: tailwindStyles, as: "style" },
   { rel: "preload", href: "https://use.typekit.net/wlp1ond.css", as: "style" },
+  { rel: "preload", href: tailwindStyles, as: "style" },
   { rel: "stylesheet", href: tailwindStyles },
   {
     rel: "apple-touch-icon",
