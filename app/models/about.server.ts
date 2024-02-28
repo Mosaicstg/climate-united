@@ -45,23 +45,6 @@ export async function getAboutPage(id: string): Promise<AboutPage | null> {
                     }
                 }
             }
-            caseStudiesHeadline
-            caseStudiesCollection {
-                items {
-                    title
-                    headline
-                    excerpt {
-                        json
-                    }
-                    featuredImage {
-                        fileName
-                        url
-                        description
-                        width
-                        height
-                    }
-                }
-            }
             featuredImage {
                 fileName
                 url
@@ -125,23 +108,6 @@ export async function getAboutPages(
                             width
                             height
                           }
-                        }
-                    }
-                }
-                caseStudiesHeadline
-                caseStudiesCollection {
-                    items {
-                        title
-                        headline
-                        excerpt {
-                            json
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            description
-                            width
-                            height
                         }
                     }
                 }
