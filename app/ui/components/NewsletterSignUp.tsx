@@ -127,6 +127,7 @@ export function NewsletterSignUp() {
           <source type="image/avif" srcSet="/assets/newsletter-sign-up.avif" />
           <source type="image/webp" srcSet="/assets/newsletter-sign-up.webp" />
           <img
+            loading="lazy"
             height={2000}
             width={1500}
             src="/assets/newsletter-sign-up.jpg"
