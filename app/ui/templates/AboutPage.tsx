@@ -1,17 +1,13 @@
 import { type AboutPage } from "~/models/about.server"
 import { AboutSection } from "~/ui/sections/About"
-import { CaseStudy } from "~/ui/components/CaseStudy"
 import Header from "~/ui/components/Header"
 import { motion, useReducedMotion } from "framer-motion"
 
 type AboutPageProps = AboutPage
 
 export function AboutPage({
-  title,
   featuredImage,
   sectionsCollection,
-  caseStudiesHeadline,
-  caseStudiesCollection,
 }: AboutPageProps) {
   const prefersReducedMotion = useReducedMotion()
 
@@ -48,27 +44,6 @@ export function AboutPage({
                 />
               )
             })}
-          </div>
-        </div>
-        <div className="border-t-4 border-solid border-green bg-paleGreen overflow-hidden">
-          <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
-            <h2 className="mb-12 text-3xl font-bold text-darkBlue">
-              {caseStudiesHeadline}
-            </h2>
-            <div>
-              {caseStudiesCollection.items.map((caseStudy, index) => {
-                return (
-                  <CaseStudy
-                    key={caseStudy.title}
-                    title={caseStudy.title}
-                    slug={caseStudy.slug}
-                    headline={caseStudy.headline}
-                    excerpt={caseStudy.excerpt}
-                    featuredImage={caseStudy.featuredImage}
-                  />
-                )
-              })}
-            </div>
           </div>
         </div>
       </main>
