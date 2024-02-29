@@ -124,7 +124,7 @@ export function CaseStudiesPage({
                     ) : (
                       caseStudies.map((caseStudy, index) => (
                         <div
-                          className="flex justify-between gap-4 text-darkBlue lg:gap-8"
+                          className="flex flex-col justify-between gap-4 text-darkBlue md:flex-row lg:gap-8"
                           key={index}
                         >
                           <div className="max-w-lg">
@@ -146,7 +146,7 @@ export function CaseStudiesPage({
                               </div>
                             ) : null}
                           </div>
-                          <div className="pt-4">
+                          <div className="md:pt-4">
                             <a
                               href={`/case-study/${caseStudy.slug}`}
                               className="rounded-full border-2 border-darkBlue px-4 py-2 font-bold text-darkBlue transition-colors duration-300 ease-in-out hover:bg-darkBlue hover:text-white focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2"
