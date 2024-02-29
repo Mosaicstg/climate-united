@@ -110,10 +110,12 @@ export function CaseStudiesPage({
                     className="hover:no-underline"
                   >
                     <span className="flex flex-col items-start gap-2 text-darkBlue">
-                      <span className="block text-2xl font-bold leading-none">
+                      <span className="block text-left text-2xl font-bold leading-none">
                         {name}
                       </span>
-                      <span className="text-md block">{description}</span>
+                      <span className="text-md block text-left">
+                        {description}
+                      </span>
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="flex flex-col gap-8 md:px-6 md:pb-8 md:pt-6">
