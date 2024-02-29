@@ -129,7 +129,7 @@ export async function getLandingPage(id: string) {
                     ... on SectionEventsResources {
                         title
                         headlineEvents
-                        eventsCollection {
+                        eventsCollection(limit: 3) {
                             items {
                                 title
                                 slug
@@ -160,7 +160,7 @@ export async function getLandingPage(id: string) {
                            json
                         }
                         headlineResources
-                        resourcesCollection {
+                        resourcesCollection(limit: 6) {
                             items {
                                 title
                                 file {
@@ -189,7 +189,7 @@ export async function getLandingPage(id: string) {
                     ... on SectionNewsPressReleases {
                         title
                         headline
-                        postsCollection {
+                        postsCollection(limit: 5) {
                             items {
                                 title
                                 slug
