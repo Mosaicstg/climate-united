@@ -80,7 +80,13 @@ export async function getEPARegions(limit: number = 10) {
     return []
   }
 
-  return result.data
+  return [
+    ...result.data.sort((regionA, regionB) => {
+      return (
+        regionA.slug.toLowerCase().length - regionB.slug.toLowerCase().length
+      )
+    }),
+  ]
 }
 
 /**
@@ -183,5 +189,14 @@ export async function getEPARegionsWithCaseStudies() {
     return []
   }
 
-  return result.data
+  // Sort the regions by length of slug
+  // This is to ensure that the regions are displayed in the correct order
+  // Contentful sends down regions in order except for `region-10` which is sent before `region-2`
+  return [
+    ...result.data.sort((regionA, regionB) => {
+      return (
+        regionA.slug.toLowerCase().length - regionB.slug.toLowerCase().length
+      )
+    }),
+  ]
 }
