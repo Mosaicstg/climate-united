@@ -6,20 +6,41 @@ import { getSocialMetas } from "~/utils/seo"
 import { getCaseStudiesPage } from "~/models/case-studies.server"
 import { CaseStudiesPage } from "~/ui/templates/CaseStudiesPage"
 import { getEPARegionsWithCaseStudies } from "~/models/epa-region.server"
+import { z } from "zod"
 
 export const loader = async (_: LoaderFunctionArgs) => {
-  const caseStudiesPage = await getCaseStudiesPage("5dyemzvjKm8r9UQ71CPua7")
+  try {
+    const caseStudiesPage = await getCaseStudiesPage("5dyemzvjKm8r9UQ71CPua7")
 
-  invariantResponse(caseStudiesPage, "Case Studies page not found.", {
-    status: 404,
-  })
+    invariantResponse(caseStudiesPage, "Case Studies page not found.", {
+      status: 404,
+    })
 
-  const epaRegionsWithCaseStudies = await getEPARegionsWithCaseStudies()
+    const epaRegionsWithCaseStudies = await getEPARegionsWithCaseStudies()
 
-  return json({
-    page: caseStudiesPage,
-    epaRegionsWithCaseStudies,
-  } as const)
+    return json({
+      page: caseStudiesPage,
+      epaRegionsWithCaseStudies,
+    } as const)
+  } catch (error) {
+    // Log this on the server
+    console.error(error)
+
+    if (error instanceof Response) {
+      const message = await error.text()
+
+      throw new Response(message, { status: 404 })
+    }
+
+    if (error instanceof z.ZodError) {
+      const errors = error.issues.map((error) => error.message)
+      const errorMessage = errors.join(", ")
+
+      throw new Response(errorMessage, { status: 404 })
+    }
+
+    throw new Response("Something went wrong!", { status: 500 })
+  }
 }
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
