@@ -8,7 +8,7 @@ import { CaseStudiesPage } from "~/ui/templates/CaseStudiesPage"
 import { getEPARegionsWithCaseStudies } from "~/models/epa-region.server"
 
 export const loader = async (_: LoaderFunctionArgs) => {
-  const caseStudiesPage = await getCaseStudiesPage("4d7g9VYoTaIuUCuVEJu4U2")
+  const caseStudiesPage = await getCaseStudiesPage("5dyemzvjKm8r9UQ71CPua7")
 
   invariantResponse(caseStudiesPage, "Case Studies page not found.", {
     status: 404,
