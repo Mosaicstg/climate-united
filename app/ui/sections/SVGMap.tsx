@@ -196,7 +196,9 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                             </p>
                           ) : null}
                           <h3 className="text-lg font-bold">
-                            {caseStudy.title}
+                            <a href={`/case-study/${caseStudy.slug}`}>
+                              {caseStudy.title}
+                            </a>
                           </h3>
                           {caseStudy.location ? (
                             <p className="text-sm">{caseStudy.location}</p>
