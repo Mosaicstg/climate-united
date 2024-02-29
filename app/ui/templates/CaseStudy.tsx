@@ -144,7 +144,7 @@ export function CaseStudy({
                 ease: "linear",
                 duration: 0.5,
               }}
-              className="mb-12 aspect-square w-[180px] rounded-full object-cover"
+              className="mb-12 w-[180px]"
               src={partnerLogo.url}
               alt={partnerLogo.description || ""}
               width={partnerLogo.width}
@@ -206,8 +206,18 @@ export function CaseStudy({
               {video.videoIdEnglish && video.videoIdSpanish ? (
                 <Tabs defaultValue="english" className="w-full">
                   <TabsList>
-                    <TabsTrigger value="english" aria-label="View English video">English</TabsTrigger>
-                    <TabsTrigger value="spanish" aria-label="View Spanish video">Spanish</TabsTrigger>
+                    <TabsTrigger
+                      value="english"
+                      aria-label="View English video"
+                    >
+                      English
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="spanish"
+                      aria-label="View Spanish video"
+                    >
+                      Spanish
+                    </TabsTrigger>
                   </TabsList>
                   <TabsContent value="english">
                     <ClientOnly>
