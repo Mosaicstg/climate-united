@@ -1,12 +1,9 @@
 import {
-  BLOCKS,
-  INLINES,
-  type Block,
-  type Inline,
-} from "@contentful/rich-text-types"
-import { type DataFunctionArgs, json, type MetaFunction } from "@remix-run/node"
+  json,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { type ReactNode } from "react"
 import { getEventBySlug, EventSchema, getEvents } from "~/models/event.server"
 import { Event } from "~/ui/templates/Event"
 import { invariantResponse } from "~/utils/invariant.server"
@@ -16,35 +13,9 @@ import { getSocialMetas } from "~/utils/seo"
 import type { RootLoader } from "~/root"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
+import { serverOnly$ } from "vite-env-only"
 
-export const richTextRenderOptions = {
-  renderNode: {
-    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
-      const { data } = node
-      const { uri } = data
-      return (
-        <a
-          className="text-primary underline dark:text-gray-400"
-          target="_blank"
-          rel="noreferrer"
-          href={uri}
-        >
-          {children}
-        </a>
-      )
-    },
-    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return (
-        <p className="mb-4 text-base leading-relaxed text-black">{children}</p>
-      )
-    },
-    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
-    },
-  },
-}
-
-export const loader = async ({ params }: DataFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { eventSlug } = params
 
   invariantResponse(eventSlug, "Event slug not found.", { status: 404 })
@@ -57,7 +28,7 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   return json({ event: response.data })
 }
 
-export const handle: SEOHandle = {
+export const handle: SEOHandle | undefined = serverOnly$({
   getSitemapEntries: async (request) => {
     const eventsData = await getEvents(100)
 
@@ -66,7 +37,7 @@ export const handle: SEOHandle = {
       priority: 0.7,
     }))
   },
-}
+})
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,
@@ -79,14 +50,14 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-        ...getSocialMetas({
-          title: `${data.event.seo?.title} - Events - Climate United`,
-          url: `${domainURL}${pathname}`,
-          description: `${data.event.seo.excerpt}`,
-          image: `${data.event.seo.image.url}`,
-          keywords: `${data.event.seo?.keywords ? data.event.seo.keywords : ''}`
-        }),
-      ]
+          ...getSocialMetas({
+            title: `${data.event.seo?.title} - Events - Climate United`,
+            url: `${domainURL}${pathname}`,
+            description: `${data.event.seo.excerpt}`,
+            image: `${data.event.seo.image.url}`,
+            keywords: `${data.event.seo?.keywords ? data.event.seo.keywords : ""}`,
+          }),
+        ]
       : []),
   ]
 }

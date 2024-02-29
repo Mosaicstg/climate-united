@@ -23,7 +23,9 @@ export async function getSocialMediaLinks() {
         }
     `
 
-  const response = await typedFetchGraphQL<{ socialMediaLinkCollection: { items: Array<SocialMediaLink> } }>(query)
+  const response = await typedFetchGraphQL<{
+    socialMediaLinkCollection: { items: Array<SocialMediaLink> }
+  }>(query)
 
   if (!response.data) {
     console.error("Failed to fetch social media links", response.errors)

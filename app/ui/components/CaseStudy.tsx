@@ -1,10 +1,12 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type CaseStudy } from "~/models/case-study.server"
 import { motion, useReducedMotion } from "framer-motion"
+import React from "react"
 
 type CaseStudyProps = CaseStudy
 
 export function CaseStudy({
+  slug,
   title,
   headline,
   excerpt,

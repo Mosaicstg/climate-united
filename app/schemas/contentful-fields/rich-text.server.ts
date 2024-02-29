@@ -4,37 +4,37 @@ import {
   type Inline,
   type Block,
   type TopLevelBlock,
-} from "@contentful/rich-text-types";
-import { z } from "zod";
+} from "@contentful/rich-text-types"
+import { z } from "zod"
 
-export const NodeData = z.record(z.any());
+export const NodeData = z.record(z.any())
 
 export const NodeSchema = z.object({
   nodeType: z.string().readonly(),
   data: NodeData,
-});
+})
 
-export const MarkSchema = z.object({ type: z.string() });
+export const MarkSchema = z.object({ type: z.string() })
 
 export const TextSchema = NodeSchema.extend({
   nodeType: z.literal("text"),
   value: z.string(),
   marks: MarkSchema.array(),
-});
+})
 
 export const InlineSchema: z.ZodType<Inline> = z.lazy(() =>
   NodeSchema.extend({
     nodeType: z.nativeEnum(INLINES),
     content: z.array(z.union([InlineSchema, TextSchema])),
   }),
-);
+)
 
 export const BlockSchema: z.ZodType<Block> = z.lazy(() =>
   NodeSchema.extend({
     nodeType: z.nativeEnum(BLOCKS),
     content: z.array(z.union([BlockSchema, InlineSchema, TextSchema])),
   }),
-);
+)
 
 export const TopLevelBlockSchema: z.ZodType<TopLevelBlock> = BlockSchema.and(
   z.object({
@@ -56,15 +56,39 @@ export const TopLevelBlockSchema: z.ZodType<TopLevelBlock> = BlockSchema.and(
       BLOCKS.TABLE,
     ]),
   }),
-);
+)
 
 export const DocumentSchema = NodeSchema.extend({
   nodeType: z.literal(BLOCKS.DOCUMENT),
   content: z.array(TopLevelBlockSchema),
-});
+})
 
 export const RichTextSchema = z.object({
   json: DocumentSchema,
-});
+})
 
-export type RichText = z.infer<typeof RichTextSchema>;
+export const AssetLinkSchema = z.object({
+  sys: z.object({
+    id: z.string(),
+  }),
+  url: z.string(),
+  title: z.string(),
+  width: z.number(),
+  height: z.number(),
+  description: z.string(),
+  fileName: z.string(),
+})
+
+export const LinksSchema = z.object({
+  assets: z.object({
+    block: z.array(AssetLinkSchema),
+  }),
+})
+
+export function createRichTextSchemaWithEmbeddedAssets<T>(
+  schema: z.Schema<T>,
+) {
+  return RichTextSchema.and(schema)
+}
+
+export type RichText = z.infer<typeof RichTextSchema>
