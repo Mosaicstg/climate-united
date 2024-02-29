@@ -136,7 +136,10 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                 onValueChange={handleRegionSelection}
                 value={selectedRegion?.slug}
               >
-                <SelectTrigger className="border-darkBlue text-md focus:ring-green" aria-label="Select an EPA Region">
+                <SelectTrigger
+                  className="text-md border-darkBlue focus:ring-green"
+                  aria-label="Select an EPA Region"
+                >
                   <SelectValue placeholder="Select an EPA region" />
                 </SelectTrigger>
                 <SelectContent
@@ -164,7 +167,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
               </Select>
               <div className="mt-5">
                 {epaRegionDataIsLoading ? (
-                  <p className="flex items-center gap-2 text-lg mb-2">
+                  <p className="mb-2 flex items-center gap-2 text-lg">
                     <span>Loading case studies</span>
                     <RefreshCcw className="color-green animate-spin" />
                   </p>
@@ -188,7 +191,9 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                           className="flex-col gap-1"
                         >
                           {caseStudy.category ? (
-                            <p className="uppercase text-sm">{caseStudy.category}</p>
+                            <p className="text-sm uppercase">
+                              {caseStudy.category}
+                            </p>
                           ) : null}
                           <h3 className="text-lg font-bold">
                             {caseStudy.title}
@@ -201,7 +206,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                     )}
                   </ul>
                 ) : epaRegionFetcher.data && !epaRegionFetcher.data.success ? (
-                  <p className="text-lg">No case studies found</p>
+                  <p className="text-lg">Coming soon.</p>
                 ) : null}
               </div>
             </div>
@@ -255,7 +260,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                           <div className="">
                             <a
                               href={`/case-study/${caseStudy.slug}`}
-                              className="inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-2 font-bold outline-none duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen focus:bg-darkBlue focus:text-white focus:ring-2 focus:ring-darkBlue focus:ring-offset-4"
+                              className="inline-block whitespace-nowrap rounded-full border-2 border-solid border-darkBlue px-6 py-2 font-bold outline-none duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen focus:bg-darkBlue focus:text-white focus:ring-2 focus:ring-darkBlue focus:ring-offset-4"
                               aria-label={`Read more about the ${caseStudy.title} case study`}
                             >
                               Read More
@@ -267,7 +272,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                   </ul>
                 </ScrollArea>
               ) : epaRegionFetcher.data && !epaRegionFetcher.data.success ? (
-                <p className="text-lg">No case studies found</p>
+                <p className="text-lg">Coming soon.</p>
               ) : null}
             </DialogContent>
           </Dialog>
