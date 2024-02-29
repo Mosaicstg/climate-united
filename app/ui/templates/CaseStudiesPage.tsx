@@ -119,7 +119,9 @@ export function CaseStudiesPage({
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="flex flex-col gap-8 md:px-6 md:pb-8 md:pt-6">
-                    {caseStudies ? (
+                    {caseStudies.length === 0 ? (
+                      <p className="text-md">Coming soon.</p>
+                    ) : (
                       caseStudies.map((caseStudy, index) => (
                         <div
                           className="flex justify-between gap-4 text-darkBlue lg:gap-8"
@@ -155,8 +157,6 @@ export function CaseStudiesPage({
                           </div>
                         </div>
                       ))
-                    ) : (
-                      <p className="text-md">Coming soon.</p>
                     )}
                   </AccordionContent>
                 </AccordionItem>
