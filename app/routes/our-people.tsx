@@ -1,5 +1,5 @@
 import { type MetaFunction, useLoaderData } from "@remix-run/react"
-import { json } from "@netlify/remix-runtime"
+import { json } from "@remix-run/node"
 import { invariantResponse } from "~/utils/invariant.server"
 import { getTeamPage } from "~/models/team.server"
 import { TeamPage } from "~/ui/templates/TeamPage"

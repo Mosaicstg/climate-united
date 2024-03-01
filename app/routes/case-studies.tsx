@@ -6,7 +6,7 @@ import { getCaseStudiesPage } from "~/models/case-studies.server"
 import { CaseStudiesPage } from "~/ui/templates/CaseStudiesPage"
 import { getEPARegionsWithCaseStudies } from "~/models/epa-region.server"
 import { z } from "zod"
-import { type LoaderFunctionArgs } from "@netlify/remix-runtime"
+import { type LoaderFunctionArgs } from "@remix-run/node"
 
 export const loader = async (_: LoaderFunctionArgs) => {
   try {

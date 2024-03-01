@@ -1,5 +1,4 @@
-import { type LoaderFunctionArgs } from "@netlify/remix-runtime"
-import { json } from "@remix-run/react"
+import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { type MetaFunction, useLoaderData } from "@remix-run/react"
 import { getPage } from "~/models/page.server"
 import { type RootLoader } from "~/root"

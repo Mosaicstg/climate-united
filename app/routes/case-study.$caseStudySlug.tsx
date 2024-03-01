@@ -1,4 +1,4 @@
-import { useLoaderData, json, type MetaFunction } from "@remix-run/react"
+import { useLoaderData, type MetaFunction } from "@remix-run/react"
 import { getCaseStudies, getCaseStudyBySlug } from "~/models/case-study.server"
 import { CaseStudy } from "~/ui/templates/CaseStudy"
 import { invariantResponse } from "~/utils/invariant.server"
@@ -10,7 +10,7 @@ import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
 import { z } from "zod"
 import { serverOnly$ } from "vite-env-only"
-import { type LoaderFunctionArgs } from "@netlify/remix-runtime"
+import { type LoaderFunctionArgs, json } from "@remix-run/node"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { caseStudySlug } = params

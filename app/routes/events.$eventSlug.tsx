@@ -2,7 +2,7 @@ import {
   json,
   type LoaderFunctionArgs,
   type MetaFunction,
-} from "@netlify/remix-runtime"
+} from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { getEventBySlug, EventSchema, getEvents } from "~/models/event.server"
 import { Event } from "~/ui/templates/Event"

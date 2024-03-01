@@ -3,8 +3,7 @@ import { SpamError } from "remix-utils/honeypot/server"
 import { subscribeEmail } from "~/services/campaign-monitor.server"
 import { NewsletterSignUpForm } from "~/ui/components/NewsletterSignUp"
 import { honeypot } from "~/utils/honeypot.server"
-import { json } from "@remix-run/react"
-import { type ActionFunctionArgs } from "@netlify/remix-runtime"
+import { type ActionFunctionArgs, json } from "@remix-run/node"
 import { invariantResponse } from "~/utils/invariant.server"
 
 /**

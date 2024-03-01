@@ -9,13 +9,12 @@ import type {
 import type { z } from "zod"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
-import { lazy, type ReactNode, Suspense } from "react"
+import {  type ReactNode } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { ClientOnly } from "remix-utils/client-only"
+import Vimeo from "@u-wave/react-vimeo"
 
 type CaseStudyProps = CaseStudy
-
-const Vimeo = lazy(() => import("@u-wave/react-vimeo"))
 
 const richTextRenderOptions = {
   renderNode: {
@@ -223,28 +222,24 @@ export function CaseStudy({
                   <TabsContent value="english">
                     <ClientOnly>
                       {() => (
-                        <Suspense>
-                          <Vimeo
-                            video={video.videoIdEnglish || ""}
-                            width="979"
-                            className="overflow-hidden rounded-xl"
-                            responsive={true}
-                          />
-                        </Suspense>
+                        <Vimeo
+                          video={video.videoIdEnglish || ""}
+                          width="979"
+                          className="overflow-hidden rounded-xl"
+                          responsive={true}
+                        />
                       )}
                     </ClientOnly>
                   </TabsContent>
                   <TabsContent value="spanish">
                     <ClientOnly>
                       {() => (
-                        <Suspense>
-                          <Vimeo
-                            video={video.videoIdSpanish || ""}
-                            width="979"
-                            className="overflow-hidden rounded-xl"
-                            responsive={true}
-                          />
-                        </Suspense>
+                        <Vimeo
+                          video={video.videoIdSpanish || ""}
+                          width="979"
+                          className="overflow-hidden rounded-xl"
+                          responsive={true}
+                        />
                       )}
                     </ClientOnly>
                   </TabsContent>

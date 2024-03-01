@@ -4,7 +4,7 @@ import {
   type HeadersFunction,
   json,
   type LoaderFunctionArgs,
-} from "@netlify/remix-runtime"
+} from "@remix-run/node"
 import {
   Links,
   Meta,

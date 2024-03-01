@@ -3,10 +3,10 @@ import { defineConfig } from "vite"
 import { installGlobals } from "@remix-run/node"
 import tsconfigPaths from "vite-tsconfig-paths"
 import { remixDevTools } from "remix-development-tools/vite"
-// import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
-import { netlifyPlugin } from "@netlify/remix-edge-adapter/plugin"
+import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
 import envOnly from "vite-env-only"
 import { visualizer } from "rollup-plugin-visualizer"
+import { cjsInterop } from "vite-plugin-cjs-interop"
 
 installGlobals()
 
@@ -18,6 +18,9 @@ export default defineConfig({
     netlifyPlugin(),
     envOnly(),
     visualizer({ emitFile: true }),
+    cjsInterop({
+      dependencies: ["@u-wave/react-vimeo"],
+    }),
   ],
   server: {
     port: 4321,

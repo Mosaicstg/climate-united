@@ -1,5 +1,5 @@
 import { type MetaFunction, useLoaderData } from "@remix-run/react"
-import { json } from "@remix-run/react"
+import { json } from "@remix-run/node"
 import { getLandingPage } from "~/models/landing-page.server"
 import { invariantResponse } from "~/utils/invariant.server"
 import { LandingPage } from "~/ui/templates/LandingPage"
