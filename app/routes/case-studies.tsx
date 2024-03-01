@@ -1,5 +1,4 @@
-import { json, type LoaderFunctionArgs } from "@remix-run/node"
-import { type MetaFunction, useLoaderData } from "@remix-run/react"
+import { type MetaFunction, useLoaderData, json } from "@remix-run/react"
 import { type RootLoader } from "~/root"
 import { invariantResponse } from "~/utils/invariant.server"
 import { getSocialMetas } from "~/utils/seo"
@@ -7,6 +6,7 @@ import { getCaseStudiesPage } from "~/models/case-studies.server"
 import { CaseStudiesPage } from "~/ui/templates/CaseStudiesPage"
 import { getEPARegionsWithCaseStudies } from "~/models/epa-region.server"
 import { z } from "zod"
+import { type LoaderFunctionArgs } from "@netlify/remix-runtime"
 
 export const loader = async (_: LoaderFunctionArgs) => {
   try {

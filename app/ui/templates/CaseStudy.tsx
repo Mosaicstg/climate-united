@@ -9,12 +9,13 @@ import type {
 import type { z } from "zod"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
-import type { ReactNode } from "react"
-import Vimeo from "@u-wave/react-vimeo"
+import { lazy, type ReactNode, Suspense } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { ClientOnly } from "remix-utils/client-only"
 
 type CaseStudyProps = CaseStudy
+
+const Vimeo = lazy(() => import("@u-wave/react-vimeo"))
 
 const richTextRenderOptions = {
   renderNode: {
@@ -222,24 +223,28 @@ export function CaseStudy({
                   <TabsContent value="english">
                     <ClientOnly>
                       {() => (
-                        <Vimeo
-                          video={video.videoIdEnglish || ""}
-                          width="979"
-                          className="overflow-hidden rounded-xl"
-                          responsive={true}
-                        />
+                        <Suspense>
+                          <Vimeo
+                            video={video.videoIdEnglish || ""}
+                            width="979"
+                            className="overflow-hidden rounded-xl"
+                            responsive={true}
+                          />
+                        </Suspense>
                       )}
                     </ClientOnly>
                   </TabsContent>
                   <TabsContent value="spanish">
                     <ClientOnly>
                       {() => (
-                        <Vimeo
-                          video={video.videoIdSpanish || ""}
-                          width="979"
-                          className="overflow-hidden rounded-xl"
-                          responsive={true}
-                        />
+                        <Suspense>
+                          <Vimeo
+                            video={video.videoIdSpanish || ""}
+                            width="979"
+                            className="overflow-hidden rounded-xl"
+                            responsive={true}
+                          />
+                        </Suspense>
                       )}
                     </ClientOnly>
                   </TabsContent>

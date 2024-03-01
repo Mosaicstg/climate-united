@@ -1,5 +1,5 @@
 import { type MetaFunction, useLoaderData } from "@remix-run/react"
-import { json } from "@remix-run/node"
+import { json } from "@netlify/remix-runtime"
 import { invariantResponse } from "~/utils/invariant.server"
 import { getTeamPage } from "~/models/team.server"
 import { TeamPage } from "~/ui/templates/TeamPage"
@@ -25,14 +25,14 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   return [
     ...(data
       ? [
-        ...getSocialMetas({
-          url: `${domainURL}${pathname}`,
-          title: `${data.teamPage.seo?.title} - Climate United`,
-          image: data.teamPage.seo.image.url,
-          description: data.teamPage.seo.excerpt,
-          keywords: `${data.teamPage.seo?.keywords ? data.teamPage.seo.keywords : ''}`
-        }),
-      ]
+          ...getSocialMetas({
+            url: `${domainURL}${pathname}`,
+            title: `${data.teamPage.seo?.title} - Climate United`,
+            image: data.teamPage.seo.image.url,
+            description: data.teamPage.seo.excerpt,
+            keywords: `${data.teamPage.seo?.keywords ? data.teamPage.seo.keywords : ""}`,
+          }),
+        ]
       : []),
   ]
 }

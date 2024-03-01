@@ -3,8 +3,8 @@ import { SpamError } from "remix-utils/honeypot/server"
 import { subscribeEmail } from "~/services/campaign-monitor.server"
 import { NewsletterSignUpForm } from "~/ui/components/NewsletterSignUp"
 import { honeypot } from "~/utils/honeypot.server"
-import { json } from "@remix-run/node"
-import { type ActionFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/react"
+import { type ActionFunctionArgs } from "@netlify/remix-runtime"
 import { invariantResponse } from "~/utils/invariant.server"
 
 /**
@@ -23,7 +23,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     honeypot.check(formData)
   } catch (error) {
     if (error instanceof SpamError) {
-      invariantResponse(false, "Form was submitted incorrectly", { status: 400 })
+      invariantResponse(false, "Form was submitted incorrectly", {
+        status: 400,
+      })
     }
   }
 

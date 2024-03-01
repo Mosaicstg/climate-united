@@ -4,7 +4,7 @@ import {
   type HeadersFunction,
   json,
   type LoaderFunctionArgs,
-} from "@remix-run/node"
+} from "@netlify/remix-runtime"
 import {
   Links,
   Meta,
@@ -14,7 +14,7 @@ import {
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import tailwindStyles from "~/tailwind.css"
+import tailwindStyles from "~/tailwind.css?url"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"

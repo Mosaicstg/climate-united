@@ -1,12 +1,11 @@
 [build]
-#command = "npm run build"
-command = "npm run build:remix-compiler"
-#publish = "build/client"
-publish = "public"
+command = "npm run build"
+#command = "npm run build:remix-compiler"
+publish = "build/client"
 
 [dev]
 command = "npm run dev"
-#framework = "vite"
+framework = "vite"
 
 # Set immutable caching for static files, because they have fingerprinted filenames
 [[headers]]

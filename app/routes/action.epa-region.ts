@@ -1,14 +1,13 @@
 import {
   type ActionFunctionArgs,
   type TypedResponse,
-  json,
-} from "@remix-run/node"
+} from "@netlify/remix-runtime"
 import { z } from "zod"
 import {
   type CaseStudyByRepaRegionSchema,
   getCaseStudyByEPARegionSlug,
 } from "~/models/epa-region.server"
-import { isRouteErrorResponse } from "@remix-run/react"
+import { isRouteErrorResponse, json } from "@remix-run/react"
 
 export type EPARegionActionResponse =
   | {
