@@ -79,7 +79,7 @@ export function CaseStudiesPage({
           />
           <h1 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h1>
           {mainContent ? (
-            <div className="">
+            <div>
               {documentToReactComponents(
                 mainContent.json,
                 richTextRenderOptions,
