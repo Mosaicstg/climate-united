@@ -14,7 +14,7 @@ import {
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import tailwindStyles from "~/tailwind.css?url"
+import tailwindStyles from "~/tailwind.css"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"
@@ -122,8 +122,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
     // Tell the browser to always check the freshness of the cache
-    "Cache-Control":
-      "public, max-age=0, must-revalidate, s-maxage=600, stale-while-revalidate=604800",
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    "Netlify-CDN-Cache-Control":
+      "public, s-maxage=600, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }

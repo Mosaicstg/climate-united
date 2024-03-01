@@ -4,6 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "build:remix-compiler": "npm run redirects:enable && remix build",
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "start": "netlify serve",
