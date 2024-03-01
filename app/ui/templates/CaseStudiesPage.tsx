@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion"
-import { motion, useReducedMotion } from "framer-motion"
+import {domAnimation, LazyMotion, m, useReducedMotion} from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { useLoaderData } from "@remix-run/react"
 import type { loader } from "~/routes/case-studies"
@@ -63,20 +63,22 @@ export function CaseStudiesPage({
       <Header />
       <main>
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
-          <motion.img
-            initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              ease: "linear",
-              duration: 0.5,
-            }}
-            className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
-            src={url}
-            alt={description || ""}
-            width={width}
-            height={height}
-          />
+          <LazyMotion features={domAnimation}>
+            <m.img
+              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{
+                ease: "linear",
+                duration: 0.5,
+              }}
+              className="mb-12 aspect-[32/9] w-full rounded-xl object-cover"
+              src={url}
+              alt={description || ""}
+              width={width}
+              height={height}
+            />
+          </LazyMotion>
           <h1 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h1>
           {mainContent ? (
             <div>
