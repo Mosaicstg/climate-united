@@ -5,6 +5,7 @@ import tsconfigPaths from "vite-tsconfig-paths"
 import { remixDevTools } from "remix-development-tools/vite"
 import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
 import envOnly from "vite-env-only"
+import { visualizer } from "rollup-plugin-visualizer"
 
 installGlobals()
 
@@ -15,6 +16,7 @@ export default defineConfig({
     tsconfigPaths(),
     netlifyPlugin(),
     envOnly(),
+    visualizer({ emitFile: true }),
   ],
   server: {
     port: 4321,

@@ -8,7 +8,7 @@
     "lib": [
       "DOM",
       "DOM.Iterable",
-      "ES2019"
+      "ES2020"
     ],
     "isolatedModules": true,
     "esModuleInterop": true,

@@ -10,9 +10,9 @@ import type { z } from "zod"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
-import Vimeo from "@u-wave/react-vimeo"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { ClientOnly } from "remix-utils/client-only"
+import { VimeoClient as Vimeo } from "~/ui/components/Vimeo.client"
 
 type CaseStudyProps = CaseStudy
 
