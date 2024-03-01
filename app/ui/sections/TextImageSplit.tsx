@@ -37,6 +37,7 @@ export function TextImageSplitSection({
               alt={description || ""}
               width={width}
               height={height}
+              loading="lazy"
             />
             <motion.div
               initial={{

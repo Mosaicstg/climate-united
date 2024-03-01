@@ -86,6 +86,7 @@ export function TextMultiImageSplitSection({
                     alt={image.description || ""}
                     width={image.width}
                     height={image.height}
+                    loading="lazy"
                   />
                 </div>
               )

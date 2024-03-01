@@ -122,6 +122,7 @@ export function EventsResourcesSection({
                   alt={featuredImage.description || ""}
                   width={featuredImage.width}
                   height={featuredImage.height}
+                  loading="lazy"
                 />
                 <motion.div
                   initial={{

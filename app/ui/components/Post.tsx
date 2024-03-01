@@ -38,6 +38,7 @@ export function Post({
             alt={featuredImage.description || ""}
             width={featuredImage.width}
             height={featuredImage.height}
+            loading={"lazy"}
           />
         ) : null}
       </motion.div>

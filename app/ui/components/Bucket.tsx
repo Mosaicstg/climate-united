@@ -43,6 +43,7 @@ export function Bucket({
           alt={description || ""}
           width={width}
           height={height}
+          loading="lazy"
         />
         <div
           className={`absolute bottom-0 left-0 aspect-square w-full translate-y-[50%] scale-y-[.15] rounded-full ${shadowColor}`}
