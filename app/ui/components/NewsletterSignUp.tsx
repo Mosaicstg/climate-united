@@ -86,6 +86,7 @@ export function NewsletterSignUp() {
             <p
               className="border-2 border-red-400 bg-red-50 px-2 py-1 font-medium text-red-800"
               aria-live="polite"
+              id={form.errorId}
             >
               {form.errors?.map((error) => (
                 <span key={error} className="block">
