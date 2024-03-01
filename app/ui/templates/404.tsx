@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@remix-run/react"
+import { useLocation } from "@remix-run/react"
 import Header from "~/ui/components/Header"
 
 export function Show404() {
@@ -23,9 +23,9 @@ export function Show404() {
             <pre className="text-body-lg whitespace-pre-wrap break-all">
               {location.pathname}
             </pre>
-            <Link to="/" className="text-body-md underline">
+            <a href="/" className="text-body-md underline">
               Back to home
-            </Link>
+            </a>
           </div>
         </div>
       </main>
