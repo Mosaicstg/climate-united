@@ -122,6 +122,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
     // Tell the browser to always check the freshness of the cache
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    // Tell the CDN to treat it as fresh for 5 minutes, but for a week after that return a stale version while it revalidates
+    "Netlify-CDN-Cache-Control":
+      "public, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
