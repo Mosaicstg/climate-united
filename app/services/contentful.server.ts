@@ -23,6 +23,11 @@ export async function typedFetchGraphQL<T>(
     body: JSON.stringify({ query, variables }),
   })
 
+  console.log("Contenful API request attempt: ", {
+    contentfulAPIURL,
+    response,
+  })
+
   invariantResponse(response.ok, "Failed to fetch from Contentful API", {
     status: response.status,
     statusText: response.statusText,
