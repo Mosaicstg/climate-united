@@ -1,6 +1,5 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type Event } from "~/models/event.server"
-import { getDateWithTime } from "~/utils/datetime-to-readable"
 
 type EventProps = Event
 
@@ -23,7 +22,7 @@ export function Event({
           {headline}
         </a>
       </h3>
-      <p>{getDateWithTime(datetime)}</p>
+      <p>{datetime}</p>
       <p className="mb-2">{location}</p>
       {excerpt
         ? documentToReactComponents(excerpt.json, richTextRenderOptions)

@@ -4,7 +4,7 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { getPostBySlug, getPosts, PostSchema } from "~/models/post.server"
+import { getPostBySlug, getPosts } from "~/models/post.server"
 import { Post } from "~/ui/templates/Post"
 import { invariantResponse } from "~/utils/invariant.server"
 import { GeneralErrorBoundary } from "~/routes/$"
@@ -21,11 +21,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariantResponse(postSlug, "Post slug not found.", { status: 404 })
 
   const post = await getPostBySlug(postSlug)
-  const response = PostSchema.safeParse(post)
 
-  invariantResponse(response.success, "Post not found.", { status: 404 })
+  invariantResponse(post, "Post not found.", { status: 404 })
 
-  return json({ post: response.data })
+  return json({ post: post })
 }
 
 export const handle: SEOHandle | undefined = serverOnly$({

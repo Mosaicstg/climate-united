@@ -3,16 +3,17 @@ import { z } from "zod"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { SEOSchema } from "./seo.server"
+import { DateTimeToReadableWithTime } from "~/utils/datetime-to-readable.server"
 
 export const EventSchema = z.object({
   title: z.string(),
   slug: z.string(),
   headline: z.string(),
-  datetime: z.string(),
+  datetime: DateTimeToReadableWithTime,
   location: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
-  seo: SEOSchema
+  seo: SEOSchema,
 })
 
 export const EventsSchema = EventSchema.array()
@@ -50,7 +51,9 @@ export async function getEventBySlug(slug: string) {
         }
     }`
 
-  const response = await typedFetchGraphQL<{ eventCollection: { items: Array<Event> } }>(query)
+  const response = await typedFetchGraphQL<{
+    eventCollection: { items: Array<Event> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Event with slug:${slug}`, response.errors)
@@ -93,7 +96,9 @@ export async function getEvents(count: number = 10) {
             }
         }`
 
-  const response = await typedFetchGraphQL<{ eventCollection: { items: Array<Event> } }>(query)
+  const response = await typedFetchGraphQL<{
+    eventCollection: { items: Array<Event> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Events`, response.errors)

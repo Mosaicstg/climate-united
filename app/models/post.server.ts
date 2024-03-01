@@ -4,16 +4,17 @@ import { z } from "zod"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import { SEOSchema } from "./seo.server"
+import { DateTimeToReadable } from "~/utils/datetime-to-readable.server"
 
 export const PostSchema = z.object({
   title: z.string(),
   slug: z.string(),
   headline: z.string(),
-  date: z.string(),
+  date: DateTimeToReadable,
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema.nullable().optional(),
-  seo: SEOSchema
+  seo: SEOSchema,
 })
 
 export const PostsSchema = PostSchema.array()
@@ -50,12 +51,14 @@ export async function getPostBySlug(slug: string) {
         }
     }`
 
-  const response = await typedFetchGraphQL<{ postCollection: { items: Array<Post> } }>(query)
+  const response = await typedFetchGraphQL<{
+    postCollection: { items: Array<Post> }
+  }>(query)
 
   if (!response.data) {
-    console.error(`Error for Post with slug: ${slug}`, response.errors);
+    console.error(`Error for Post with slug: ${slug}`, response.errors)
 
-    return null;
+    return null
   }
 
   const post = response.data.postCollection.items[0]
@@ -100,7 +103,9 @@ export async function getPosts(count: number = 10) {
         }
     }`
 
-  const response = await typedFetchGraphQL<{ postCollection: { items: Array<Post> } }>(query)
+  const response = await typedFetchGraphQL<{
+    postCollection: { items: Array<Post> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Posts`, response.errors)
