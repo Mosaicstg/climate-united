@@ -1,7 +1,13 @@
 import { type TeamPage } from "~/models/team.server"
 import { TeamSection } from "~/ui/sections/Team"
 import Header from "~/ui/components/Header"
-import { motion, useReducedMotion } from "framer-motion"
+import {
+  domAnimation,
+  LazyMotion,
+  m,
+  motion,
+  useReducedMotion,
+} from "framer-motion"
 
 type TeamPageProps = TeamPage
 
@@ -19,20 +25,22 @@ export function TeamPage({
       <main>
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
           {featuredImage ? (
-            <motion.img
-              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                ease: "linear",
-                duration: 0.5,
-              }}
-              className="aspect-[32/9] w-full rounded-xl object-cover"
-              src={featuredImage.url}
-              alt={featuredImage.description || ""}
-              width={featuredImage.width}
-              height={featuredImage.height}
-            />
+            <LazyMotion features={domAnimation}>
+              <m.img
+                initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  ease: "linear",
+                  duration: 0.5,
+                }}
+                className="aspect-[32/9] w-full rounded-xl object-cover"
+                src={featuredImage.url}
+                alt={featuredImage.description || ""}
+                width={featuredImage.width}
+                height={featuredImage.height}
+              />
+            </LazyMotion>
           ) : null}
           {headline ? (
             <h1 className="-mb-6 mt-12 text-3xl font-bold text-darkBlue">

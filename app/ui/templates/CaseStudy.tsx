@@ -1,7 +1,13 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type CaseStudy } from "~/models/case-study.server"
 import Header from "~/ui/components/Header"
-import { motion, useReducedMotion } from "framer-motion"
+import {
+  domAnimation,
+  LazyMotion,
+  m,
+  motion,
+  useReducedMotion,
+} from "framer-motion"
 import type {
   AssetLinkSchema,
   LinksSchema,
@@ -136,20 +142,22 @@ export function CaseStudy({
       <main>
         <div className="mx-auto max-w-screen-lg px-6 py-12 md:px-5">
           {partnerLogo ? (
-            <motion.img
-              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                ease: "linear",
-                duration: 0.5,
-              }}
-              className="mb-12 w-[180px]"
-              src={partnerLogo.url}
-              alt={partnerLogo.description || ""}
-              width={partnerLogo.width}
-              height={partnerLogo.height}
-            />
+            <LazyMotion features={domAnimation}>
+              <m.img
+                initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  ease: "linear",
+                  duration: 0.5,
+                }}
+                className="mb-12 w-[180px]"
+                src={partnerLogo.url}
+                alt={partnerLogo.description || ""}
+                width={partnerLogo.width}
+                height={partnerLogo.height}
+              />
+            </LazyMotion>
           ) : null}
           {category ? <p className="uppercase">{category}</p> : null}
           <h1 className="text-3xl font-bold text-darkBlue">{headline}</h1>
@@ -178,20 +186,22 @@ export function CaseStudy({
                     type="image/webp"
                     srcSet={`${mainImage.url}?fm=png&w=2000`}
                   />
-                  <motion.img
-                    initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      ease: "linear",
-                      duration: 0.5,
-                    }}
-                    className="mt-12 w-full rounded-xl"
-                    src={mainImage.url}
-                    alt={mainImage.description || ""}
-                    width={mainImage.width}
-                    height={mainImage.height}
-                  />
+                  <LazyMotion features={domAnimation}>
+                    <m.img
+                      initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        ease: "linear",
+                        duration: 0.5,
+                      }}
+                      className="mt-12 w-full rounded-xl"
+                      src={mainImage.url}
+                      alt={mainImage.description || ""}
+                      width={mainImage.width}
+                      height={mainImage.height}
+                    />
+                  </LazyMotion>
                 </picture>
                 {mainImage.description ? (
                   <figcaption className="bg-gray-100 p-4 text-center dark:bg-gray-800">
