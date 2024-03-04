@@ -3,7 +3,6 @@ import { z } from "zod"
 import { useForm, getFormProps, getInputProps } from "@conform-to/react"
 import { parseWithZod, getZodConstraint } from "@conform-to/zod"
 import { type action } from "~/routes/action.newsletter-sign-up"
-import { HoneypotInputs } from "remix-utils/honeypot/react"
 
 export const NewsletterSignUpForm = z.object({
   email: z
@@ -54,7 +53,6 @@ export function NewsletterSignUp() {
           className="flex flex-col gap-4"
           {...getFormProps(form)}
         >
-          <HoneypotInputs label="Please leave this field blank" />
           <div className="flex flex-col gap-3">
             <label
               htmlFor={fields.email.id}

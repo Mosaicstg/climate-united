@@ -1,11 +1,8 @@
 import { parseWithZod } from "@conform-to/zod"
-import { SpamError } from "remix-utils/honeypot/server"
 import { subscribeEmail } from "~/services/campaign-monitor.server"
 import { NewsletterSignUpForm } from "~/ui/components/NewsletterSignUp"
-import { honeypot } from "~/utils/honeypot.server"
 import { json } from "@remix-run/node"
 import { type ActionFunctionArgs } from "@remix-run/node"
-import { invariantResponse } from "~/utils/invariant.server"
 
 /**
  * TODO: Send back helpful messages to the user (e.g. "You're already signed up!")
@@ -17,14 +14,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   if (submission.status !== "success") {
     return json({ submission: submission.reply() } as const)
-  }
-
-  try {
-    honeypot.check(formData)
-  } catch (error) {
-    if (error instanceof SpamError) {
-      invariantResponse(false, "Form was submitted incorrectly", { status: 400 })
-    }
   }
 
   try {

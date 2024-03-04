@@ -112,7 +112,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     {
       socialMedialLinks,
       domainURL: getDomainUrl(request),
-      honeypotInputProps: honeypot.getInputProps(),
     },
     {},
   )
@@ -121,7 +120,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
     // Tell the browser to always check the freshness of the cache
-    "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=1800, stale-while-revalidate=604800",
+    "Cache-Control":
+      "public, max-age=0, must-revalidate, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
@@ -135,8 +135,6 @@ export const meta: MetaFunction = () => [
 ]
 
 export default function App() {
-  const { honeypotInputProps } = useLoaderData<RootLoader>()
-
   return (
     <html lang="en">
       <head>
@@ -166,11 +164,9 @@ export default function App() {
         ></script>
       </head>
       <body>
-        <HoneypotProvider {...honeypotInputProps}>
-          <Outlet />
-          <NewsletterSignUp />
-          <Footer />
-        </HoneypotProvider>
+        <Outlet />
+        <NewsletterSignUp />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>
