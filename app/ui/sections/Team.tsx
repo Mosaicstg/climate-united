@@ -8,7 +8,6 @@ import {
   domAnimation,
   LazyMotion,
   m,
-  motion,
   useReducedMotion,
 } from "framer-motion"
 
