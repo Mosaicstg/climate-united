@@ -3,7 +3,12 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import {
+  domAnimation,
+  LazyMotion,
+  m,
+  useReducedMotion,
+} from "framer-motion"
 
 type BucketProps = Bucket & { shadowColor: string }
 
@@ -36,22 +41,26 @@ export function Bucket({
   return (
     <div className="md:w-1/4">
       <div className="relative mx-auto mb-10 w-1/2 md:w-full">
-        <motion.img
-          variants={image}
-          className="relative z-10 aspect-square w-full rounded-full object-cover"
-          src={url}
-          alt={description || ""}
-          width={width}
-          height={height}
-          loading="lazy"
-        />
+        <LazyMotion features={domAnimation}>
+          <m.img
+            variants={image}
+            className="relative z-10 aspect-square w-full rounded-full object-cover"
+            src={url}
+            alt={description || ""}
+            width={width}
+            height={height}
+            loading="lazy"
+          />
+        </LazyMotion>
         <div
           className={`absolute bottom-0 left-0 aspect-square w-full translate-y-[50%] scale-y-[.15] rounded-full ${shadowColor}`}
         ></div>
       </div>
-      <motion.div variants={text} className="relative">
-        {documentToReactComponents(bucketText.json, richTextRenderOptions)}
-      </motion.div>
+      <LazyMotion features={domAnimation}>
+        <m.div variants={text} className="relative">
+          {documentToReactComponents(bucketText.json, richTextRenderOptions)}
+        </m.div>
+      </LazyMotion>
     </div>
   )
 }

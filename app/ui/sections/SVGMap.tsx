@@ -1,6 +1,11 @@
 import type { SectionTextImage } from "~/schemas/sections/section.text-image.server"
 import { useState, useEffect, useCallback } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import {
+  LazyMotion,
+  domAnimation,
+  m,
+  useReducedMotion,
+} from "framer-motion"
 import {
   Dialog,
   DialogContent,
@@ -173,39 +178,41 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
                   </p>
                 ) : epaRegionFetcher.data && epaRegionFetcher.data.success ? (
                   <ul className="flex flex-col gap-6">
-                    {epaRegionFetcher.data?.data.caseStudies.map(
-                      (caseStudy, index) => (
-                        <motion.li
-                          transition={{
-                            ease: "linear",
-                            duration: 0.6,
-                            delay: 0.1,
-                          }}
-                          initial={{
-                            opacity: prefersReducedMotion ? 1 : 0,
-                          }}
-                          animate={{
-                            opacity: 1,
-                          }}
-                          key={index}
-                          className="flex-col gap-1"
-                        >
-                          {caseStudy.category ? (
-                            <p className="text-sm uppercase">
-                              {caseStudy.category}
-                            </p>
-                          ) : null}
-                          <h3 className="text-lg font-bold">
-                            <a href={`/case-study/${caseStudy.slug}`}>
-                              {caseStudy.title}
-                            </a>
-                          </h3>
-                          {caseStudy.location ? (
-                            <p className="text-sm">{caseStudy.location}</p>
-                          ) : null}
-                        </motion.li>
-                      ),
-                    )}
+                    <LazyMotion features={domAnimation}>
+                      {epaRegionFetcher.data?.data.caseStudies.map(
+                        (caseStudy, index) => (
+                          <m.li
+                            transition={{
+                              ease: "linear",
+                              duration: 0.6,
+                              delay: 0.1,
+                            }}
+                            initial={{
+                              opacity: prefersReducedMotion ? 1 : 0,
+                            }}
+                            animate={{
+                              opacity: 1,
+                            }}
+                            key={index}
+                            className="flex-col gap-1"
+                          >
+                            {caseStudy.category ? (
+                              <p className="text-sm uppercase">
+                                {caseStudy.category}
+                              </p>
+                            ) : null}
+                            <h3 className="text-lg font-bold">
+                              <a href={`/case-study/${caseStudy.slug}`}>
+                                {caseStudy.title}
+                              </a>
+                            </h3>
+                            {caseStudy.location ? (
+                              <p className="text-sm">{caseStudy.location}</p>
+                            ) : null}
+                          </m.li>
+                        ),
+                      )}
+                    </LazyMotion>
                   </ul>
                 ) : epaRegionFetcher.data && !epaRegionFetcher.data.success ? (
                   <p className="text-lg">Coming soon.</p>

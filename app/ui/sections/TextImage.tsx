@@ -3,7 +3,12 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import {
+  domAnimation,
+  LazyMotion,
+  m,
+  useReducedMotion,
+} from "framer-motion"
 
 type SectionTextImageProps = SectionTextImage
 
@@ -20,37 +25,42 @@ export function TextImageSection({
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-5">
         <div className="mx-auto max-w-screen-lg py-12">
-          <motion.img
-            initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              ease: "linear",
-              duration: 0.5,
-              delay: 0.5,
-            }}
-            className="mb-12 w-full"
-            src={url}
-            alt={description || ""}
-            width={width}
-            height={height}
-          />
-          <motion.div
-            initial={{
-              opacity: prefersReducedMotion ? 1 : 0,
-              bottom: prefersReducedMotion ? "0" : "-5rem",
-            }}
-            whileInView={{ opacity: 1, bottom: "0" }}
-            viewport={{ once: true }}
-            transition={{
-              ease: "linear",
-              duration: 0.5,
-              delay: 0.5,
-            }}
-            className="relative"
-          >
-            {documentToReactComponents(mainContent.json, richTextRenderOptions)}
-          </motion.div>
+          <LazyMotion features={domAnimation}>
+            <m.img
+              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{
+                ease: "linear",
+                duration: 0.5,
+                delay: 0.5,
+              }}
+              className="mb-12 w-full"
+              src={url}
+              alt={description || ""}
+              width={width}
+              height={height}
+            />
+            <m.div
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                bottom: prefersReducedMotion ? "0" : "-5rem",
+              }}
+              whileInView={{ opacity: 1, bottom: "0" }}
+              viewport={{ once: true }}
+              transition={{
+                ease: "linear",
+                duration: 0.5,
+                delay: 0.5,
+              }}
+              className="relative"
+            >
+              {documentToReactComponents(
+                mainContent.json,
+                richTextRenderOptions,
+              )}
+            </m.div>
+          </LazyMotion>
         </div>
       </section>
     </>

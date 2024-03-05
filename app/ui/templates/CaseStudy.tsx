@@ -5,7 +5,6 @@ import {
   domAnimation,
   LazyMotion,
   m,
-  motion,
   useReducedMotion,
 } from "framer-motion"
 import type {
@@ -101,13 +100,15 @@ function renderOptions(links: z.infer<typeof LinksSchema>) {
                 <source type="image/avif" srcSet={`${url}?fm=avif&w=2000`} />
                 <source type="image/webp" srcSet={`${url}?fm=webp&w=2000`} />
                 <source type="image/webp" srcSet={`${url}?fm=png&w=2000`} />
-                <motion.img
-                  src={url}
-                  alt={title}
-                  className="w-full overflow-hidden rounded-xl border"
-                  width={width}
-                  height={height}
-                />
+                <LazyMotion features={domAnimation}>
+                  <m.img
+                    src={url}
+                    alt={title}
+                    className="w-full overflow-hidden rounded-xl border"
+                    width={width}
+                    height={height}
+                  />
+                </LazyMotion>
               </picture>
               {description ? (
                 <figcaption className="bg-gray-100 p-4 text-center dark:bg-gray-800">

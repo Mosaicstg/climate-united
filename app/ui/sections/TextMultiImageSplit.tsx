@@ -3,7 +3,12 @@ import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { motion, useReducedMotion } from "framer-motion"
+import {
+  domAnimation,
+  LazyMotion,
+  m,
+  useReducedMotion,
+} from "framer-motion"
 
 type SectionTextMultiImageSplitProps = SectionTextMultiImageSplit
 
@@ -71,43 +76,50 @@ export function TextMultiImageSplitSection({
               }
               return (
                 <div className="w-1/2 px-3" key={image.url}>
-                  <motion.img
-                    variants={animationVariant}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                    transition={{
-                      ease: "linear",
-                      duration: 0.5,
-                      delay: 0.5,
-                    }}
-                    className={`relative aspect-square w-full rounded-full object-contain p-7 ${classes}`}
-                    src={image.url}
-                    alt={image.description || ""}
-                    width={image.width}
-                    height={image.height}
-                    loading="lazy"
-                  />
+                  <LazyMotion features={domAnimation}>
+                    <m.img
+                      variants={animationVariant}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true }}
+                      transition={{
+                        ease: "linear",
+                        duration: 0.5,
+                        delay: 0.5,
+                      }}
+                      className={`relative aspect-square w-full rounded-full object-contain p-7 ${classes}`}
+                      src={image.url}
+                      alt={image.description || ""}
+                      width={image.width}
+                      height={image.height}
+                      loading="lazy"
+                    />
+                  </LazyMotion>
                 </div>
               )
             })}
           </div>
-          <motion.div
-            initial={{
-              opacity: prefersReducedMotion ? 1 : 0,
-              right: prefersReducedMotion ? "0" : "-5rem",
-            }}
-            whileInView={{ opacity: 1, right: "0" }}
-            viewport={{ once: true }}
-            transition={{
-              ease: "linear",
-              duration: 0.5,
-              delay: 0.5,
-            }}
-            className="relative md:w-3/5"
-          >
-            {documentToReactComponents(mainContent.json, richTextRenderOptions)}
-          </motion.div>
+          <LazyMotion features={domAnimation}>
+            <m.div
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                right: prefersReducedMotion ? "0" : "-5rem",
+              }}
+              whileInView={{ opacity: 1, right: "0" }}
+              viewport={{ once: true }}
+              transition={{
+                ease: "linear",
+                duration: 0.5,
+                delay: 0.5,
+              }}
+              className="relative md:w-3/5"
+            >
+              {documentToReactComponents(
+                mainContent.json,
+                richTextRenderOptions,
+              )}
+            </m.div>
+          </LazyMotion>
         </div>
       </section>
     </>

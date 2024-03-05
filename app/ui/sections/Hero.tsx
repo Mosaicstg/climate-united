@@ -3,7 +3,12 @@ import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { motion, useReducedMotion } from "framer-motion"
+import {
+  domAnimation,
+  LazyMotion,
+  m,
+  useReducedMotion,
+} from "framer-motion"
 
 type SectionHeroProps = SectionHero
 
@@ -20,56 +25,49 @@ export function HeroSection({
     <>
       <section className="overflow-hidden bg-lightGreen text-white">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:px-0 md:py-[10rem] md:pl-5">
-          <motion.div
-            initial={{
-              opacity: prefersReducedMotion ? 1 : 0,
-              left: prefersReducedMotion ? "0" : "-5rem",
-            }}
-            whileInView={{ opacity: 1, left: "0" }}
-            viewport={{ once: true }}
-            transition={{
-              ease: "linear",
-              duration: 0.5,
-              delay: 0.5,
-            }}
-            className="relative w-4/5 pb-[18rem] md:w-1/2 md:pb-0"
-          >
-            {documentToReactComponents(mainContent.json, richTextRenderOptions)}
-          </motion.div>
-          <div className="relative md:w-1/2">
-            <motion.div
-              initial={{ padding: prefersReducedMotion ? "0" : "5rem" }}
-              whileInView={{ padding: "0" }}
+          <LazyMotion features={domAnimation}>
+            <m.div
+              initial={{
+                opacity: prefersReducedMotion ? 1 : 0,
+                left: prefersReducedMotion ? "0" : "-5rem",
+              }}
+              whileInView={{ opacity: 1, left: "0" }}
               viewport={{ once: true }}
               transition={{
                 ease: "linear",
-                duration: 1,
+                duration: 0.5,
+                delay: 0.5,
               }}
-              className="absolute -right-6 bottom-0 w-[150%] translate-x-[25%] translate-y-[40%] md:translate-x-[40%] md:translate-y-[45%]"
+              className="relative w-4/5 pb-[18rem] md:w-1/2 md:pb-0"
             >
-              <motion.div
-                initial={{ padding: prefersReducedMotion ? "1.25rem" : "0" }}
-                whileInView={{ padding: "1.25rem" }}
+              {documentToReactComponents(
+                mainContent.json,
+                richTextRenderOptions,
+              )}
+            </m.div>
+            <div className="relative md:w-1/2">
+              <m.div
+                initial={{ padding: prefersReducedMotion ? "0" : "5rem" }}
+                whileInView={{ padding: "0" }}
                 viewport={{ once: true }}
                 transition={{
                   ease: "linear",
-                  duration: 0.25,
-                  delay: 0.75,
+                  duration: 1,
                 }}
-                className="rounded-full bg-[#52C4A5] p-5"
+                className="absolute -right-6 bottom-0 w-[150%] translate-x-[25%] translate-y-[40%] md:translate-x-[40%] md:translate-y-[45%]"
               >
-                <motion.div
+                <m.div
                   initial={{ padding: prefersReducedMotion ? "1.25rem" : "0" }}
                   whileInView={{ padding: "1.25rem" }}
                   viewport={{ once: true }}
                   transition={{
                     ease: "linear",
                     duration: 0.25,
-                    delay: 0.5,
+                    delay: 0.75,
                   }}
-                  className="rounded-full bg-[#73CFB7] p-5"
+                  className="rounded-full bg-[#52C4A5] p-5"
                 >
-                  <motion.div
+                  <m.div
                     initial={{
                       padding: prefersReducedMotion ? "1.25rem" : "0",
                     }}
@@ -78,11 +76,11 @@ export function HeroSection({
                     transition={{
                       ease: "linear",
                       duration: 0.25,
-                      delay: 0.25,
+                      delay: 0.5,
                     }}
-                    className="rounded-full bg-[#A8E0D3] p-5"
+                    className="rounded-full bg-[#73CFB7] p-5"
                   >
-                    <motion.div
+                    <m.div
                       initial={{
                         padding: prefersReducedMotion ? "1.25rem" : "0",
                       }}
@@ -91,23 +89,37 @@ export function HeroSection({
                       transition={{
                         ease: "linear",
                         duration: 0.25,
+                        delay: 0.25,
                       }}
-                      className="rounded-full bg-[#D8F0EC] p-5"
+                      className="rounded-full bg-[#A8E0D3] p-5"
                     >
-                      <img
-                        className="w-full rounded-full"
-                        loading={"lazy"}
-                        src={url}
-                        alt={description || ""}
-                        width={width}
-                        height={height}
-                      />
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          </div>
+                      <m.div
+                        initial={{
+                          padding: prefersReducedMotion ? "1.25rem" : "0",
+                        }}
+                        whileInView={{ padding: "1.25rem" }}
+                        viewport={{ once: true }}
+                        transition={{
+                          ease: "linear",
+                          duration: 0.25,
+                        }}
+                        className="rounded-full bg-[#D8F0EC] p-5"
+                      >
+                        <img
+                          className="w-full rounded-full"
+                          loading={"lazy"}
+                          src={url}
+                          alt={description || ""}
+                          width={width}
+                          height={height}
+                        />
+                      </m.div>
+                    </m.div>
+                  </m.div>
+                </m.div>
+              </m.div>
+            </div>
+          </LazyMotion>
         </div>
       </section>
     </>
