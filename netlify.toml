@@ -18,6 +18,7 @@ framework = "vite"
 
     [headers.values]
         "Cache-Control" = "public, max-age=31560000, immutable"
+
 [[headers]]
     for = "/favicons/*"
 

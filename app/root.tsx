@@ -123,7 +123,9 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
     // Tell the browser to always check the freshness of the cache
     "Cache-Control":
-      "public, max-age=0, must-revalidate, s-maxage=600, stale-while-revalidate=604800",
+      "public, max-age=600, must-revalidate",
+    "Netlify-CDN-Cache-Control":
+      "public, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
