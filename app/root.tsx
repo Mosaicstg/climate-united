@@ -120,8 +120,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
-    // Tell the browser to always check the freshness of the cache
-    "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
