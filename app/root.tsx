@@ -120,6 +120,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
+    "Cache-Control": "public, max-age=600, must-revalidate",
+    "Netlify-CDN-Cache-Control":
+      "public, s-maxage=1800, stale-while-revalidate=3600",
     ...loaderHeaders,
   }
 }
