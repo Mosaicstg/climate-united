@@ -13,7 +13,6 @@ import type { RootLoader } from "~/root"
 import { getSocialMetas } from "~/utils/seo"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
-import { serverOnly$ } from "vite-env-only"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { postSlug } = params
@@ -27,7 +26,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ post: post })
 }
 
-export const handle: SEOHandle | undefined = serverOnly$({
+export const handle: SEOHandle | undefined = {
   getSitemapEntries: async (request) => {
     const news = await getPosts(100)
     return news.map((post) => ({
@@ -35,7 +34,7 @@ export const handle: SEOHandle | undefined = serverOnly$({
       priority: 0.7,
     }))
   },
-})
+}
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,

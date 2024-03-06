@@ -3,7 +3,7 @@ import { vitePlugin as remix } from "@remix-run/dev"
 import { installGlobals } from "@remix-run/node"
 import tsconfigPaths from "vite-tsconfig-paths"
 import { remixDevTools } from "remix-development-tools/vite"
-import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
+// import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
 import envOnly from "vite-env-only"
 import { visualizer } from "rollup-plugin-visualizer"
 
@@ -15,7 +15,7 @@ export default defineConfig({
     tsconfigPaths(),
     envOnly(),
     remix(),
-    netlifyPlugin(),
+    // netlifyPlugin(),
     visualizer({
       emitFile: true,
       gzipSize: true,
