@@ -4,8 +4,8 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
-    "dev": "remix vite:dev",
+    "build": "npm run redirects:enable && remix build",
+    "dev": "npm run redirects:enable && remix dev",
     "start": "netlify serve",
     "typecheck": "tsc -b",
     "redirects:enable": "shx cp .redirects public/_redirects",
@@ -19,8 +19,8 @@
     "@contentful/rich-text-react-renderer": "^15.19.0",
     "@contentful/rich-text-types": "^16.3.0",
     "@nasa-gcn/remix-seo": "^2.0.0",
-    "@netlify/functions": "^2.6.0",
-    "@netlify/remix-adapter": "^2.3.0",
+    "@netlify/functions": "^2.5.1",
+    "@netlify/remix-adapter": "^2.2.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-scroll-area": "^1.0.5",
@@ -43,7 +43,6 @@
     "shx": "^0.3.4",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "vite-env-only": "^2.2.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -57,11 +56,9 @@
     "postcss": "^8.4.32",
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.9",
-    "remix-development-tools": "^3.7.4",
+    "remix-development-tools": "^3.4.0",
     "tailwindcss": "^3.3.6",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.4",
-    "vite-tsconfig-paths": "^4.3.1"
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18"
