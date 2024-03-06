@@ -1,6 +1,6 @@
 {
   "include": [
-    "env.d.ts",
+    "remix.env.d.ts",
     "**/*.ts",
     "**/*.tsx",
   ],

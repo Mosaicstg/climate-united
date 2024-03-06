@@ -14,7 +14,7 @@ import {
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import tailwindStyles from "~/tailwind.css?url"
+import tailwindStyles from "~/tailwind.css"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"
@@ -23,6 +23,8 @@ import { Show500 } from "./ui/templates/500"
 import { honeypot } from "./utils/honeypot.server"
 import { HoneypotProvider } from "remix-utils/honeypot/react"
 import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
+import rdtStylesheet from "remix-development-tools/index.css"
+import {withDevTools} from 'remix-development-tools';
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
@@ -104,6 +106,9 @@ export const links: LinksFunction = () => [
     rel: "manifest",
     href: "/assets/favicons/manifest.json",
   },
+  ...(process.env.NODE_ENV === "development"
+    ? [{ rel: "stylesheet", href: rdtStylesheet }]
+    : []),
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -122,8 +127,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
     // Tell the browser to always check the freshness of the cache
-    "Cache-Control":
-      "public, max-age=600, must-revalidate",
+    "Cache-Control": "public, max-age=600, must-revalidate",
     "Netlify-CDN-Cache-Control":
       "public, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
@@ -138,7 +142,15 @@ export const meta: MetaFunction = () => [
   },
 ]
 
-export default function App() {
+let AppExport = App
+
+if (process.env.NODE_ENV === "development") {
+    AppExport = withDevTools(App)
+}
+
+export default AppExport
+
+function App() {
   const { honeypotInputProps } = useLoaderData<RootLoader>()
 
   return (
