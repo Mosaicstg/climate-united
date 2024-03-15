@@ -35,14 +35,14 @@ export default function Header({
           <button
             data-collapse-toggle="navbar-main"
             type="button"
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm ${hamburgerColor} focus:outline-none md:hidden`}
+            className={`inline-flex h-8 w-8 items-center justify-center rounded-lg text-sm ${hamburgerColor} focus:outline-none min-[800px]:hidden`}
             aria-controls="navbar-default"
             aria-expanded={isNavOpen}
             onClick={() => setIsNavOpen(!isNavOpen)}
           >
             <span className="sr-only">Open main menu</span>
             <svg
-              className="h-5 w-5"
+              className="h-[1.375rem] w-[1.375rem]"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -60,10 +60,10 @@ export default function Header({
           <div
             className={`${
               isNavOpen ? "block" : "hidden"
-            } w-full md:block md:w-auto`}
+            } w-full min-[800px]:block min-[800px]:w-auto`}
             id="navbar-default"
           >
-            <ul className="flex flex-col font-bold md:flex-row md:space-x-8 md:border-0 md:p-0 rtl:space-x-reverse">
+            <ul className="flex flex-col font-bold md:border-0 md:p-0 min-[800px]:text-sm min-[800px]:flex-row min-[800px]:space-x-5 lg:space-x-8 lg:text-base rtl:space-x-reverse">
               <li>
                 <a
                   className={`${linkColor}`}
@@ -89,6 +89,11 @@ export default function Header({
               <li>
                 <a className={`${linkColor}`} href="/case-studies">
                   Case Studies
+                </a>
+              </li>
+              <li>
+                <a className={`${linkColor}`} href="/work-with-us">
+                  Work With Us
                 </a>
               </li>
             </ul>

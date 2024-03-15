@@ -10,7 +10,7 @@ export const PageSchema = z.object({
   headline: z.string(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema,
-  seo: SEOSchema
+  seo: SEOSchema,
 })
 
 export type Page = z.infer<typeof PageSchema>
@@ -56,6 +56,54 @@ export async function getPage(id: string) {
   }
 
   const page = response.data.page
+
+  return validateWithSchema(PageSchema, page)
+}
+
+export const PageBySlugQuery = `
+  query PageBySlug($slug: String!) {
+    pageCollection(where: { slug: $slug }) {
+      items {
+        title
+        headline
+        mainContent {
+          json
+        }
+        featuredImage {
+          fileName
+          url
+          description
+          width
+          height
+        }
+        seo {
+          title
+          excerpt
+          image {
+            fileName
+            url
+            description
+            width
+            height
+          }
+          keywords
+        }
+      }
+    }
+  }
+`
+export async function getPageBySlug(slug: string): Promise<Page | null> {
+  const response = await typedFetchGraphQL<{
+    pageCollection: { items: Page[] }
+  }>(PageBySlugQuery, { slug })
+
+  if (!response.data) {
+    console.error(`Error for Page with slug:${slug}`, response.errors)
+
+    return null
+  }
+
+  const page = response.data.pageCollection.items[0]
 
   return validateWithSchema(PageSchema, page)
 }

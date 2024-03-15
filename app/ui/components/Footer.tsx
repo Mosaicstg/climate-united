@@ -61,6 +61,14 @@ export default function Footer() {
                   Case Studies
                 </a>
               </li>
+              <li>
+                <a
+                  className="duration-300 ease-in-out hover:text-blue"
+                  href="/work-with-us"
+                >
+                  Work With Us
+                </a>
+              </li>
             </ul>
           </nav>
           <div className="col-span-2">
@@ -92,7 +100,7 @@ export default function Footer() {
               >
                 RE-volv
               </a>
-              ,{" "}and{" "}
+              , and{" "}
               <a
                 className="underline duration-300 ease-in-out hover:text-blue"
                 href="https://www.sunwealth.com/"
