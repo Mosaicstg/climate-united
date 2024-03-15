@@ -9,15 +9,34 @@ import { type RootLoader } from "~/root"
 import { getSocialMetas } from "~/utils/seo"
 import { useLoaderData } from "@remix-run/react"
 import { Page } from "~/ui/templates/Page"
+import { z } from "zod"
 
 export const loader = async (_: LoaderFunctionArgs) => {
-  const worthWithUsPage = await getPageBySlug("work-with-us")
+  try {
+    const worthWithUsPage = await getPageBySlug("work-with-us")
 
-  invariantResponse(worthWithUsPage, "Page not found", { status: 404 })
+    invariantResponse(worthWithUsPage, "Page not found", { status: 404 })
 
-  return json({
-    page: worthWithUsPage,
-  } as const)
+    return json({ page: worthWithUsPage } as const)
+  } catch (error) {
+    // Log this on the server
+    console.error(error)
+
+    if (error instanceof Response) {
+      const message = await error.text()
+
+      throw new Response(message, { status: 404 })
+    }
+
+    if (error instanceof z.ZodError) {
+      const errors = error.issues.map((error) => error.message)
+      const errorMessage = errors.join(", ")
+
+      throw new Response(errorMessage, { status: 404 })
+    }
+
+    throw new Response("Something went wrong!", { status: 500 })
+  }
 }
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
