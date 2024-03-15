@@ -91,6 +91,11 @@ export default function Header({
                   Case Studies
                 </a>
               </li>
+              <li>
+                <a className={`${linkColor}`} href="/work-with-us">
+                  Work With Us
+                </a>
+              </li>
             </ul>
           </div>
         </div>
