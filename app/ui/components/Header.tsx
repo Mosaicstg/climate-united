@@ -35,14 +35,14 @@ export default function Header({
           <button
             data-collapse-toggle="navbar-main"
             type="button"
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm ${hamburgerColor} focus:outline-none min-[800px]:hidden`}
+            className={`inline-flex h-8 w-8 items-center justify-center rounded-lg text-sm ${hamburgerColor} focus:outline-none min-[800px]:hidden`}
             aria-controls="navbar-default"
             aria-expanded={isNavOpen}
             onClick={() => setIsNavOpen(!isNavOpen)}
           >
             <span className="sr-only">Open main menu</span>
             <svg
-              className="h-5 w-5"
+              className="h-[1.375rem] w-[1.375rem]"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
