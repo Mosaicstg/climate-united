@@ -19,7 +19,7 @@ export function HeroSection({
   return (
     <>
       <section className="overflow-hidden bg-lightGreen text-white">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:px-0 md:pl-5 md:py-[10rem]">
+        <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-6 py-12 md:flex-row md:gap-12 md:px-0 md:py-[10rem] md:pl-5">
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
@@ -32,11 +32,11 @@ export function HeroSection({
               duration: 0.5,
               delay: 0.5,
             }}
-            className="relative w-4/5 pb-[18rem] md:w-1/2 md:pb-0"
+            className="relative w-4/5 md:w-3/4 lg:w-1/2 md:pb-[18rem] lg:pb-0 z-10"
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
-          <div className="relative md:w-1/2">
+          <div className="relative -mt-[35%] md:mt-0 md:w-3/4 lg:w-1/2">
             <motion.div
               initial={{ padding: prefersReducedMotion ? "0" : "5rem" }}
               whileInView={{ padding: "0" }}
@@ -45,7 +45,7 @@ export function HeroSection({
                 ease: "linear",
                 duration: 1,
               }}
-              className="absolute -right-6 bottom-0 w-[150%] translate-x-[25%] translate-y-[40%] md:translate-x-[40%] md:translate-y-[45%]"
+              className="relative translate-x-[2%] translate-y-[35%] w-[140%] md:absolute md:-right-6 md:bottom-0 md:w-[150%] md:translate-x-[25%] md:translate-y-[40%] lg:translate-x-[40%] lg:translate-y-[45%]"
             >
               <motion.div
                 initial={{ padding: prefersReducedMotion ? "1.25rem" : "0" }}
