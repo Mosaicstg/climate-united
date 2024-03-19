@@ -2,7 +2,12 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type Page } from "~/models/page.server"
 import Header from "~/ui/components/Header"
 import { motion, useReducedMotion } from "framer-motion"
-import { BLOCKS, type Block, INLINES, type Inline } from "@contentful/rich-text-types"
+import {
+  BLOCKS,
+  type Block,
+  INLINES,
+  type Inline,
+} from "@contentful/rich-text-types"
 import { type ReactNode } from "react"
 
 type PageProps = Page
@@ -28,6 +33,43 @@ const richTextRenderOptions = {
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
       return <h2 className="mb-5 text-3xl">{children}</h2>
+    },
+    [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h3 className="mb-4 text-2xl font-bold dark:text-gray-200">
+          {children}
+        </h3>
+      )
+    },
+    [BLOCKS.HEADING_4]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h4 className="mb-4 text-xl uppercase dark:text-gray-200">
+          {children}
+        </h4>
+      )
+    },
+    [BLOCKS.HEADING_5]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h5 className="mb-4 text-lg font-bold dark:text-gray-200">
+          {children}
+        </h5>
+      )
+    },
+    [BLOCKS.HEADING_6]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h6 className="text-md mb-4 font-bold uppercase dark:text-gray-200">
+          {children}
+        </h6>
+      )
+    },
+    [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ul className="ml-12 list-disc">{children}</ul>
+    },
+    [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ol className="ml-12 list-decimal">{children}</ol>
+    },
+    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
+      return <li>{children}</li>
     },
   },
 }
@@ -96,7 +138,7 @@ export function Page({
               ></motion.div>
             </div>
             <div className="text-darkBlue md:order-1 md:w-2/3">
-              <h1 className="mb-5 text-3xl font-bold">{headline}</h1>
+              <h1 className="mb-5 text-4xl font-bold">{headline}</h1>
               {documentToReactComponents(
                 mainContent.json,
                 richTextRenderOptions,
