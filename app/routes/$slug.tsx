@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react"
 import { z } from "zod"
 import { getAboutPageBySlug } from "~/models/about.server"
 import { getCaseStudiesPageBySlug } from "~/models/case-studies.server"
+import { getEPARegions } from "~/models/epa-region.server"
 import { getLandingPageBySlug } from "~/models/landing-page.server"
 import { getPageBySlug } from "~/models/page.server"
 import { getTeamPageBySlug } from "~/models/team.server"
@@ -172,8 +173,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
           status: 404,
         })
 
+        const regions = await getEPARegions()
+
         return json({
           landingPage,
+          regions,
           __typename: contentType.__typename,
         } as const)
       default:
