@@ -63,3 +63,60 @@ export async function getCaseStudiesPage(
 
   return validateWithSchema(CaseStudiesPageSchema, caseStudiesPage)
 }
+
+const CaseStudiesBySlugQuery = `
+  query CaseStudiesBySlug($slug: String!) {
+    caseStudiesCollection(where: {slug: $slug}, limit: 1) {
+      items {
+        id
+        title
+        headline
+        mainContent {
+          json
+        }
+        featuredImage {
+          fileName
+          url
+          description
+          width
+          height
+        }
+        seo {
+          title
+          excerpt
+          image {
+            fileName
+            url
+            description
+            width
+            height
+          }
+          keywords
+        }
+      }
+    }
+  }
+`
+
+export async function getCaseStudiesPageBySlug(
+  slug: string,
+): Promise<CaseStudies | null> {
+  const response = await typedFetchGraphQL<{
+    caseStudiesCollection: {
+      items: Array<CaseStudies>
+    }
+  }>(CaseStudiesBySlugQuery, { slug })
+
+  if (!response.data) {
+    console.error(
+      `Error for Case Studies Page with slug:${slug}`,
+      response.errors,
+    )
+
+    return null
+  }
+
+  const caseStudiesPage = response.data.caseStudiesCollection.items[0]
+
+  return validateWithSchema(CaseStudiesPageSchema, caseStudiesPage)
+}

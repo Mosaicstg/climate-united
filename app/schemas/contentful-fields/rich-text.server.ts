@@ -85,9 +85,7 @@ export const LinksSchema = z.object({
   }),
 })
 
-export function createRichTextSchemaWithEmbeddedAssets<T>(
-  schema: z.Schema<T>,
-) {
+export function createRichTextSchemaWithEmbeddedAssets<T>(schema: z.Schema<T>) {
   return RichTextSchema.and(schema)
 }
 
