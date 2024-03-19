@@ -83,37 +83,25 @@ export async function getTeamPage(id: string) {
   return validateWithSchema(TeamPageSchema, teamPage)
 }
 
-// This function will crash the GraphQL server if the limit is too high
-export async function getTeamPages(count: number = 10) {
-  const query = `query {
-        teamPageCollection(limit: ${count}) {
-            items {
-                title
-                headline
-                sectionsCollection {
-                    items {
-                        title
-                        headline
-                        mainContent {
-                            json
-                        }
-                        teamMembersCollection(limit: 20) {
-                            items {
-                                slug
-                                name
-                                position
-                                department
-                                featuredImage {
-                                    fileName
-                                    url
-                                    description
-                                    width
-                                    height
-                                }
-                            }
-                        }
-                    }
-                }
+const TeamPageBySlugQuery = `
+  query TeamPageBySlug($slug: String!) {
+    teamPageCollection(where: { slug: $slug }, limit: 1) {
+      items {
+        title
+        headline
+        sectionsCollection {
+          items {
+            title
+            headline
+            mainContent {
+              json
+            }
+            teamMembersCollection(limit: 54) {
+              items {
+                slug
+                name
+                position
+                department
                 featuredImage {
                   fileName
                   url
@@ -121,33 +109,48 @@ export async function getTeamPages(count: number = 10) {
                   width
                   height
                 }
-                seo {
-                  title
-                  excerpt
-                  image {
-                    fileName
-                    url
-                    description
-                    width
-                    height
-                  }
-                  keywords
-                }
+              }
             }
+          }
         }
-    }`
+        featuredImage {
+          fileName
+          url
+          description
+          width
+          height
+        }
+        seo {
+          title
+          excerpt
+          image {
+            fileName
+            url
+            description
+            width
+            height
+          }
+          keywords
+        }
+      }
+    }
+  }
+`
 
+export async function getTeamPageBySlug(
+  slug: string,
+): Promise<TeamPage | null> {
   const response = await typedFetchGraphQL<{
     teamPageCollection: { items: Array<TeamPage> }
-  }>(query)
+  }>(TeamPageBySlugQuery, { slug })
 
   if (!response.data) {
-    console.error("Failed to fetch Team Pages", response.errors)
+    console.error("Failed to fetch team page", response.errors)
 
-    return []
+    return null
   }
 
-  const teamPages = response.data.teamPageCollection.items
+  const teamPage = response.data.teamPageCollection.items[0]
 
-  return validateWithSchema(TeamPagesSchema, teamPages)
+  return validateWithSchema(TeamPageSchema, teamPage)
 }
