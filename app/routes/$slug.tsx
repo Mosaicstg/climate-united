@@ -128,6 +128,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   invariantResponse(slug, "Page slug not found.", { status: 404 })
 
+  const foundSlash = slug.indexOf("/") === 0
+
+  invariantResponse(!foundSlash, "Page slug not found.", { status: 404 })
+
   const contentType = await findContentBySlug(slug)
 
   invariantResponse(contentType, "Content not found.", { status: 404 })
