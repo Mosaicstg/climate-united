@@ -38,6 +38,7 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
 
 export const LandingPageSchema = z.object({
   title: z.string(),
+  slug: z.string(),
   sectionsCollection: z.object({
     items: z.array(SectionsDiscriminatedUnion),
   }),
@@ -51,6 +52,7 @@ export async function getLandingPage(id: string) {
     query {
         landingPage(id: "${id}") {
             title
+            slug
             sectionsCollection {
                 items {
                     __typename
@@ -250,6 +252,221 @@ export async function getLandingPage(id: string) {
   }
 
   const landingPage = response.data.landingPage
+
+  return validateWithSchema(LandingPageSchema, landingPage)
+}
+
+const LandingPageBySlugQuery = `
+    query LandingPageBySlug($slug: String!) {
+        landingPageCollection(where: { slug: $slug }, limit: 1) {
+            items {
+                title
+                slug
+                sectionsCollection {
+                    items {
+                        __typename
+                        ... on SectionHero {
+                            title
+                            mainContent {
+                                json
+                            }
+                            featuredImage {
+                                fileName
+                                url
+                                description
+                                width
+                                height
+                            }
+                        }
+                        ... on SectionTextMultiImageSplit {
+                            title
+                            mainContent {
+                                json
+                            }
+                            featuredImagesCollection {
+                                items {
+                                    fileName
+                                    url
+                                    width
+                                    height
+                                }
+                            }
+                        }
+                        ... on SectionTextImageSplit {
+                            title
+                            mainContent {
+                                json
+                            }
+                            featuredImage {
+                                fileName
+                                url
+                                width
+                                height
+                            }
+                        }
+                        ... on SectionBucketGrid {
+                            title
+                            headline
+                            mainContent {
+                                json
+                            }
+                            bucketsCollection {
+                                items {
+                                    title
+                                    bucketText {
+                                        json
+                                    }
+                                    bucketImage {
+                                        fileName
+                                        url
+                                        width
+                                        height
+                                    }
+                                }
+                            }
+                        }
+                        ... on SectionTextImage {
+                            title
+                            mainContent {
+                                json
+                            }
+                            featuredImage {
+                                fileName
+                                url
+                                width
+                                height
+                            }
+                        }
+                        ... on SectionEventsResources {
+                            title
+                            headlineEvents
+                            eventsCollection(limit: 3) {
+                                items {
+                                    title
+                                    slug
+                                    headline
+                                    datetime
+                                    location
+                                    excerpt {
+                                        json
+                                    }
+                                    mainContent {
+                                        json
+                                    }
+                                    seo {
+                                    title
+                                    excerpt
+                                    image {
+                                        fileName
+                                        url
+                                        description
+                                        width
+                                        height
+                                    }
+                                    keywords
+                                    }
+                                }
+                            }
+                            textEvents {
+                            json
+                            }
+                            headlineResources
+                            resourcesCollection(limit: 6) {
+                                items {
+                                    title
+                                    file {
+                                        fileName
+                                        url
+                                    }
+                                }
+                            }
+                            featuredImage {
+                                fileName
+                                url
+                                width
+                                height
+                            }
+                        }
+                        ... on SectionSocialMediaCta {
+                            title
+                            headline
+                            socialMediaLinksCollection {
+                                items {
+                                    platform
+                                    url
+                                }
+                            }
+                        }
+                        ... on SectionNewsPressReleases {
+                            title
+                            headline
+                            postsCollection(limit: 5) {
+                                items {
+                                    title
+                                    slug
+                                    date
+                                    headline
+                                    excerpt {
+                                        json
+                                    }
+                                    mainContent {
+                                        json
+                                    }
+                                    featuredImage {
+                                        fileName
+                                        url
+                                        description
+                                        width
+                                        height
+                                    }
+                                    seo {
+                                    title
+                                    excerpt
+                                    image {
+                                        fileName
+                                        url
+                                        description
+                                        width
+                                        height
+                                    }
+                                    keywords
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                seo {
+                    title
+                    excerpt
+                    image {
+                        fileName
+                        url
+                        description
+                        width
+                        height
+                    }
+                    keywords
+                }
+            }
+        }
+    }
+`
+
+export async function getLandingPageBySlug(
+  slug: string,
+): Promise<LandingPage | null> {
+  const response = await typedFetchGraphQL<{
+    landingPageCollection: { items: Array<LandingPage> }
+  }>(LandingPageBySlugQuery, { slug })
+
+  if (!response.data) {
+    console.error(`Error for Landing Page with slug:${slug}`, response.errors)
+
+    return null
+  }
+
+  const landingPage = response.data.landingPageCollection.items[0]
 
   return validateWithSchema(LandingPageSchema, landingPage)
 }

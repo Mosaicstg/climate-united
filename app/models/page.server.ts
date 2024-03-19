@@ -9,7 +9,7 @@ export const PageSchema = z.object({
   title: z.string(),
   headline: z.string(),
   mainContent: RichTextSchema,
-  featuredImage: ImageSchema,
+  featuredImage: ImageSchema.nullable().optional(),
   seo: SEOSchema,
 })
 
@@ -94,7 +94,7 @@ export const PageBySlugQuery = `
 `
 export async function getPageBySlug(slug: string): Promise<Page | null> {
   const response = await typedFetchGraphQL<{
-    pageCollection: { items: Page[] }
+    pageCollection: { items: Array<Page> }
   }>(PageBySlugQuery, { slug })
 
   if (!response.data) {

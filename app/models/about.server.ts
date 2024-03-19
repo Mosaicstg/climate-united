@@ -80,70 +80,72 @@ export async function getAboutPage(id: string): Promise<AboutPage | null> {
   return validateWithSchema(AboutPageSchema, aboutPage)
 }
 
-export async function getAboutPages(
-  count: number = 10,
-): Promise<Array<AboutPage>> {
-  const query = `
-    query {
-        aboutPageCollection(limit: ${count}) {
-            items {
-                title
-                sectionsCollection {
-                    items {
-                        title
-                        mainContent {
-                            json
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            description
-                            width
-                            height
-                        }
-                        imagesCollection {
-                          items {
-                            fileName
-                            url
-                            width
-                            height
-                          }
-                        }
-                    }
-                }
-                featuredImage {
-                    fileName
-                    url
-                    description
-                    width
-                    height
-                }
-                seo {
-                  title
-                  excerpt
-                  image {
-                    fileName
-                    url
-                    description
-                    width
-                    height
-                  }
-                }
+const AboutPageBySlugQuery = `
+  query AboutPageBySlug($slug: String!) {
+    aboutPageCollection(where: {slug: $slug}, limit: 1) {
+      items {
+        title
+        sectionsCollection {
+          items {
+            title
+            mainContent {
+              json
             }
+            featuredImage {
+              fileName
+              url
+              description
+              width
+              height
+            }
+            imagesCollection {
+              items {
+                fileName
+                url
+                width
+                height
+              }
+            }
+          }
         }
-    }`
+        featuredImage {
+          fileName
+          url
+          description
+          width
+          height
+        }
+        seo {
+          title
+          excerpt
+          image {
+            fileName
+            url
+            description
+            width
+            height
+          }
+          keywords
+        }
+      }
+    }
+  }
+`
 
+export async function getAboutPageBySlug(
+  slug: string,
+): Promise<AboutPage | null> {
   const response = await typedFetchGraphQL<{
     aboutPageCollection: { items: Array<AboutPage> }
-  }>(query)
+  }>(AboutPageBySlugQuery, { slug })
 
   if (!response.data) {
-    console.error(`Error for About Page collection`, response.errors)
+    console.error(`Error for About Page with slug:${slug}`, response.errors)
 
-    return []
+    return null
   }
 
-  const aboutPages = response.data.aboutPageCollection.items
+  const aboutPage = response.data.aboutPageCollection.items[0]
 
-  return validateWithSchema(AboutPagesSchema, aboutPages)
+  return validateWithSchema(AboutPageSchema, aboutPage)
 }
