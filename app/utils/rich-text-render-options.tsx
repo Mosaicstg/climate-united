@@ -6,12 +6,14 @@ import {
   type Inline,
 } from "@contentful/rich-text-types"
 import {
-  AssetLinkSchema,
-  HyperlinkSchema,
-  LinksSchema,
+  type AssetLinkSchema,
+  type HyperlinkSchema,
+  type LinksSchema,
 } from "~/schemas/contentful-fields/rich-text.server"
 import { type ReactNode } from "react"
-import { z } from "zod"
+import { type z } from "zod"
+import { useRouteLoaderData } from "@remix-run/react"
+import { type RootLoader } from "~/root"
 
 export const defaultRichTextRenderOptions: Options = {
   renderNode: {
@@ -82,7 +84,7 @@ export const defaultRichTextRenderOptions: Options = {
   },
 }
 
-export function renderRichTextContent({
+export function getRenderRichTextContentOptions({
   renderOptions = defaultRichTextRenderOptions,
   links,
 }: {
@@ -118,6 +120,7 @@ export function renderRichTextContent({
         const { data } = node
         const { target } = data
         const hyperlink = hyperlinks.get(target.sys.id)
+        const rootLoaderData = useRouteLoaderData<RootLoader>("root")
 
         if (!hyperlink) {
           return <>{children}</>
@@ -128,13 +131,6 @@ export function renderRichTextContent({
         let url = slug
 
         switch (__typename) {
-          case "Page":
-          case "TeamPage":
-          case "CaseStudies":
-          case "AboutPage":
-          case "LandingPage":
-            url = slug
-            break
           case "Post":
             url = `/news/${slug}`
             break
@@ -147,7 +143,12 @@ export function renderRichTextContent({
           case "TeamMember":
             url = `/team/${slug}`
             break
+          default:
+            url = `/${slug}`
+            break
         }
+
+        url = rootLoaderData ? `${rootLoaderData.domainURL}${url}` : url
 
         return (
           <a className="text-primary underline dark:text-gray-400" href={url}>

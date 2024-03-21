@@ -65,7 +65,5 @@ export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
 export default function WorkWithUs() {
   const { page } = useLoaderData<typeof loader>()
 
-  console.log({ page });
-
   return <Page {...page} />
 }

@@ -8,7 +8,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "~/lib/utils"
 import {
   defaultRichTextRenderOptions,
-  renderRichTextContent,
+  getRenderRichTextContentOptions,
 } from "~/utils/rich-text-render-options"
 
 type PageProps = Page
@@ -89,7 +89,7 @@ export function Page({ headline, mainContent, featuredImage }: PageProps) {
               <h1 className="mb-5 text-4xl font-bold">{headline}</h1>
               {documentToReactComponents(
                 mainContent.json,
-                renderRichTextContent({
+                getRenderRichTextContentOptions({
                   renderOptions: richTextRenderOptions,
                   links: mainContent?.links,
                 }),

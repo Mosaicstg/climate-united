@@ -1,9 +1,6 @@
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
-import {
-  safeValidateWithSchema,
-  validateWithSchema,
-} from "~/utils/validate-with-schema.server"
+import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import { SEOSchema } from "./seo.server"
@@ -128,8 +125,6 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
     pageCollection: { items: Array<Page> }
   }>(PageBySlugQuery, { slug })
 
-  console.log(response)
-
   if (!response.data) {
     console.error(`Error for Page with slug:${slug}`, response.errors)
 
@@ -138,15 +133,5 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
 
   const page = response.data.pageCollection.items[0]
 
-  const result = PageSchema.safeParse(page)
-
-  if (!result.success) {
-    const errors = result.error.flatten()
-
-    console.error(`Error for Page with slug:${slug}`, errors)
-
-    return null
-  }
-
-  return page as Page
+  return validateWithSchema(PageSchema, page)
 }
