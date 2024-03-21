@@ -5,7 +5,13 @@ import {
   INLINES,
   type Inline,
 } from "@contentful/rich-text-types"
+import {
+  AssetLinkSchema,
+  HyperlinkSchema,
+  LinksSchema,
+} from "~/schemas/contentful-fields/rich-text.server"
 import { type ReactNode } from "react"
+import { z } from "zod"
 
 export const defaultRichTextRenderOptions: Options = {
   renderNode: {
@@ -74,4 +80,81 @@ export const defaultRichTextRenderOptions: Options = {
         return [...children, index > 0 && <br key={index} />, textSegment]
       }, [])
   },
+}
+
+export function renderRichTextContent({
+  renderOptions = defaultRichTextRenderOptions,
+  links,
+}: {
+  renderOptions: Options
+  links?: z.infer<typeof LinksSchema>
+}): Options {
+  const assetMap = new Map<string, z.infer<typeof AssetLinkSchema>>()
+  const hyperlinks = new Map<string, z.infer<typeof HyperlinkSchema>>()
+
+  if (links) {
+    if (links.assets) {
+      for (const asset of links.assets.block) {
+        assetMap.set(asset.sys.id, asset)
+      }
+    }
+
+    if (links.entries) {
+      if (links.entries.hyperlink) {
+        for (const hyperlink of links.entries.hyperlink) {
+          hyperlinks.set(hyperlink.sys.id, hyperlink)
+        }
+      }
+    }
+  }
+
+  return {
+    renderNode: {
+      ...renderOptions.renderNode,
+      [INLINES.ENTRY_HYPERLINK]: (
+        node: Block | Inline,
+        children: ReactNode,
+      ) => {
+        const { data } = node
+        const { target } = data
+        const hyperlink = hyperlinks.get(target.sys.id)
+
+        if (!hyperlink) {
+          return <>{children}</>
+        }
+
+        const { slug, __typename } = hyperlink
+
+        let url = slug
+
+        switch (__typename) {
+          case "Page":
+          case "TeamPage":
+          case "CaseStudies":
+          case "AboutPage":
+          case "LandingPage":
+            url = slug
+            break
+          case "Post":
+            url = `/news/${slug}`
+            break
+          case "Event":
+            url = `/events/${slug}`
+            break
+          case "CaseStudy":
+            url = `/case-study/${slug}`
+            break
+          case "TeamMember":
+            url = `/team/${slug}`
+            break
+        }
+
+        return (
+          <a className="text-primary underline dark:text-gray-400" href={url}>
+            {children}
+          </a>
+        )
+      },
+    },
+  }
 }

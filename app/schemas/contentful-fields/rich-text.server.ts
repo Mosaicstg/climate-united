@@ -63,10 +63,6 @@ export const DocumentSchema = NodeSchema.extend({
   content: z.array(TopLevelBlockSchema),
 })
 
-export const RichTextSchema = z.object({
-  json: DocumentSchema,
-})
-
 export const AssetLinkSchema = z.object({
   sys: z.object({
     id: z.string(),
@@ -79,10 +75,30 @@ export const AssetLinkSchema = z.object({
   fileName: z.string(),
 })
 
-export const LinksSchema = z.object({
-  assets: z.object({
-    block: z.array(AssetLinkSchema),
+export const HyperlinkSchema = z.object({
+  sys: z.object({
+    id: z.string(),
   }),
+  slug: z.string(),
+  __typename: z.string(),
+})
+
+export const LinksSchema = z.object({
+  assets: z
+    .object({
+      block: z.array(AssetLinkSchema),
+    })
+    .optional(),
+  entries: z
+    .object({
+      hyperlink: HyperlinkSchema.array().optional(),
+    })
+    .optional(),
+})
+
+export const RichTextSchema = z.object({
+  json: DocumentSchema,
+  links: LinksSchema.optional(),
 })
 
 export function createRichTextSchemaWithEmbeddedAssets<T>(schema: z.Schema<T>) {

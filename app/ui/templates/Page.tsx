@@ -6,7 +6,10 @@ import { type Page } from "~/models/page.server"
 import Header from "~/ui/components/Header"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "~/lib/utils"
-import { defaultRichTextRenderOptions } from "~/utils/rich-text-render-options"
+import {
+  defaultRichTextRenderOptions,
+  renderRichTextContent,
+} from "~/utils/rich-text-render-options"
 
 type PageProps = Page
 
@@ -14,11 +17,7 @@ const richTextRenderOptions: Options = {
   ...defaultRichTextRenderOptions,
 }
 
-export function Page({
-  headline,
-  mainContent,
-  featuredImage,
-}: PageProps) {
+export function Page({ headline, mainContent, featuredImage }: PageProps) {
   const prefersReducedMotion = useReducedMotion()
 
   return (
@@ -90,7 +89,10 @@ export function Page({
               <h1 className="mb-5 text-4xl font-bold">{headline}</h1>
               {documentToReactComponents(
                 mainContent.json,
-                richTextRenderOptions,
+                renderRichTextContent({
+                  renderOptions: richTextRenderOptions,
+                  links: mainContent?.links,
+                }),
               )}
             </div>
           </div>

@@ -51,8 +51,10 @@ function renderOptions(links: z.infer<typeof LinksSchema>) {
   const assetMap = new Map<string, z.infer<typeof AssetLinkSchema>>()
 
   // loop through the assets and add them to the map
-  for (const asset of links.assets.block) {
-    assetMap.set(asset.sys.id, asset)
+  if (links.assets) {
+    for (const asset of links.assets.block) {
+      assetMap.set(asset.sys.id, asset)
+    }
   }
 
   return {

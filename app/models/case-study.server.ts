@@ -136,8 +136,8 @@ export async function getCaseStudyBySlug(slug: string) {
                   videoIdSpanish
                 }
                 mainContent {
-                    json
-                    links {
+                  json
+                  links {
                     assets {
                       block {
                         sys {
