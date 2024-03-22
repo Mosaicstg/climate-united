@@ -20,6 +20,11 @@ const richTextRenderOptions: Options = {
 export function Page({ headline, mainContent, featuredImage }: PageProps) {
   const prefersReducedMotion = useReducedMotion()
 
+  const renderOptions = getRenderRichTextContentOptions({
+    renderOptions: richTextRenderOptions,
+    links: mainContent?.links,
+  })
+
   return (
     <>
       <Header />
@@ -87,13 +92,7 @@ export function Page({ headline, mainContent, featuredImage }: PageProps) {
               )}
             >
               <h1 className="mb-5 text-4xl font-bold">{headline}</h1>
-              {documentToReactComponents(
-                mainContent.json,
-                getRenderRichTextContentOptions({
-                  renderOptions: richTextRenderOptions,
-                  links: mainContent?.links,
-                }),
-              )}
+              {documentToReactComponents(mainContent.json, renderOptions)}
             </div>
           </div>
         </div>

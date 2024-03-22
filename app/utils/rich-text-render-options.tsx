@@ -14,6 +14,7 @@ import { type ReactNode } from "react"
 import { type z } from "zod"
 import { useRouteLoaderData } from "@remix-run/react"
 import { type RootLoader } from "~/root"
+import { motion } from "framer-motion"
 
 export const defaultRichTextRenderOptions: Options = {
   renderNode: {
@@ -31,47 +32,47 @@ export const defaultRichTextRenderOptions: Options = {
         </a>
       )
     },
-    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.PARAGRAPH]: (_: Block | Inline, children: ReactNode) => {
       return <p className="mb-4 text-base leading-relaxed">{children}</p>
     },
-    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.HEADING_2]: (_: Block | Inline, children: ReactNode) => {
       return <h2 className="mb-5 text-3xl">{children}</h2>
     },
-    [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.HEADING_3]: (_: Block | Inline, children: ReactNode) => {
       return (
         <h3 className="mb-4 text-2xl font-bold dark:text-gray-200">
           {children}
         </h3>
       )
     },
-    [BLOCKS.HEADING_4]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.HEADING_4]: (_: Block | Inline, children: ReactNode) => {
       return (
         <h4 className="mb-4 text-xl uppercase dark:text-gray-200">
           {children}
         </h4>
       )
     },
-    [BLOCKS.HEADING_5]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.HEADING_5]: (_: Block | Inline, children: ReactNode) => {
       return (
         <h5 className="mb-4 text-lg font-bold dark:text-gray-200">
           {children}
         </h5>
       )
     },
-    [BLOCKS.HEADING_6]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.HEADING_6]: (_: Block | Inline, children: ReactNode) => {
       return (
         <h6 className="text-md mb-4 font-bold uppercase dark:text-gray-200">
           {children}
         </h6>
       )
     },
-    [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.UL_LIST]: (_: Block | Inline, children: ReactNode) => {
       return <ul className="ml-12 list-disc">{children}</ul>
     },
-    [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.OL_LIST]: (_: Block | Inline, children: ReactNode) => {
       return <ol className="ml-12 list-decimal">{children}</ol>
     },
-    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
+    [BLOCKS.LIST_ITEM]: (_: Block | Inline, children: ReactNode) => {
       return <li>{children}</li>
     },
   },
@@ -111,6 +112,7 @@ export function getRenderRichTextContentOptions({
   }
 
   return {
+    ...renderOptions,
     renderNode: {
       ...renderOptions.renderNode,
       [INLINES.ENTRY_HYPERLINK]: (
@@ -120,11 +122,12 @@ export function getRenderRichTextContentOptions({
         const { data } = node
         const { target } = data
         const hyperlink = hyperlinks.get(target.sys.id)
-        const rootLoaderData = useRouteLoaderData<RootLoader>("root")
 
         if (!hyperlink) {
           return <>{children}</>
         }
+
+        const rootLoaderData = useRouteLoaderData<RootLoader>("root")
 
         const { slug, __typename } = hyperlink
 
@@ -154,6 +157,41 @@ export function getRenderRichTextContentOptions({
           <a className="text-primary underline dark:text-gray-400" href={url}>
             {children}
           </a>
+        )
+      },
+      [BLOCKS.EMBEDDED_ASSET]: (node: Block | Inline) => {
+        const { data } = node
+        const { target } = data
+        const asset = assetMap.get(target.sys.id)
+
+        if (!asset) {
+          return null
+        }
+
+        const { title, description, url, width, height } = asset
+
+        return (
+          <div className="my-6 w-full">
+            <figure>
+              <picture>
+                <source type="image/avif" srcSet={`${url}?fm=avif&w=2000`} />
+                <source type="image/webp" srcSet={`${url}?fm=webp&w=2000`} />
+                <source type="image/webp" srcSet={`${url}?fm=png&w=2000`} />
+                <motion.img
+                  src={url}
+                  alt={title}
+                  className="w-full overflow-hidden rounded-xl border"
+                  width={width}
+                  height={height}
+                />
+              </picture>
+              {description ? (
+                <figcaption className="bg-gray-100 p-4 text-center dark:bg-gray-800">
+                  {description}
+                </figcaption>
+              ) : null}
+            </figure>
+          </div>
         )
       },
     },
