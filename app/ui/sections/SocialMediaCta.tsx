@@ -19,9 +19,9 @@ export function SocialMediaCtaSection({
             <motion.div
               initial={{
                 opacity: prefersReducedMotion ? 1 : 0,
-                left: prefersReducedMotion ? "0" : "-5rem",
+                x: prefersReducedMotion ? 0 : "-5rem",
               }}
-              whileInView={{ opacity: 1, left: "0" }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{
                 ease: "linear",

@@ -38,9 +38,9 @@ export function TextImageSection({
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
-              bottom: prefersReducedMotion ? "0" : "-5rem",
+              bottom: prefersReducedMotion ? 0 : "-5rem",
             }}
-            whileInView={{ opacity: 1, bottom: "0" }}
+            whileInView={{ opacity: 1, bottom: 0 }}
             viewport={{ once: true }}
             transition={{
               ease: "linear",
