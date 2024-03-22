@@ -1,6 +1,9 @@
 import { useState } from "react"
 import Logo from "~/ui/components/Logo"
 import LogoWhite from "~/ui/components/Logo-White"
+import { useRouteLoaderData } from "@remix-run/react"
+import type { loader as RootLoader } from "~/root"
+import { NavMenu } from "~/ui/components/NavMenu"
 
 export default function Header({
   altLogo = false,
@@ -16,6 +19,9 @@ export default function Header({
   hamburgerColor?: string
 }) {
   const [isNavOpen, setIsNavOpen] = useState(false)
+
+  // Needed to access root loader since <Header> is called on separate routes
+  const data = useRouteLoaderData<typeof RootLoader>("root")
 
   return (
     <header className={`${bgColor}`}>
@@ -57,47 +63,20 @@ export default function Header({
               />
             </svg>
           </button>
-          <div
-            className={`${
-              isNavOpen ? "block" : "hidden"
-            } w-full min-[800px]:block min-[800px]:w-auto`}
-            id="navbar-default"
-          >
-            <ul className="flex flex-col font-bold md:border-0 md:p-0 min-[800px]:text-sm min-[800px]:flex-row min-[800px]:space-x-5 lg:space-x-8 lg:text-base rtl:space-x-reverse">
-              <li>
-                <a
-                  className={`${linkColor}`}
-                  href="/about-climate-united"
-                  aria-current="page"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a className={`${linkColor}`} href="/our-people">
-                  Our People
-                </a>
-              </li>
-              <li>
-                <a
-                  className={`${linkColor}`}
-                  href="/about-the-greenhouse-gas-reduction-fund"
-                >
-                  About the GGRF
-                </a>
-              </li>
-              <li>
-                <a className={`${linkColor}`} href="/case-studies">
-                  Case Studies
-                </a>
-              </li>
-              <li>
-                <a className={`${linkColor}`} href="/work-with-us">
-                  Work With Us
-                </a>
-              </li>
-            </ul>
-          </div>
+          {data && data.mainMenu ? (
+            <div
+              className={`${
+                isNavOpen ? "block" : "hidden"
+              } w-full min-[800px]:block min-[800px]:w-auto`}
+              id="navbar-default"
+            >
+              <NavMenu
+                navMenuClasses="flex flex-col font-bold md:border-0 md:p-0 min-[800px]:flex-row min-[800px]:space-x-5 min-[800px]:text-sm lg:space-x-8 lg:text-base rtl:space-x-reverse"
+                navItemClasses={`${linkColor}`}
+                navItemsCollection={data.mainMenu.navItemsCollection}
+              />
+            </div>
+          ) : null}
         </div>
       </nav>
     </header>

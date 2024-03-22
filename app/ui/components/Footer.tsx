@@ -2,6 +2,7 @@ import LogoWhite from "~/ui/components/Logo-White"
 import SocialIcon from "~/ui/components/Social-Icon"
 import { useLoaderData } from "@remix-run/react"
 import type { loader } from "~/root"
+import { NavMenu } from "~/ui/components/NavMenu"
 
 export default function Footer() {
   const data = useLoaderData<typeof loader>()
@@ -27,50 +28,15 @@ export default function Footer() {
               </a>
             </p>
           </div>
-          <nav className="col-span-2">
-            <ul>
-              <li>
-                <a
-                  className="duration-300 ease-in-out hover:text-blue"
-                  href="/about-climate-united"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  className="duration-300 ease-in-out hover:text-blue"
-                  href="/our-people"
-                >
-                  Our People
-                </a>
-              </li>
-              <li>
-                <a
-                  className="duration-300 ease-in-out hover:text-blue"
-                  href="/about-the-greenhouse-gas-reduction-fund"
-                >
-                  About the GGRF
-                </a>
-              </li>
-              <li>
-                <a
-                  className="duration-300 ease-in-out hover:text-blue"
-                  href="/case-studies"
-                >
-                  Case Studies
-                </a>
-              </li>
-              <li>
-                <a
-                  className="duration-300 ease-in-out hover:text-blue"
-                  href="/work-with-us"
-                >
-                  Work With Us
-                </a>
-              </li>
-            </ul>
-          </nav>
+          {data.footerMenu ? (
+            <nav className="col-span-2">
+              <NavMenu
+                navMenuClasses=""
+                navItemClasses="duration-300 ease-in-out hover:text-blue"
+                navItemsCollection={data.footerMenu.navItemsCollection}
+              />
+            </nav>
+          ) : null}
           <div className="col-span-2">
             <p className="mb-5 text-sm">
               Climate United’s objectives and projections are conditioned upon a
