@@ -2,8 +2,14 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type Event } from "~/models/event.server"
 import { getDateWithTime } from "~/utils/datetime-to-readable"
 import Header from "~/ui/components/Header"
-import { BLOCKS, type Block, INLINES, type Inline } from "@contentful/rich-text-types"
+import {
+  BLOCKS,
+  type Block,
+  INLINES,
+  type Inline,
+} from "@contentful/rich-text-types"
 import { type ReactNode } from "react"
+import { getRenderRichTextContentOptions } from "~/utils/rich-text-render-options"
 
 type EventProps = Event
 
@@ -35,13 +41,16 @@ export const richTextRenderOptions = {
 }
 
 export function Event({
-  title,
-  slug,
   headline,
   datetime,
   location,
   mainContent,
 }: EventProps) {
+  const renderOptions = getRenderRichTextContentOptions({
+    renderOptions: richTextRenderOptions,
+    links: mainContent?.links,
+  })
+
   return (
     <>
       <Header />
@@ -50,7 +59,7 @@ export function Event({
           <h1 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h1>
           <p className="uppercase">{getDateWithTime(datetime)}</p>
           <p className="mb-5">{location}</p>
-          {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+          {documentToReactComponents(mainContent.json, renderOptions)}
         </div>
       </main>
     </>
