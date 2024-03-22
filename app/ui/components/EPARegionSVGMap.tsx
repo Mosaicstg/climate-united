@@ -1,14 +1,17 @@
 import { motion, useReducedMotion } from "framer-motion"
+import React from "react"
 import { type ComponentProps } from "react"
 import { cn } from "~/lib/utils"
 
-type EPARegionSVGMapProps = Omit<ComponentProps<"div">, "onClick"> & {
+type EPARegionSVGMapProps = Omit<ComponentProps<"svg">, "onClick"> & {
   onClick: (region: string) => void
+  svgRef: React.LegacyRef<SVGSVGElement>
 }
 
 export const EPARegionSVGMap = ({
   onClick = (region: string) => {},
   className,
+  svgRef = null,
 }: EPARegionSVGMapProps) => {
   const prefersReducedMotion = useReducedMotion()
 
@@ -67,6 +70,7 @@ export const EPARegionSVGMap = ({
         xmlns="http://www.w3.org/2000/svg"
         onClick={handleClick}
         onKeyDown={handleKeyDown}
+        ref={svgRef}
       >
         <title>EPA Regions Map</title>
         <desc>Map of the United States with EPA regions highlighted</desc>
