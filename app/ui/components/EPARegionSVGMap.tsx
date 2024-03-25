@@ -64,7 +64,7 @@ export const EPARegionSVGMap = ({
       className={cn(`epa-region-map-container`, className)}
     >
       <svg
-        className="has block h-auto w-full"
+        className="has block h-auto w-full overflow-visible"
         viewBox="0 0 1218 667"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
