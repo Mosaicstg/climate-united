@@ -24,7 +24,8 @@ import { honeypot } from "./utils/honeypot.server"
 import { HoneypotProvider } from "remix-utils/honeypot/react"
 import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
 import rdtStylesheet from "remix-development-tools/index.css"
-import {withDevTools} from 'remix-development-tools';
+import { withDevTools } from "remix-development-tools"
+import { getNavMenus } from "~/models/nav-menu.server"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
@@ -111,10 +112,14 @@ export const links: LinksFunction = () => [
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const mainMenu = await getNavMenus("Main Menu")
+  const footerMenu = await getNavMenus("Footer Menu")
   const socialMedialLinks = await getSocialMediaLinks()
 
   return json(
     {
+      mainMenu,
+      footerMenu,
       socialMedialLinks,
       domainURL: getDomainUrl(request),
       honeypotInputProps: honeypot.getInputProps(),
@@ -144,7 +149,7 @@ export const meta: MetaFunction = () => [
 let AppExport = App
 
 if (process.env.NODE_ENV === "development") {
-    AppExport = withDevTools(App)
+  AppExport = withDevTools(App)
 }
 
 export default AppExport

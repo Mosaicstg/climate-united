@@ -206,6 +206,15 @@ ___
 
 ___
 
+#### Nav Menu
+- Name
+- Menu Location
+- Nav Items
+
+#### Nav Item
+- Name
+- Linked Item
+
 #### Social Media
 - Platform
 - URL
