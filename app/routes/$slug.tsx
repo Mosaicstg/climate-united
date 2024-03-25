@@ -205,7 +205,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       throw new Response(errorMessage, { status: 404 })
     }
 
-    throw new Response("Something went wrong!", { status: 500 })
+    throw new Response("Something went wrong!", { status: 404 })
   }
 }
 

@@ -9,6 +9,7 @@ import {
   type Inline,
 } from "@contentful/rich-text-types"
 import { type ReactNode } from "react"
+import { getRenderRichTextContentOptions } from "~/utils/rich-text-render-options"
 
 type PostProps = Post
 
@@ -39,7 +40,12 @@ const richTextRenderOptions = {
   },
 }
 
-export function Post({ title, headline, date, mainContent }: PostProps) {
+export function Post({ headline, date, mainContent }: PostProps) {
+  const renderOptions = getRenderRichTextContentOptions({
+    renderOptions: richTextRenderOptions,
+    links: mainContent?.links,
+  })
+
   return (
     <>
       <Header />
@@ -47,7 +53,7 @@ export function Post({ title, headline, date, mainContent }: PostProps) {
         <div className="mx-auto max-w-screen-lg px-6 py-12 md:px-5">
           <h1 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h1>
           <p className="mb-5 uppercase">{getDate(date)}</p>
-          {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+          {documentToReactComponents(mainContent.json, renderOptions)}
         </div>
       </main>
     </>

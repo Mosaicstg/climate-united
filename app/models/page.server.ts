@@ -62,12 +62,61 @@ export async function getPage(id: string) {
 
 export const PageBySlugQuery = `
   query PageBySlug($slug: String!) {
-    pageCollection(where: { slug: $slug }) {
+    pageCollection(where: { slug: $slug }, limit: 1) {
       items {
         title
         headline
         mainContent {
           json
+          links {
+            entries {
+             hyperlink {
+               sys {
+                 id
+               }
+               __typename
+               ... on Page {
+                    slug
+               }
+                ... on TeamPage {
+                      slug
+                }
+                ... on CaseStudies {
+                      slug
+                }
+                ... on AboutPage {
+                      slug
+                }
+                ... on LandingPage {
+                      slug
+                }
+                ... on Post {
+                      slug
+                }
+             }
+            }
+            assets {
+              block {
+                sys {
+                  id
+                }
+                url
+                title
+                width
+                height
+                description
+                fileName
+                contentType
+              }
+              hyperlink {
+                sys {
+                  id
+                }
+                url
+                fileName
+              }
+            }
+          } 
         }
         featuredImage {
           fileName

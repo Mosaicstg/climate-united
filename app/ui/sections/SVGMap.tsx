@@ -1,5 +1,5 @@
 import type { SectionTextImage } from "~/schemas/sections/section.text-image.server"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import {
   Dialog,
@@ -23,6 +23,7 @@ import { EPARegionSVGMap } from "~/ui/components/EPARegionSVGMap"
 import { type action as epaAction } from "~/routes/action.epa-region"
 import { type loader as indexLoader } from "~/routes/_index"
 import { cn } from "~/lib/utils"
+import { flushSync } from "react-dom"
 
 type SectionTextImageProps = SectionTextImage
 
@@ -56,6 +57,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
   > | null>(null)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const mapSVGRef = useRef<SVGSVGElement | null>(null)
 
   const prefersReducedMotion = useReducedMotion()
 
@@ -116,7 +118,18 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
   }
 
   function onModalOpenChange(open: boolean) {
-    setIsModalOpen(open)
+    // Ensure that we wait till the modal is closed before updating user's focus
+    flushSync(() => {
+      setIsModalOpen(open)
+    })
+
+    if (!open && selectedRegion && mapSVGRef.current) {
+      const regionGroupElement = mapSVGRef.current.getElementById(
+        selectedRegion.slug,
+      ) as SVGGElement
+
+      regionGroupElement?.focus({ preventScroll: true })
+    }
   }
 
   return (
@@ -130,6 +143,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
             <EPARegionSVGMap
               onClick={handleModalContentSelection}
               className="hidden md:block"
+              svgRef={mapSVGRef}
             />
             <div className="mt-8 text-left md:hidden">
               <Select
