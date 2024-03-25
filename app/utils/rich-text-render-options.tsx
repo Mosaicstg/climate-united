@@ -232,7 +232,7 @@ export function getRenderRichTextContentOptions({
         }
 
         return (
-          <div className="my-6 w-full rounded-xl bg-slate-100 overflow-hidden">
+          <div className="my-6 w-full overflow-hidden rounded-xl bg-slate-100">
             <figure>
               <picture className="overflow-hidden">
                 <source type="image/avif" srcSet={`${url}?fm=avif&w=2000`} />
