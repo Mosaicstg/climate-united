@@ -1,11 +1,11 @@
+import { useRouteLoaderData } from "@remix-run/react"
 import LogoWhite from "~/ui/components/Logo-White"
 import SocialIcon from "~/ui/components/Social-Icon"
-import { useLoaderData } from "@remix-run/react"
-import type { loader } from "~/root"
+import type { loader as RootLoader } from "~/root"
 import { NavMenu } from "~/ui/components/NavMenu"
 
 export default function Footer() {
-  const data = useLoaderData<typeof loader>()
+  const data = useRouteLoaderData<typeof RootLoader>("root")
 
   return (
     <footer className="border-t-4 border-solid border-green bg-darkBlue text-white">
@@ -28,7 +28,7 @@ export default function Footer() {
               </a>
             </p>
           </div>
-          {data.footerMenu ? (
+          {data && data.footerMenu ? (
             <nav className="col-span-2">
               <NavMenu
                 navMenuClasses=""
