@@ -6,7 +6,7 @@ import {
   type Inline,
 } from "@contentful/rich-text-types"
 import {
-  AssetHyperlinkSchema,
+  type AssetHyperlinkSchema,
   type AssetBlockLinkSchema,
   type EntryHyperlinkSchema,
   type LinksSchema,
