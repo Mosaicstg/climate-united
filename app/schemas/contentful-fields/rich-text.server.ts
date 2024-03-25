@@ -63,16 +63,17 @@ export const DocumentSchema = NodeSchema.extend({
   content: z.array(TopLevelBlockSchema),
 })
 
-export const AssetLinkSchema = z.object({
+export const AssetBlockLinkSchema = z.object({
   sys: z.object({
     id: z.string(),
   }),
   url: z.string(),
   title: z.string(),
-  width: z.number(),
-  height: z.number(),
-  description: z.string(),
+  width: z.number().nullable(),
+  height: z.number().nullable(),
+  description: z.string().nullable(),
   fileName: z.string(),
+  contentType: z.string().optional(),
 })
 
 export const EntryHyperlinkSchema = z.object({
@@ -83,10 +84,25 @@ export const EntryHyperlinkSchema = z.object({
   __typename: z.string(),
 })
 
+export const AssetHyperlinkSchema = z.object({
+  sys: z.object({
+    id: z.string(),
+  }),
+  url: z.string(),
+  // The following fields are optional because they won't always be requested
+  // in the GraphQL query that fetches the asset.
+  title: z.string().optional(),
+  width: z.number().nullable().optional(),
+  height: z.number().nullable().optional(),
+  description: z.string().nullable().optional(),
+  fileName: z.string().optional(),
+})
+
 export const LinksSchema = z.object({
   assets: z
     .object({
-      block: AssetLinkSchema.array().optional(),
+      block: AssetBlockLinkSchema.array().optional(),
+      hyperlink: AssetHyperlinkSchema.array().optional(),
     })
     .optional(),
   entries: z

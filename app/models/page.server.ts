@@ -95,6 +95,27 @@ export const PageBySlugQuery = `
                 }
              }
             }
+            assets {
+              block {
+                sys {
+                  id
+                }
+                url
+                title
+                width
+                height
+                description
+                fileName
+                contentType
+              }
+              hyperlink {
+                sys {
+                  id
+                }
+                url
+                fileName
+              }
+            }
           } 
         }
         featuredImage {

@@ -6,7 +6,8 @@ import {
   type Inline,
 } from "@contentful/rich-text-types"
 import {
-  type AssetLinkSchema,
+  AssetHyperlinkSchema,
+  type AssetBlockLinkSchema,
   type EntryHyperlinkSchema,
   type LinksSchema,
 } from "~/schemas/contentful-fields/rich-text.server"
@@ -92,8 +93,12 @@ export function getRenderRichTextContentOptions({
   renderOptions: Options
   links?: z.infer<typeof LinksSchema>
 }): Options {
-  const assetBlocks = new Map<string, z.infer<typeof AssetLinkSchema>>();
-  const entryHyperlinks = new Map<string, z.infer<typeof EntryHyperlinkSchema>>()
+  const assetBlocks = new Map<string, z.infer<typeof AssetBlockLinkSchema>>()
+  const assetLinks = new Map<string, z.infer<typeof AssetHyperlinkSchema>>()
+  const entryHyperlinks = new Map<
+    string,
+    z.infer<typeof EntryHyperlinkSchema>
+  >()
 
   if (links) {
     if (links.assets) {
@@ -102,6 +107,12 @@ export function getRenderRichTextContentOptions({
       if (links.assets.block) {
         for (const asset of links.assets.block) {
           assetBlocks.set(asset.sys.id, asset)
+        }
+      }
+
+      if (links.assets.hyperlink) {
+        for (const asset of links.assets.hyperlink) {
+          assetLinks.set(asset.sys.id, asset)
         }
       }
     }
@@ -164,6 +175,31 @@ export function getRenderRichTextContentOptions({
           </a>
         )
       },
+      [INLINES.ASSET_HYPERLINK]: (
+        node: Block | Inline,
+        children: ReactNode,
+      ) => {
+        const { data } = node
+        const { target } = data
+        const assetLink = assetLinks.get(target.sys.id)
+
+        if (!assetLink) {
+          return <>{children}</>
+        }
+
+        const { url } = assetLink
+
+        return (
+          <a
+            className="text-primary underline dark:text-gray-400"
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {children}
+          </a>
+        )
+      },
       [BLOCKS.EMBEDDED_ASSET]: (node: Block | Inline) => {
         const { data } = node
         const { target } = data
@@ -173,25 +209,49 @@ export function getRenderRichTextContentOptions({
           return null
         }
 
-        const { title, description, url, width, height } = asset
+        const { title, description, url, width, height, contentType } = asset
+
+        if (
+          contentType !== "image/png" &&
+          contentType !== "image/jpeg" &&
+          contentType !== "image/webp" &&
+          contentType !== "image/avif"
+        ) {
+          return (
+            <p className="mb-4 text-base leading-relaxed">
+              <a
+                className="text-primary underline dark:text-gray-400"
+                target="_blank"
+                rel="noreferrer"
+                href={url}
+              >
+                {title}
+              </a>
+            </p>
+          )
+        }
 
         return (
-          <div className="my-6 w-full">
+          <div className="my-6 w-full rounded-xl bg-slate-100 overflow-hidden">
             <figure>
-              <picture>
+              <picture className="overflow-hidden">
                 <source type="image/avif" srcSet={`${url}?fm=avif&w=2000`} />
                 <source type="image/webp" srcSet={`${url}?fm=webp&w=2000`} />
                 <source type="image/webp" srcSet={`${url}?fm=png&w=2000`} />
                 <motion.img
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.1, duration: 0.5 }}
                   src={url}
                   alt={title}
-                  className="w-full overflow-hidden rounded-xl border"
-                  width={width}
-                  height={height}
+                  className="w-full overflow-hidden"
+                  width={width || undefined}
+                  height={height || undefined}
+                  loading="lazy"
                 />
               </picture>
               {description ? (
-                <figcaption className="bg-gray-100 p-4 text-center dark:bg-gray-800">
+                <figcaption className="bg-gray-150 p-4 text-left text-sm dark:bg-gray-800">
                   {description}
                 </figcaption>
               ) : null}
