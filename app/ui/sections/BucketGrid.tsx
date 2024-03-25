@@ -32,9 +32,9 @@ export function BucketGridSection({
           <motion.h2
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
-              top: prefersReducedMotion ? "0" : "-5rem",
+              y: prefersReducedMotion ? 0 : "-5rem",
             }}
-            whileInView={{ opacity: 1, top: "0" }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{
               ease: "linear",
@@ -82,9 +82,9 @@ export function BucketGridSection({
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
-              bottom: prefersReducedMotion ? "0" : "-5rem",
+              y: prefersReducedMotion ? 0 : "5rem",
             }}
-            whileInView={{ opacity: 1, bottom: "0" }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{
               ease: "linear",

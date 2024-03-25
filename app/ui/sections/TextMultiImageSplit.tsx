@@ -8,7 +8,6 @@ import { motion, useReducedMotion } from "framer-motion"
 type SectionTextMultiImageSplitProps = SectionTextMultiImageSplit
 
 export function TextMultiImageSplitSection({
-  title,
   mainContent,
   featuredImagesCollection,
 }: SectionTextMultiImageSplitProps) {
@@ -17,33 +16,33 @@ export function TextMultiImageSplitSection({
   const variant1 = {
     hidden: {
       opacity: prefersReducedMotion ? 1 : 0,
-      left: prefersReducedMotion ? "0" : "-5rem",
+      x: prefersReducedMotion ? 0 : "-5rem",
     },
     show: {
       opacity: 1,
-      left: "0",
+      x: 0,
     },
   }
 
   const variant2 = {
     hidden: {
       opacity: prefersReducedMotion ? 1 : 0,
-      right: prefersReducedMotion ? "0" : "-5rem",
+      x: prefersReducedMotion ? 0 : "5rem",
     },
     show: {
       opacity: 1,
-      right: "0",
+      x: 0,
     },
   }
 
   const variant3 = {
     hidden: {
       opacity: prefersReducedMotion ? 1 : 0,
-      bottom: prefersReducedMotion ? "0" : "-5rem",
+      y: prefersReducedMotion ? 0 : "5rem",
     },
     show: {
       opacity: 1,
-      bottom: "0",
+      y: 0,
     },
   }
 
@@ -94,9 +93,9 @@ export function TextMultiImageSplitSection({
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
-              right: prefersReducedMotion ? "0" : "-5rem",
+              x: prefersReducedMotion ? 0 : "5rem",
             }}
-            whileInView={{ opacity: 1, right: "0" }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{
               ease: "linear",

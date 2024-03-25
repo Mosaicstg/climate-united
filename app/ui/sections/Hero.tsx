@@ -23,9 +23,9 @@ export function HeroSection({
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
-              left: prefersReducedMotion ? "0" : "-5rem",
+              x: prefersReducedMotion ? 0 : "-5rem",
             }}
-            whileInView={{ opacity: 1, left: "0" }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{
               ease: "linear",
@@ -38,8 +38,8 @@ export function HeroSection({
           </motion.div>
           <div className="relative -mt-[35%] md:mt-0 md:w-3/4 lg:w-1/2">
             <motion.div
-              initial={{ padding: prefersReducedMotion ? "0" : "5rem" }}
-              whileInView={{ padding: "0" }}
+              initial={{ padding: prefersReducedMotion ? 0 : "5rem" }}
+              whileInView={{ padding: 0 }}
               viewport={{ once: true }}
               transition={{
                 ease: "linear",
@@ -48,7 +48,7 @@ export function HeroSection({
               className="relative translate-x-[2%] translate-y-[35%] w-[140%] md:absolute md:-right-6 md:bottom-0 md:w-[150%] md:translate-x-[25%] md:translate-y-[40%] lg:translate-x-[40%] lg:translate-y-[45%]"
             >
               <motion.div
-                initial={{ padding: prefersReducedMotion ? "1.25rem" : "0" }}
+                initial={{ padding: prefersReducedMotion ? "1.25rem" : 0 }}
                 whileInView={{ padding: "1.25rem" }}
                 viewport={{ once: true }}
                 transition={{
@@ -59,7 +59,7 @@ export function HeroSection({
                 className="rounded-full bg-[#52C4A5] p-5"
               >
                 <motion.div
-                  initial={{ padding: prefersReducedMotion ? "1.25rem" : "0" }}
+                  initial={{ padding: prefersReducedMotion ? "1.25rem" : 0 }}
                   whileInView={{ padding: "1.25rem" }}
                   viewport={{ once: true }}
                   transition={{
@@ -71,7 +71,7 @@ export function HeroSection({
                 >
                   <motion.div
                     initial={{
-                      padding: prefersReducedMotion ? "1.25rem" : "0",
+                      padding: prefersReducedMotion ? "1.25rem" : 0,
                     }}
                     whileInView={{ padding: "1.25rem" }}
                     viewport={{ once: true }}
@@ -84,7 +84,7 @@ export function HeroSection({
                   >
                     <motion.div
                       initial={{
-                        padding: prefersReducedMotion ? "1.25rem" : "0",
+                        padding: prefersReducedMotion ? "1.25rem" : 0,
                       }}
                       whileInView={{ padding: "1.25rem" }}
                       viewport={{ once: true }}

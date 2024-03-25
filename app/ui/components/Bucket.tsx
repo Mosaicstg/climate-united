@@ -20,17 +20,17 @@ export function Bucket({
   const image = {
     hidden: {
       opacity: prefersReducedMotion ? 1 : 0,
-      top: prefersReducedMotion ? "0" : "-5rem",
+      y: prefersReducedMotion ? 0 : "-5rem",
     },
-    show: { opacity: 1, top: "0" },
+    show: { opacity: 1, y: 0 },
   }
 
   const text = {
     hidden: {
       opacity: prefersReducedMotion ? 1 : 0,
-      bottom: prefersReducedMotion ? "0" : "-5rem",
+      y: prefersReducedMotion ? 0 : "5rem",
     },
-    show: { opacity: 1, bottom: "0" },
+    show: { opacity: 1, y: 0 },
   }
 
   return (
@@ -38,6 +38,9 @@ export function Bucket({
       <div className="relative mx-auto mb-10 w-1/2 md:w-full">
         <motion.img
           variants={image}
+          transition={{
+            ease: "linear",
+          }}
           className="relative z-10 aspect-square w-full rounded-full object-cover"
           src={url}
           alt={description || ""}
@@ -48,7 +51,13 @@ export function Bucket({
           className={`absolute bottom-0 left-0 aspect-square w-full translate-y-[50%] scale-y-[.15] rounded-full ${shadowColor}`}
         ></div>
       </div>
-      <motion.div variants={text} className="relative">
+      <motion.div
+        variants={text}
+        transition={{
+          ease: "linear",
+        }}
+        className="relative"
+      >
         {documentToReactComponents(bucketText.json, richTextRenderOptions)}
       </motion.div>
     </div>
