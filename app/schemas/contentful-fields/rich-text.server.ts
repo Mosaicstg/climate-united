@@ -75,7 +75,7 @@ export const AssetLinkSchema = z.object({
   fileName: z.string(),
 })
 
-export const HyperlinkSchema = z.object({
+export const EntryHyperlinkSchema = z.object({
   sys: z.object({
     id: z.string(),
   }),
@@ -86,12 +86,12 @@ export const HyperlinkSchema = z.object({
 export const LinksSchema = z.object({
   assets: z
     .object({
-      block: z.array(AssetLinkSchema),
+      block: AssetLinkSchema.array().optional(),
     })
     .optional(),
   entries: z
     .object({
-      hyperlink: HyperlinkSchema.array().optional(),
+      hyperlink: EntryHyperlinkSchema.array().optional(),
     })
     .optional(),
 })

@@ -7,7 +7,7 @@ import {
 } from "@contentful/rich-text-types"
 import {
   type AssetLinkSchema,
-  type HyperlinkSchema,
+  type EntryHyperlinkSchema,
   type LinksSchema,
 } from "~/schemas/contentful-fields/rich-text.server"
 import { type ReactNode } from "react"
@@ -92,20 +92,25 @@ export function getRenderRichTextContentOptions({
   renderOptions: Options
   links?: z.infer<typeof LinksSchema>
 }): Options {
-  const assetMap = new Map<string, z.infer<typeof AssetLinkSchema>>()
-  const hyperlinks = new Map<string, z.infer<typeof HyperlinkSchema>>()
+  const assetBlocks = new Map<string, z.infer<typeof AssetLinkSchema>>();
+  const entryHyperlinks = new Map<string, z.infer<typeof EntryHyperlinkSchema>>()
 
   if (links) {
     if (links.assets) {
-      for (const asset of links.assets.block) {
-        assetMap.set(asset.sys.id, asset)
+      // Handle assets that have been "embedded" in the rich text field
+      // A "block" in contentful is when you see a UI "block" element in the rich text editor
+      if (links.assets.block) {
+        for (const asset of links.assets.block) {
+          assetBlocks.set(asset.sys.id, asset)
+        }
       }
     }
 
     if (links.entries) {
+      // Handle entries that have been linked to in the rich text field
       if (links.entries.hyperlink) {
         for (const hyperlink of links.entries.hyperlink) {
-          hyperlinks.set(hyperlink.sys.id, hyperlink)
+          entryHyperlinks.set(hyperlink.sys.id, hyperlink)
         }
       }
     }
@@ -121,7 +126,7 @@ export function getRenderRichTextContentOptions({
       ) => {
         const { data } = node
         const { target } = data
-        const hyperlink = hyperlinks.get(target.sys.id)
+        const hyperlink = entryHyperlinks.get(target.sys.id)
 
         if (!hyperlink) {
           return <>{children}</>
@@ -162,7 +167,7 @@ export function getRenderRichTextContentOptions({
       [BLOCKS.EMBEDDED_ASSET]: (node: Block | Inline) => {
         const { data } = node
         const { target } = data
-        const asset = assetMap.get(target.sys.id)
+        const asset = assetBlocks.get(target.sys.id)
 
         if (!asset) {
           return null
