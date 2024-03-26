@@ -11,6 +11,7 @@ import {
 } from "~/utils/rich-text-render-options"
 import type { loader as RootLoader } from "~/root"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import React from "react"
 
 export const NewsletterSignUpForm = z.object({
   email: z
@@ -144,20 +145,17 @@ export function NewsletterSignUp() {
           </div>
         </fetcher.Form>
       </div>
-      <div className="max-w-full bg-[#82A59C] md:aspect-video md:min-h-full">
-        <picture>
-          <source type="image/avif" srcSet="/assets/newsletter-sign-up.avif" />
-          <source type="image/webp" srcSet="/assets/newsletter-sign-up.webp" />
+      {data && data?.newsletterContent?.featuredImage ? (
+        <div className="max-w-full bg-[#82A59C] md:aspect-video md:min-h-full">
           <img
-            loading="lazy"
-            height={2000}
-            width={1500}
-            src="/assets/newsletter-sign-up.jpg"
-            alt="Newsletter Sign Up"
-            className="min-h-full object-cover object-center"
+            className="min-h-full w-full object-cover object-center"
+            src={data.newsletterContent.featuredImage.url}
+            alt={data.newsletterContent.featuredImage.description || ""}
+            width={data.newsletterContent.featuredImage.width}
+            height={data.newsletterContent.featuredImage.height}
           />
-        </picture>
-      </div>
+        </div>
+      ) : null}
     </section>
   )
 }
