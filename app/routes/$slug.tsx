@@ -1,12 +1,33 @@
-import { json, type LoaderFunctionArgs } from "@remix-run/node"
+import { type SEOHandle } from "@nasa-gcn/remix-seo"
+import {
+  json,
+  type MetaFunction,
+  type LoaderFunctionArgs,
+} from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { z } from "zod"
-import { getAboutPageBySlug } from "~/models/about.server"
-import { getCaseStudiesPageBySlug } from "~/models/case-studies.server"
-import { getEPARegions } from "~/models/epa-region.server"
-import { getLandingPageBySlug } from "~/models/landing-page.server"
-import { getPageBySlug } from "~/models/page.server"
-import { getTeamPageBySlug } from "~/models/team.server"
+import {
+  type AboutPage as AboutPageModel,
+  getAboutPageBySlug,
+} from "~/models/about.server"
+import {
+  type CaseStudies as CaseStudiesModel,
+  getCaseStudiesPageBySlug,
+} from "~/models/case-studies.server"
+import {
+  getEPARegions,
+  getEPARegionsWithCaseStudies,
+} from "~/models/epa-region.server"
+import {
+  type LandingPage as LandingPageModel,
+  getLandingPageBySlug,
+} from "~/models/landing-page.server"
+import { type Page as PageModel, getPageBySlug } from "~/models/page.server"
+import {
+  type TeamPage as TeamPageModel,
+  getTeamPageBySlug,
+} from "~/models/team.server"
+import { type RootLoader } from "~/root"
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { AboutPage } from "~/ui/templates/AboutPage"
 import { CaseStudiesPage } from "~/ui/templates/CaseStudiesPage"
@@ -14,6 +35,7 @@ import { LandingPage } from "~/ui/templates/LandingPage"
 import { Page } from "~/ui/templates/Page"
 import { TeamPage } from "~/ui/templates/TeamPage"
 import { invariantResponse } from "~/utils/invariant.server"
+import { getSocialMetas } from "~/utils/seo"
 
 // This query tries to find a page that doesn't have a designated route
 // This is for basic Page, TeamPage, CaseStudies, etc.
@@ -51,6 +73,60 @@ const FindBySlugQuery = `
         }
     }
 `
+
+const getAllPublishedPagesQuery = `
+    query GetAllPublishedPages($limit: Int!) {
+        pageCollection(limit: $limit) {
+            items {
+                slug
+            }
+        }
+        teamPageCollection(limit: $limit) {
+            items {
+                slug
+            }
+        }
+        caseStudiesCollection(limit: $limit) {
+            items {
+                slug
+            }
+        }
+        aboutPageCollection(limit: $limit) {
+            items {
+                slug
+            }
+        }
+        landingPageCollection(limit: $limit) {
+            items {
+                slug
+            }
+        }
+    }
+`
+
+async function getAllPublishedPages(limit: number = 100) {
+  const response = await typedFetchGraphQL<{
+    pageCollection: { items: { slug: string }[] }
+    teamPageCollection: { items: { slug: string }[] }
+    caseStudiesCollection: { items: { slug: string }[] }
+    aboutPageCollection: { items: { slug: string }[] }
+    landingPageCollection: { items: { slug: string }[] }
+  }>(getAllPublishedPagesQuery, { limit })
+
+  if (!response.data) {
+    console.error(`Error for all published pages`, response.errors)
+
+    return []
+  }
+
+  return [
+    ...response.data.pageCollection.items,
+    ...response.data.teamPageCollection.items,
+    ...response.data.caseStudiesCollection.items,
+    ...response.data.aboutPageCollection.items,
+    ...response.data.landingPageCollection.items,
+  ]
+}
 
 async function findContentBySlug(
   slug: string,
@@ -157,8 +233,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
           status: 404,
         })
 
+        const epaRegionsWithCaseStudies = await getEPARegionsWithCaseStudies()
+
         return json({
           caseStudiesPage,
+          epaRegionsWithCaseStudies,
           __typename: contentType.__typename,
         } as const)
       case "AboutPage":
@@ -207,6 +286,72 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
     throw new Response("Something went wrong!", { status: 404 })
   }
+}
+
+export const handle: SEOHandle | undefined = {
+  getSitemapEntries: async (request) => {
+    const pages = await getAllPublishedPages(100)
+
+    return pages
+      .filter((post) => post.slug)
+      .filter((post) => post.slug !== "homepage")
+      .map((post) => ({
+        route: `/${post.slug}`,
+        priority: 0.7,
+      }))
+  },
+}
+
+export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
+  data,
+  matches,
+  params,
+}) => {
+  const domainURL = matches.find((match) => match.id === "root")?.data
+    ?.domainURL
+
+  if (!data) {
+    return []
+  }
+
+  let content:
+    | PageModel
+    | TeamPageModel
+    | CaseStudiesModel
+    | AboutPageModel
+    | LandingPageModel
+    | undefined
+
+  switch (data.__typename) {
+    case "Page":
+      content = data.page
+      break
+    case "TeamPage":
+      content = data.teamPage
+      break
+    case "CaseStudies":
+      content = data.caseStudiesPage
+      break
+    case "AboutPage":
+      content = data.aboutPage
+      break
+    case "LandingPage":
+      content = data.landingPage
+      break
+    default:
+      return []
+  }
+
+  return [
+    ...getSocialMetas({
+      type: "website",
+      title: `${content.seo?.title}`,
+      image: content.seo.image.url,
+      description: content.seo.excerpt,
+      url: `${domainURL}/${content.slug}`,
+      keywords: `${content.seo?.keywords ? content.seo.keywords : ""}`,
+    }),
+  ]
 }
 
 export default function Slug() {
