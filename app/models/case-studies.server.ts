@@ -7,6 +7,7 @@ import { SEOSchema } from "./seo.server"
 
 export const CaseStudiesPageSchema = z.object({
   title: z.string(),
+  slug: z.string(),
   headline: z.string().nullable().optional(),
   mainContent: RichTextSchema.nullable().optional(),
   featuredImage: ImageSchema,
@@ -68,8 +69,8 @@ const CaseStudiesBySlugQuery = `
   query CaseStudiesBySlug($slug: String!) {
     caseStudiesCollection(where: {slug: $slug}, limit: 1) {
       items {
-        id
         title
+        slug
         headline
         mainContent {
           json

@@ -7,6 +7,7 @@ import { SEOSchema } from "./seo.server"
 
 export const TeamPageSchema = z.object({
   title: z.string(),
+  slug: z.string(),
   headline: z.string().nullable().optional(),
   featuredImage: ImageSchema.nullable().optional(),
   sectionsCollection: z.object({
@@ -23,6 +24,7 @@ export async function getTeamPage(id: string) {
   const query = `query {
     teamPage(id: "${id}") {
       title
+      slug
       headline
       sectionsCollection {
         items {
@@ -88,6 +90,7 @@ const TeamPageBySlugQuery = `
     teamPageCollection(where: { slug: $slug }, limit: 1) {
       items {
         title
+        slug
         headline
         sectionsCollection {
           items {
