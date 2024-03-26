@@ -47,7 +47,8 @@ Open up [http://localhost:3000](http://localhost:3000), and you're ready to go!
 
 ### Adding Redirects and Rewrites
 
-To add redirects and rewrites, add them to the `netlify.toml` file. For more information about redirects and rewrites, see the [Netlify docs](https://docs.netlify.com/routing/redirects/).
+To add redirects and rewrites, add them to the `netlify.toml` file. For more information about redirects and rewrites,
+see the [Netlify docs](https://docs.netlify.com/routing/redirects/).
 
 ### Serve your site locally
 
@@ -57,11 +58,14 @@ To serve your site locally in a production-like environment, run
 npm run start
 ```
 
-Your site will be available at [http://localhost:8888](http://localhost:8888). Note that it will not auto-reload when you make changes.
+Your site will be available at [http://localhost:8888](http://localhost:8888). Note that it will not auto-reload when
+you make changes.
 
 ## Deployment
 
-There are two ways to deploy your app to Netlify, you can either link your app to your git repo and have it auto deploy changes to Netlify, or you can deploy your app manually. If you've followed the setup instructions already, all you need to do is run this:
+There are two ways to deploy your app to Netlify, you can either link your app to your git repo and have it auto deploy
+changes to Netlify, or you can deploy your app manually. If you've followed the setup instructions already, all you need
+to do is run this:
 
 ```sh
 # preview deployment
@@ -73,148 +77,38 @@ netlify deploy --build --prod
 
 ## Content Types
 
-### Templates
-
-#### Page
-- Title
-- Headline
-- Rich Text
-- Featured Image
-
-___
-
-#### About
-- Title
-- Sections
-
-___
-
-#### Landing Page
-- Title
-- Sections
-
-___
-
-#### Event
-- Title
-- Headline
-- Date/Time
-- Rich Text - Excerpt
-- Rich Text - Full Text
-
-___
-
-#### Post
-- Title
-- Headline
-- Date
-- Rich Text - Excerpt
-- Rich Text - Full Text
-- Featured Image
-
-___
-___
-
-### Sections
-
-#### Hero
-- Title
-- Rich Text
-- Featured Image
-
-___
-
-#### Text + Multi-Image Split
-- Title
-- Rich Text
-- Images
-
-___
-
-#### Text + Image Split
-- Title
-- Rich Text
-- Featured Image
-
-___
-
-#### Bucket Grid
-- Title
-- Headline
-- Rich Text
-- Buckets
-
-___
-
-#### Text + Image
-- Title
-- Rich Text
-- Featured Image
-
-___
-
-#### Events + Resources
-- Title
-- Events Headline
-- Events
-- Resources Headline
-- Resources
-- Featured Image
-
-___
-
-#### News/Press
-- Title
-- Headline
-
-___
-___
-
-### Components
-
-#### Bucket
-- Info Bucket
-  - Rich Text
-  - Featured Image
-  
-- Team Bucket
-  - Name
-  - Position
-  - Department
-  - Featured Image
-
-___
-
-#### Resource
-- Title
-- File
-
-___
-
-#### Team Member
-- Name
-- Position
-- Department
-- Featured Image
-
-___
-___
-
-### Other
-
-#### SEO
-
-___
-
-#### Nav Menu
-- Name
-- Menu Location
-- Nav Items
-
-#### Nav Item
-- Name
-- Linked Item
-
-#### Social Media
-- Platform
-- URL
+| Category  | Content Type             | Fields                                                                                                                                                             |
+|-----------|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Page      | Page                     | Title, Slug, Headline, Main Content, Featured Image, SEO                                                                                                           |
+| Page      | Post                     | Title, Slug, Headline, Date, Excerpt, Main Content, Featured Image, SEO                                                                                            |
+| Page      | Event                    | Title, Slug, Headline, Date/Time, Location, Excerpt, Main Content, SEO                                                                                             |
+| Page      | Case Study               | Title, Slug, Headline, Partner Logo, EPA Region, Category, Location, Description, Main Image, Video, Main Content, CTA Text, CTA Url, Excerpt, Featured Image, SEO |
+|           |                          |                                                                                                                                                                    |
+| Template  | About Page               | Title, Slug, Sections, Case Studies Headline, Case Studies, Featured Image, SEO                                                                                    |
+| Template  | Case Studies             | Title, Slug, Headline, Main Content, Featured Image, SEO                                                                                                           |
+| Template  | Landing Page             | Title, Slug, Sections, SEO                                                                                                                                         |
+| Template  | Team Page                | Title, Slug, Headline, Sections, Featured Image, SEO                                                                                                               |
+|           |                          |                                                                                                                                                                    |
+| Section   | About                    | Title, Featured Image, Main Content, Images                                                                                                                        |
+| Section   | Bucket Grid              | Title, Headline, Main Content, Buckets                                                                                                                             |
+| Section   | Events + Resources       | Title, Headline Events, Events, Text Events, Headline Resources, Resources, Featured Image                                                                         |
+| Section   | Hero                     | Title, Main Content, Featured Image                                                                                                                                |
+| Section   | News + Press Releases    | Title, Headline, Posts                                                                                                                                             |
+| Section   | Social Media CTA         | Title, Headline, Social Media Links                                                                                                                                |
+| Section   | Team                     | Title, Headline, Main Content, Team Members                                                                                                                        |
+| Section   | Text + Image             | Title, Main Content, Featured Image                                                                                                                                |
+| Section   | Text + Image Split       | Title, Main Content, Featured Image                                                                                                                                |
+| Section   | Text + Image Multi-Split | Title, Main Content, Featured Images                                                                                                                               |
+|           |                          |                                                                                                                                                                    |
+| Component | Bucket                   | Title, Bucket Text, Bucket Image                                                                                                                                   |
+| Component | EPA Region               | Name, Slug, Description                                                                                                                                            |
+| Component | Nav Item                 | Name, Linked Item                                                                                                                                                  |
+| Component | Nav Menu                 | Name, Menu Location, Nav Items                                                                                                                                     |
+| Component | Resource                 | Title, File                                                                                                                                                        |
+| Component | SEO                      | Title, Excerpt, Image, Keywords                                                                                                                                    |
+| Component | Social Media Link        | Platform, Url                                                                                                                                                      |
+| Component | Team Member              | Name, Slug, Position, Department, Main Content, Featured Image, SEO                                                                                                |
+| Component | Video                    | Title, Video ID (English), Video ID (Spanish)                                                                                                                      |
+|           |                          |                                                                                                                                                                    |
+| Other     | Footer                   | Name, Contact Info, Main Content                                                                                                                                   |
+| Other     | Newsletter               | Name, Headline, Main Content                                                                                                                                       |
