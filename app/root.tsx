@@ -11,7 +11,6 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
