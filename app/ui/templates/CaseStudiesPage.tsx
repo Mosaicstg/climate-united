@@ -9,7 +9,7 @@ import {
 import { motion, useReducedMotion } from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { useLoaderData } from "@remix-run/react"
-import type { loader } from "~/routes/$slug"
+import type { loader } from "~/routes/$slug/route"
 import {
   BLOCKS,
   type Block,

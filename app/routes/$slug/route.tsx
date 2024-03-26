@@ -27,177 +27,15 @@ import {
   type TeamPage as TeamPageModel,
   getTeamPageBySlug,
 } from "~/models/team.server"
-import { type RootLoader } from "~/root"
-import { typedFetchGraphQL } from "~/services/contentful.server"
 import { AboutPage } from "~/ui/templates/AboutPage"
 import { CaseStudiesPage } from "~/ui/templates/CaseStudiesPage"
 import { LandingPage } from "~/ui/templates/LandingPage"
 import { Page } from "~/ui/templates/Page"
 import { TeamPage } from "~/ui/templates/TeamPage"
 import { invariantResponse } from "~/utils/invariant.server"
+import { findContentBySlug, getAllPublishedPages } from "./lib.server"
 import { getSocialMetas } from "~/utils/seo"
-
-// This query tries to find a page that doesn't have a designated route
-// This is for basic Page, TeamPage, CaseStudies, etc.
-const FindBySlugQuery = `
-    query FindBySlug($slug: String!) {
-        pageCollection(where: {slug: $slug}, limit: 1) {
-            items {
-                slug
-                __typename
-            }
-        }
-        teamPageCollection(where: {slug: $slug}, limit: 1) {
-            items {
-                slug
-                __typename
-            }
-        }
-        caseStudiesCollection(where: {slug: $slug}, limit: 1) {
-            items {
-                slug
-                __typename
-            }
-        }
-        aboutPageCollection(where: {slug: $slug}, limit: 1) {
-            items {
-                slug
-                __typename
-            }
-        }
-        landingPageCollection(where: {slug: $slug}, limit: 1) {
-            items {
-                slug
-                __typename
-            }
-        }
-    }
-`
-
-const getAllPublishedPagesQuery = `
-    query GetAllPublishedPages($limit: Int!) {
-        pageCollection(limit: $limit) {
-            items {
-                slug
-            }
-        }
-        teamPageCollection(limit: $limit) {
-            items {
-                slug
-            }
-        }
-        caseStudiesCollection(limit: $limit) {
-            items {
-                slug
-            }
-        }
-        aboutPageCollection(limit: $limit) {
-            items {
-                slug
-            }
-        }
-        landingPageCollection(limit: $limit) {
-            items {
-                slug
-            }
-        }
-    }
-`
-
-async function getAllPublishedPages(limit: number = 100) {
-  const response = await typedFetchGraphQL<{
-    pageCollection: { items: { slug: string }[] }
-    teamPageCollection: { items: { slug: string }[] }
-    caseStudiesCollection: { items: { slug: string }[] }
-    aboutPageCollection: { items: { slug: string }[] }
-    landingPageCollection: { items: { slug: string }[] }
-  }>(getAllPublishedPagesQuery, { limit })
-
-  if (!response.data) {
-    console.error(`Error for all published pages`, response.errors)
-
-    return []
-  }
-
-  return [
-    ...response.data.pageCollection.items,
-    ...response.data.teamPageCollection.items,
-    ...response.data.caseStudiesCollection.items,
-    ...response.data.aboutPageCollection.items,
-    ...response.data.landingPageCollection.items,
-  ]
-}
-
-async function findContentBySlug(
-  slug: string,
-): Promise<{ __typename: string; slug: string } | null> {
-  const response = await typedFetchGraphQL<{
-    pageCollection: {
-      items: {
-        slug: string
-        __typename: string
-      }[]
-    }
-    teamPageCollection: {
-      items: {
-        slug: string
-        __typename: string
-      }[]
-    }
-    caseStudiesCollection: {
-      items: {
-        slug: string
-        __typename: string
-      }[]
-    }
-    aboutPageCollection: {
-      items: {
-        slug: string
-        __typename: string
-      }[]
-    }
-    landingPageCollection: {
-      items: {
-        slug: string
-        __typename: string
-      }[]
-    }
-  }>(FindBySlugQuery, { slug })
-
-  if (!response.data) {
-    console.error(`Error for page with slug: ${slug}`, response.errors)
-
-    return null
-  }
-
-  const page = response.data.pageCollection.items[0]
-  const teamPage = response.data.teamPageCollection.items[0]
-  const caseStudiesPage = response.data.caseStudiesCollection.items[0]
-  const aboutPage = response.data.aboutPageCollection.items[0]
-  const landingPage = response.data.landingPageCollection.items[0]
-
-  if (page) {
-    return page
-  }
-
-  if (teamPage) {
-    return teamPage
-  }
-
-  if (caseStudiesPage) {
-    return caseStudiesPage
-  }
-
-  if (aboutPage) {
-    return aboutPage
-  }
-
-  if (landingPage) {
-    return landingPage
-  }
-
-  return null
-}
+import { type RootLoader } from "~/root"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { slug } = params
@@ -208,24 +46,24 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   invariantResponse(!foundSlash, "Page slug not found.", { status: 404 })
 
-  const contentType = await findContentBySlug(slug)
+  const content = await findContentBySlug(slug)
 
-  invariantResponse(contentType, "Content not found.", { status: 404 })
+  invariantResponse(content, "Content not found.", { status: 404 })
 
   try {
-    switch (contentType.__typename) {
+    switch (content.__typename) {
       case "Page":
         const page = await getPageBySlug(slug)
 
         invariantResponse(page, "Page not found", { status: 404 })
 
-        return json({ page, __typename: contentType.__typename } as const)
+        return json({ page, __typename: content.__typename } as const)
       case "TeamPage":
         const teamPage = await getTeamPageBySlug(slug)
 
         invariantResponse(teamPage, "Team page not found", { status: 404 })
 
-        return json({ teamPage, __typename: contentType.__typename } as const)
+        return json({ teamPage, __typename: content.__typename } as const)
       case "CaseStudies":
         const caseStudiesPage = await getCaseStudiesPageBySlug(slug)
 
@@ -238,7 +76,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         return json({
           caseStudiesPage,
           epaRegionsWithCaseStudies,
-          __typename: contentType.__typename,
+          __typename: content.__typename,
         } as const)
       case "AboutPage":
         const aboutPage = await getAboutPageBySlug(slug)
@@ -247,7 +85,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
         return json({
           aboutPage,
-          __typename: contentType.__typename,
+          __typename: content.__typename,
         } as const)
       case "LandingPage":
         const landingPage = await getLandingPageBySlug(slug)
@@ -261,7 +99,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         return json({
           landingPage,
           regions,
-          __typename: contentType.__typename,
+          __typename: content.__typename,
         } as const)
       default:
         // Just throw an error if we can't find the page
@@ -305,7 +143,6 @@ export const handle: SEOHandle | undefined = {
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,
   matches,
-  params,
 }) => {
   const domainURL = matches.find((match) => match.id === "root")?.data
     ?.domainURL
