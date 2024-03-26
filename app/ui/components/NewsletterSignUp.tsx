@@ -11,7 +11,6 @@ import {
 } from "~/utils/rich-text-render-options"
 import type { loader as RootLoader } from "~/root"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { getNewsletterContent } from "~/models/newsletter.server"
 
 export const NewsletterSignUpForm = z.object({
   email: z
