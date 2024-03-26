@@ -111,4 +111,4 @@ netlify deploy --build --prod
 | Component | Video                    | Title, Video ID (English), Video ID (Spanish)                                                                                                                      |
 |           |                          |                                                                                                                                                                    |
 | Other     | Footer                   | Name, Contact Info, Main Content                                                                                                                                   |
-| Other     | Newsletter               | Name, Headline, Main Content                                                                                                                                       |
+| Other     | Newsletter               | Name, Headline, Main Content, Featured Image                                                                                                                       |
