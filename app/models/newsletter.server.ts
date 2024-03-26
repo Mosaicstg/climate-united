@@ -2,10 +2,12 @@ import { typedFetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
+import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 
 export const NewsletterSchema = z.object({
   headline: z.string(),
   mainContent: RichTextSchema.nullable(),
+  featuredImage: ImageSchema,
 })
 
 export type NewsletterContent = z.infer<typeof NewsletterSchema>
@@ -17,6 +19,13 @@ export async function getNewsletterContent() {
       headline
       mainContent {
         json
+      }
+      featuredImage {
+        fileName
+        url
+        description
+        width
+        height
       }
     }
   }
