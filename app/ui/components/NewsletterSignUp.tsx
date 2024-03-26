@@ -1,9 +1,16 @@
-import { useFetcher } from "@remix-run/react"
+import { useFetcher, useRouteLoaderData } from "@remix-run/react"
 import { z } from "zod"
 import { useForm, getFormProps, getInputProps } from "@conform-to/react"
 import { parseWithZod, getZodConstraint } from "@conform-to/zod"
 import { type action } from "~/routes/action.newsletter-sign-up"
 import { HoneypotInputs } from "remix-utils/honeypot/react"
+import type { Options } from "@contentful/rich-text-react-renderer"
+import {
+  defaultRichTextRenderOptions,
+  getRenderRichTextContentOptions,
+} from "~/utils/rich-text-render-options"
+import type { loader as RootLoader } from "~/root"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 export const NewsletterSignUpForm = z.object({
   email: z
@@ -11,7 +18,18 @@ export const NewsletterSignUpForm = z.object({
     .email("Email is invalid"),
 })
 
+const richTextRenderOptions: Options = {
+  ...defaultRichTextRenderOptions,
+}
+
 export function NewsletterSignUp() {
+  const data = useRouteLoaderData<typeof RootLoader>("root")
+
+  const renderOptions = getRenderRichTextContentOptions({
+    renderOptions: richTextRenderOptions,
+    links: data?.newsletterContent?.mainContent?.links,
+  })
+
   const fetcher = useFetcher<typeof action>({ key: "newsletter-sign-up" })
 
   const [form, fields] = useForm({
@@ -40,14 +58,17 @@ export function NewsletterSignUp() {
   return (
     <section className="items-center gap-0 overflow-hidden bg-lightGreen text-white md:grid md:grid-cols-2">
       <div className="w-full px-6 py-10 md:ml-auto md:max-w-screen-sm md:pl-5 md:pr-10 lg:py-20 lg:pr-20">
-        <h2 className="mb-2 text-2xl font-bold md:text-3xl">
-          Get Our Monthly Impact Updates
-        </h2>
-        <p className="pb-5">
-          Subscribe to monthly impact updates and learn how investor dollars are
-          making a difference. Per our privacy policy, we don't share your
-          information.
-        </p>
+        {data?.newsletterContent?.headline ? (
+          <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+            {data.newsletterContent.headline}
+          </h2>
+        ) : null}
+        {data?.newsletterContent?.mainContent
+          ? documentToReactComponents(
+              data?.newsletterContent?.mainContent.json,
+              renderOptions,
+            )
+          : null}
         <fetcher.Form
           method="post"
           action="/action/newsletter-sign-up"
