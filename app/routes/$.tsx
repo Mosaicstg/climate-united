@@ -71,7 +71,6 @@ export function GeneralErrorBoundary({
 }
 
 export async function loader() {
-  // TODO: Phase 2 - get current path, then query Page, Landing Page, About Page, Team Page (via slug)
   throw new Response("Not found", { status: 404 })
 }
 

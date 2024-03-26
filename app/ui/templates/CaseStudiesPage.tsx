@@ -9,7 +9,7 @@ import {
 import { motion, useReducedMotion } from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { useLoaderData } from "@remix-run/react"
-import type { loader } from "~/routes/case-studies"
+import type { loader } from "~/routes/$slug/route"
 import {
   BLOCKS,
   type Block,
@@ -46,17 +46,15 @@ const richTextRenderOptions = {
 }
 
 export function CaseStudiesPage({
-  title,
   headline,
   mainContent,
   featuredImage,
-  seo,
 }: CaseStudiesPageProps) {
   const prefersReducedMotion = useReducedMotion()
 
   const { url, description, width, height } = featuredImage
 
-  const { epaRegionsWithCaseStudies } = useLoaderData<typeof loader>()
+  const data = useLoaderData<typeof loader>()
 
   return (
     <>
@@ -90,78 +88,82 @@ export function CaseStudiesPage({
             type="multiple"
             className="mt-10 border-t-2 border-t-green"
           >
-            {epaRegionsWithCaseStudies.map((epaRegion) => {
-              const {
-                slug,
-                name,
-                description,
-                linkedFrom: {
-                  caseStudyCollection: { items: caseStudies },
-                },
-              } = epaRegion
-              return (
-                <AccordionItem
-                  key={slug}
-                  value={slug}
-                  className="border-b-2 border-b-green py-5 lg:px-10"
-                >
-                  <AccordionTrigger
-                    aria-label={name}
-                    className="hover:no-underline"
-                  >
-                    <span className="flex flex-col items-start gap-2 text-darkBlue">
-                      <span className="block text-left text-2xl font-bold leading-none">
-                        {name}
-                      </span>
-                      <span className="text-md block text-left">
-                        {description}
-                      </span>
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent className="flex flex-col gap-8 md:px-6 md:pb-8 md:pt-6">
-                    {caseStudies.length === 0 ? (
-                      <p className="text-md">Coming soon.</p>
-                    ) : (
-                      caseStudies.map((caseStudy, index) => (
-                        <div
-                          className="flex flex-col justify-between gap-4 text-darkBlue md:flex-row lg:gap-8"
-                          key={index}
-                        >
-                          <div className="max-w-lg">
-                            {caseStudy.category ? (
-                              <p className="uppercase">{caseStudy.category}</p>
-                            ) : null}
-                            <h4 className="text-xl font-bold">
-                              {caseStudy.headline}
-                            </h4>
-                            {caseStudy.location ? (
-                              <p className="">{caseStudy.location}</p>
-                            ) : null}
-                            {caseStudy.excerpt ? (
-                              <div className="text-md mt-4">
-                                {documentToReactComponents(
-                                  caseStudy.excerpt.json,
-                                  richTextRenderOptions,
-                                )}
-                              </div>
-                            ) : null}
-                          </div>
-                          <div className="md:pt-4">
-                            <a
-                              href={`/case-study/${caseStudy.slug}`}
-                              className="rounded-full border-2 border-darkBlue px-4 py-2 font-bold text-darkBlue transition-colors duration-300 ease-in-out hover:bg-darkBlue hover:text-white focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2"
-                              aria-label={`Read more about ${caseStudy.title} case study`}
+            {data && data.__typename === "CaseStudies"
+              ? data.epaRegionsWithCaseStudies.map((epaRegion) => {
+                  const {
+                    slug,
+                    name,
+                    description,
+                    linkedFrom: {
+                      caseStudyCollection: { items: caseStudies },
+                    },
+                  } = epaRegion
+                  return (
+                    <AccordionItem
+                      key={slug}
+                      value={slug}
+                      className="border-b-2 border-b-green py-5 lg:px-10"
+                    >
+                      <AccordionTrigger
+                        aria-label={name}
+                        className="hover:no-underline"
+                      >
+                        <span className="flex flex-col items-start gap-2 text-darkBlue">
+                          <span className="block text-left text-2xl font-bold leading-none">
+                            {name}
+                          </span>
+                          <span className="text-md block text-left">
+                            {description}
+                          </span>
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent className="flex flex-col gap-8 md:px-6 md:pb-8 md:pt-6">
+                        {caseStudies.length === 0 ? (
+                          <p className="text-md">Coming soon.</p>
+                        ) : (
+                          caseStudies.map((caseStudy, index) => (
+                            <div
+                              className="flex flex-col justify-between gap-4 text-darkBlue md:flex-row lg:gap-8"
+                              key={index}
                             >
-                              Read more
-                            </a>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </AccordionContent>
-                </AccordionItem>
-              )
-            })}
+                              <div className="max-w-lg">
+                                {caseStudy.category ? (
+                                  <p className="uppercase">
+                                    {caseStudy.category}
+                                  </p>
+                                ) : null}
+                                <h4 className="text-xl font-bold">
+                                  {caseStudy.headline}
+                                </h4>
+                                {caseStudy.location ? (
+                                  <p className="">{caseStudy.location}</p>
+                                ) : null}
+                                {caseStudy.excerpt ? (
+                                  <div className="text-md mt-4">
+                                    {documentToReactComponents(
+                                      caseStudy.excerpt.json,
+                                      richTextRenderOptions,
+                                    )}
+                                  </div>
+                                ) : null}
+                              </div>
+                              <div className="md:pt-4">
+                                <a
+                                  href={`/case-study/${caseStudy.slug}`}
+                                  className="rounded-full border-2 border-darkBlue px-4 py-2 font-bold text-darkBlue transition-colors duration-300 ease-in-out hover:bg-darkBlue hover:text-white focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2"
+                                  aria-label={`Read more about ${caseStudy.title} case study`}
+                                >
+                                  Read more
+                                </a>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </AccordionContent>
+                    </AccordionItem>
+                  )
+                })
+              : null}
           </Accordion>
         </div>
       </main>

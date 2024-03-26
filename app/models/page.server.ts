@@ -7,6 +7,7 @@ import { SEOSchema } from "./seo.server"
 
 export const PageSchema = z.object({
   title: z.string(),
+  slug: z.string(),
   headline: z.string(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema.nullable().optional(),
@@ -65,6 +66,7 @@ export const PageBySlugQuery = `
     pageCollection(where: { slug: $slug }, limit: 1) {
       items {
         title
+        slug
         headline
         mainContent {
           json

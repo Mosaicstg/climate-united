@@ -6,6 +6,7 @@ import { ImageSchema } from "~/schemas/contentful-fields/image.server"
 import { SEOSchema } from "./seo.server"
 
 export const AboutPageSchema = z.object({
+  slug: z.string(),
   featuredImage: ImageSchema,
   sectionsCollection: z.object({
     items: z.array(SectionAboutSchema),
@@ -85,6 +86,7 @@ const AboutPageBySlugQuery = `
     aboutPageCollection(where: {slug: $slug}, limit: 1) {
       items {
         title
+        slug
         sectionsCollection {
           items {
             title

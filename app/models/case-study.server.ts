@@ -77,11 +77,6 @@ export async function getCaseStudies(count: number = 10) {
                     slug
                     headline
                     category
-                    epaRegion {
-                        name
-                        slug
-                        description
-                    }
                     excerpt {
                         json
                     }

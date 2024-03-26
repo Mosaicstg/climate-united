@@ -7,10 +7,10 @@ import {
 } from "@remix-run/node"
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
@@ -28,6 +28,7 @@ import { withDevTools } from "remix-development-tools"
 import { getNavMenus } from "~/models/nav-menu.server"
 import { getFooterContent } from "~/models/footer.server"
 import { getNewsletterContent } from "~/models/newsletter.server"
+import { type ReactNode } from "react"
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
@@ -160,9 +161,7 @@ if (process.env.NODE_ENV === "development") {
 
 export default AppExport
 
-function App() {
-  const { honeypotInputProps } = useLoaderData<RootLoader>()
-
+export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -192,58 +191,36 @@ function App() {
         ></script>
       </head>
       <body>
-        <HoneypotProvider {...honeypotInputProps}>
-          <Outlet />
-          <NewsletterSignUp />
-          <Footer />
-        </HoneypotProvider>
-        <ScrollRestoration />
+        {children}
+        <LiveReload />
         <Scripts />
       </body>
     </html>
   )
 }
 
+function App() {
+  const { honeypotInputProps } = useLoaderData<RootLoader>()
+
+  return (
+    <HoneypotProvider {...honeypotInputProps}>
+      <Outlet />
+      <NewsletterSignUp />
+      <Footer />
+    </HoneypotProvider>
+  )
+}
+
 export function ErrorBoundary() {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta
-          name="msapplication-TileImage"
-          content="/favicons/ms-icon-144x144.png"
-        />
-        <meta name="theme-color" content="#ffffff" />
-        <Meta />
-        <Links />
-
-        {/*Google tag (gtag.js)*/}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-JR8YJYTRJK"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-JR8YJYTRJK');`,
-          }}
-        ></script>
-      </head>
-      <body>
-        <GeneralErrorBoundary
-          statusHandlers={{
-            404: () => <Show404 />,
-            500: () => <Show500 />,
-          }}
-        />
-        <Footer />
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <>
+      <GeneralErrorBoundary
+        statusHandlers={{
+          404: () => <Show404 />,
+          500: () => <Show500 />,
+        }}
+      />
+      <Footer />
+    </>
   )
 }

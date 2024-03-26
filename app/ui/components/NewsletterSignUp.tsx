@@ -86,6 +86,7 @@ export function NewsletterSignUp() {
             <input
               className="border-2 border-white bg-transparent px-3 py-2 outline-none focus:border-blue md:px-4"
               {...getInputProps(fields.email, { type: "email" })}
+              autoComplete={"email"}
             />
             <div
               id={fields.email.errorId}
