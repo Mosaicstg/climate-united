@@ -4,8 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "npm run redirects:enable && remix build",
-    "dev": "npm run redirects:enable && remix dev",
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "build:old": "npm run redirects:enable && remix build",
+    "dev:old": "npm run redirects:enable && remix dev",
     "start": "netlify serve",
     "typecheck": "tsc -b",
     "redirects:enable": "shx cp .redirects public/_redirects",
@@ -58,7 +60,10 @@
     "prettier-plugin-tailwindcss": "^0.5.9",
     "remix-development-tools": "^3.4.0",
     "tailwindcss": "^3.3.6",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.2.6",
+    "vite-env-only": "^2.2.0",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "engines": {
     "node": ">=18"

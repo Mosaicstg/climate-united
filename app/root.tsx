@@ -7,14 +7,13 @@ import {
 } from "@remix-run/node"
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   useLoaderData,
 } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import tailwindStyles from "~/tailwind.css"
+import tailwindStyles from "~/tailwind.css?url"
 import { getDomainUrl } from "./utils/get-route-url.server"
 import Footer from "~/ui/components/Footer"
 import { GeneralErrorBoundary } from "./routes/$"
@@ -23,8 +22,6 @@ import { Show500 } from "./ui/templates/500"
 import { honeypot } from "./utils/honeypot.server"
 import { HoneypotProvider } from "remix-utils/honeypot/react"
 import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
-import rdtStylesheet from "remix-development-tools/index.css"
-import { withDevTools } from "remix-development-tools"
 import { getNavMenus } from "~/models/nav-menu.server"
 import { getFooterContent } from "~/models/footer.server"
 import { getNewsletterContent } from "~/models/newsletter.server"
@@ -109,9 +106,6 @@ export const links: LinksFunction = () => [
     rel: "manifest",
     href: "/assets/favicons/manifest.json",
   },
-  ...(process.env.NODE_ENV === "development"
-    ? [{ rel: "stylesheet", href: rdtStylesheet }]
-    : []),
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -155,10 +149,6 @@ export const meta: MetaFunction = () => [
 
 let AppExport = App
 
-if (process.env.NODE_ENV === "development") {
-  AppExport = withDevTools(App)
-}
-
 export default AppExport
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -192,7 +182,6 @@ export function Layout({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <LiveReload />
         <Scripts />
       </body>
     </html>
