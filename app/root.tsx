@@ -32,7 +32,6 @@ export const links: LinksFunction = () => [
   { rel: "preload", href: "https://use.typekit.net/wlp1ond.css", as: "style" },
   { rel: "preload", href: tailwindStyles, as: "style" },
   { rel: "stylesheet", href: tailwindStyles },
-  { rel: "preload", href: "/assets/newsletter-sign-up.avif", as: "image" },
   {
     rel: "apple-touch-icon",
     sizes: "57x57",
