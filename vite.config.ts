@@ -8,5 +8,15 @@ import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
 installGlobals()
 
 export default defineConfig({
+  server: {
+    warmup: {
+      // Force Vite to build these files on server start
+      clientFiles: ["./app/entry.client.tsx", "./app/root.tsx"],
+    },
+  },
+  optimizeDeps: {
+    // Force Vite to include these files in the client bundle
+    include: ["./app/entry.client.tsx", "./app/root.tsx"],
+  },
   plugins: [envOnly(), remix(), netlifyPlugin(), tsconfigPaths()],
 })
