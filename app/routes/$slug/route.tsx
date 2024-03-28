@@ -36,6 +36,7 @@ import { invariantResponse } from "~/utils/invariant.server"
 import { findContentBySlug, getAllPublishedPages } from "./lib.server"
 import { getSocialMetas } from "~/utils/seo"
 import { type RootLoader } from "~/root"
+import { serverOnly$ } from "vite-env-only"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { slug } = params
@@ -126,7 +127,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 }
 
-export const handle: SEOHandle | undefined = {
+export const handle: SEOHandle | undefined = serverOnly$({
   getSitemapEntries: async (request) => {
     const pages = await getAllPublishedPages(100)
 
@@ -138,7 +139,7 @@ export const handle: SEOHandle | undefined = {
         priority: 0.7,
       }))
   },
-}
+})
 
 export const meta: MetaFunction<typeof loader, { root: RootLoader }> = ({
   data,
