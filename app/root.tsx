@@ -5,13 +5,7 @@ import {
   json,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  useLoaderData,
-} from "@remix-run/react"
+import { Links, Meta, Outlet, Scripts, useLoaderData } from "@remix-run/react"
 import { getSocialMediaLinks } from "~/models/social-media-links.server"
 import tailwindStyles from "~/tailwind.css?url"
 import { getDomainUrl } from "./utils/get-route-url.server"
@@ -146,10 +140,6 @@ export const meta: MetaFunction = () => [
   },
 ]
 
-let AppExport = App
-
-export default AppExport
-
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
@@ -187,7 +177,7 @@ export function Layout({ children }: { children: ReactNode }) {
   )
 }
 
-function App() {
+export default function App() {
   const { honeypotInputProps } = useLoaderData<RootLoader>()
 
   return (

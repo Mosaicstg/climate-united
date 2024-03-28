@@ -4,6 +4,7 @@ import { defineConfig } from "vite"
 import tsconfigPaths from "vite-tsconfig-paths"
 import envOnly from "vite-env-only"
 import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
+import { remixDevTools } from "remix-development-tools"
 
 installGlobals()
 
@@ -18,5 +19,11 @@ export default defineConfig({
     // Force Vite to include these files in the client bundle
     include: ["./app/entry.client.tsx", "./app/root.tsx"],
   },
-  plugins: [envOnly(), remix(), netlifyPlugin(), tsconfigPaths()],
+  plugins: [
+    envOnly(),
+    remixDevTools(),
+    remix(),
+    netlifyPlugin(),
+    tsconfigPaths(),
+  ],
 })
