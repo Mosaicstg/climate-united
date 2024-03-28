@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
+    "build:profile": "remix vite:build --profile",
     "dev": "remix vite:dev",
     "build:old": "npm run redirects:enable && remix build",
     "dev:old": "npm run redirects:enable && remix dev",
