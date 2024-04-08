@@ -117,9 +117,11 @@ export const richTextRenderOptions = {
     [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
       const { data } = node
       const { uri } = data
+
       return (
         <a
-          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold"
+          className="text-primary underline dark:text-gray-400"
+          target="_blank"
           rel="noreferrer"
           href={uri}
         >
