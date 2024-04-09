@@ -1,20 +1,24 @@
-import { typedFetchGraphQL } from "~/services/contentful.server"
-import { z } from "zod"
-import { validateWithSchema } from "~/utils/validate-with-schema.server"
-import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
-import { ImageSchema } from "~/schemas/contentful-fields/image.server"
-import { SEOSchema } from "./seo.server"
+import { typedFetchGraphQL } from "~/services/contentful.server";
+import { z } from "zod";
+import { validateWithSchema } from "~/utils/validate-with-schema.server";
+import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server";
+import { ImageSchema } from "~/schemas/contentful-fields/image.server";
+import { SEOSchema } from "./seo.server";
 
 export const PageSchema = z.object({
+  __typename: z.literal("Page"),
+  sys: z.object({
+    id: z.string(),
+  }),
   title: z.string(),
   slug: z.string(),
   headline: z.string(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema.nullable().optional(),
   seo: SEOSchema,
-})
+});
 
-export type Page = z.infer<typeof PageSchema>
+export type Page = z.infer<typeof PageSchema>;
 
 export async function getPage(id: string) {
   const query = `
@@ -46,25 +50,29 @@ export async function getPage(id: string) {
                 }
             }
         }
-    `
+    `;
 
-  const response = await typedFetchGraphQL<{ page: Page }>(query)
+  const response = await typedFetchGraphQL<{ page: Page }>(query);
 
   if (!response.data) {
-    console.error(`Error for Page with id:${id}`, response.errors)
+    console.error(`Error for Page with id:${id}`, response.errors);
 
-    return null
+    return null;
   }
 
-  const page = response.data.page
+  const page = response.data.page;
 
-  return validateWithSchema(PageSchema, page)
+  return validateWithSchema(PageSchema, page);
 }
 
 export const PageBySlugQuery = `
   query PageBySlug($slug: String!) {
     pageCollection(where: { slug: $slug }, limit: 1) {
       items {
+        __typename
+        sys {
+          id
+        }
         title
         slug
         headline
@@ -142,19 +150,25 @@ export const PageBySlugQuery = `
       }
     }
   }
-`
+`;
 export async function getPageBySlug(slug: string): Promise<Page | null> {
   const response = await typedFetchGraphQL<{
-    pageCollection: { items: Array<Page> }
-  }>(PageBySlugQuery, { slug })
+    pageCollection: { items: Array<Page> };
+  }>(PageBySlugQuery, { slug });
 
   if (!response.data) {
-    console.error(`Error for Page with slug:${slug}`, response.errors)
+    console.error(`Error for Page with slug:${slug}`, response.errors);
 
-    return null
+    return null;
   }
 
-  const page = response.data.pageCollection.items[0]
+  const page = response.data.pageCollection.items[0];
 
-  return validateWithSchema(PageSchema, page)
+  const result = PageSchema.safeParse(page);
+
+  if (!result.success) {
+    return null;
+  }
+
+  return result.data;
 }

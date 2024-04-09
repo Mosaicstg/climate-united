@@ -1,25 +1,27 @@
 import {
-  type LinksFunction,
-  type MetaFunction,
   type HeadersFunction,
   json,
+  type LinksFunction,
   type LoaderFunctionArgs,
-} from "@remix-run/node"
-import { Links, Meta, Outlet, Scripts, useLoaderData } from "@remix-run/react"
-import { getSocialMediaLinks } from "~/models/social-media-links.server"
-import tailwindStyles from "~/tailwind.css?url"
-import { getDomainUrl } from "./utils/get-route-url.server"
-import Footer from "~/ui/components/Footer"
-import { GeneralErrorBoundary } from "./routes/$"
-import { Show404 } from "./ui/templates/404"
-import { Show500 } from "./ui/templates/500"
-import { honeypot } from "./utils/honeypot.server"
-import { HoneypotProvider } from "remix-utils/honeypot/react"
-import { NewsletterSignUp } from "./ui/components/NewsletterSignUp"
-import { getNavMenus } from "~/models/nav-menu.server"
-import { getFooterContent } from "~/models/footer.server"
-import { getNewsletterContent } from "~/models/newsletter.server"
-import { type ReactNode } from "react"
+  type MetaFunction,
+} from "@remix-run/node";
+import { Links, Meta, Outlet, Scripts, useLoaderData } from "@remix-run/react";
+import { getSocialMediaLinks } from "~/models/social-media-links.server";
+import tailwindStyles from "~/tailwind.css?url";
+import { getDomainUrl } from "./utils/get-route-url.server";
+import Footer from "~/ui/components/Footer";
+import { GeneralErrorBoundary } from "./routes/$";
+import { Show404 } from "./ui/templates/404";
+import { Show500 } from "./ui/templates/500";
+import { honeypot } from "./utils/honeypot.server";
+import { HoneypotProvider } from "remix-utils/honeypot/react";
+import { NewsletterSignUp } from "./ui/components/NewsletterSignUp";
+import { getNavMenus } from "~/models/nav-menu.server";
+import { getFooterContent } from "~/models/footer.server";
+import { getNewsletterContent } from "~/models/newsletter.server";
+import { ContentfulLivePreviewProvider } from "@contentful/live-preview/react";
+import { type ReactNode } from "react";
+import { isPreviewMode } from "./lib/preview-cookie.server";
 
 export const links: LinksFunction = () => [
   // preload tailwind so the first paint is the right font
@@ -99,14 +101,16 @@ export const links: LinksFunction = () => [
     rel: "manifest",
     href: "/assets/favicons/manifest.json",
   },
-]
+];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const mainMenu = await getNavMenus("Main Menu")
-  const footerMenu = await getNavMenus("Footer Menu")
-  const socialMedialLinks = await getSocialMediaLinks()
-  const footerContent = await getFooterContent()
-  const newsletterContent = await getNewsletterContent()
+  const mainMenu = await getNavMenus("Main Menu");
+  const footerMenu = await getNavMenus("Footer Menu");
+  const socialMedialLinks = await getSocialMediaLinks();
+  const footerContent = await getFooterContent();
+  const newsletterContent = await getNewsletterContent();
+
+  const previewMode = await isPreviewMode(request);
 
   return json(
     {
@@ -117,10 +121,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       newsletterContent,
       domainURL: getDomainUrl(request),
       honeypotInputProps: honeypot.getInputProps(),
+      previewMode,
     },
-    {},
-  )
-}
+  );
+};
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
@@ -129,56 +133,65 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
     "Netlify-CDN-Cache-Control":
       "public, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
-  }
-}
+  };
+};
 
-export type RootLoader = typeof loader
+export type RootLoader = typeof loader;
 
 export const meta: MetaFunction = () => [
   {
     title: "Climate United",
   },
-]
+];
 
 export function Layout({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta
-          name="msapplication-TileImage"
-          content="/favicons/ms-icon-144x144.png"
-        />
-        <meta name="theme-color" content="#ffffff" />
-        <Meta />
-        <Links />
+  const { previewMode } = useLoaderData<RootLoader>();
 
-        {/*Google tag (gtag.js)*/}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-JR8YJYTRJK"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
+  return (
+    <ContentfulLivePreviewProvider
+      locale="en-US"
+      enableLiveUpdates={previewMode}
+    >
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
+          <meta name="msapplication-TileColor" content="#ffffff" />
+          <meta
+            name="msapplication-TileImage"
+            content="/favicons/ms-icon-144x144.png"
+          />
+          <meta name="theme-color" content="#ffffff" />
+          <Meta />
+          <Links />
+
+          {/*Google tag (gtag.js)*/}
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-JR8YJYTRJK"
+          >
+          </script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-JR8YJYTRJK');`,
-          }}
-        ></script>
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  )
+            }}
+          >
+          </script>
+        </head>
+        <body>
+          {children}
+          <Scripts />
+        </body>
+      </html>
+    </ContentfulLivePreviewProvider>
+  );
 }
 
 export default function App() {
-  const { honeypotInputProps } = useLoaderData<RootLoader>()
+  const { honeypotInputProps } = useLoaderData<RootLoader>();
 
   return (
     <HoneypotProvider {...honeypotInputProps}>
@@ -186,7 +199,7 @@ export default function App() {
       <NewsletterSignUp />
       <Footer />
     </HoneypotProvider>
-  )
+  );
 }
 
 export function ErrorBoundary() {
@@ -200,5 +213,5 @@ export function ErrorBoundary() {
       />
       <Footer />
     </>
-  )
+  );
 }

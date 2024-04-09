@@ -1,5 +1,5 @@
-import { typedFetchGraphQL } from "~/services/contentful.server"
-import { z } from "zod"
+import { typedFetchGraphQL } from "~/services/contentful.server";
+import { z } from "zod";
 
 export const PublishedPagesSchema = z.object({
   pageCollection: z.object({
@@ -37,9 +37,9 @@ export const PublishedPagesSchema = z.object({
       }),
     ),
   }),
-})
+});
 
-export type PublishedPages = z.infer<typeof PublishedPagesSchema>
+export type PublishedPages = z.infer<typeof PublishedPagesSchema>;
 
 export const getAllPublishedPagesQuery = `
     query GetAllPublishedPages($limit: Int!) {
@@ -69,28 +69,28 @@ export const getAllPublishedPagesQuery = `
             }
         }
     }
-`
+`;
 
 export async function getAllPublishedPages(limit: number = 100) {
   const response = await typedFetchGraphQL<PublishedPages>(
     getAllPublishedPagesQuery,
     { limit },
-  )
+  );
 
   if (!response.data) {
-    console.error(`Error for all published pages`, response.errors)
+    console.error(`Error for all published pages`, response.errors);
 
-    return []
+    return [];
   }
 
-  const result = PublishedPagesSchema.safeParse(response.data)
+  const result = PublishedPagesSchema.safeParse(response.data);
 
   if (!result.success) {
-    console.error(`Error for all published pages`, result.error)
-    return []
+    console.error(`Error for all published pages`, result.error);
+    return [];
   }
 
-  const { data } = result
+  const { data } = result;
 
   return [
     ...data.pageCollection.items,
@@ -98,7 +98,7 @@ export async function getAllPublishedPages(limit: number = 100) {
     ...data.caseStudiesCollection.items,
     ...data.aboutPageCollection.items,
     ...data.landingPageCollection.items,
-  ]
+  ];
 }
 
 export const ContentBySlugSchema = z.object({
@@ -142,91 +142,95 @@ export const ContentBySlugSchema = z.object({
       }),
     ),
   }),
-})
+});
 
-export type ContentBySlug = z.infer<typeof ContentBySlugSchema>
+export type ContentBySlug = z.infer<typeof ContentBySlugSchema>;
 
 // This is for basic Page, TeamPage, CaseStudies, etc.
 export const FindBySlugQuery = `
-    query FindBySlug($slug: String!) {
-        pageCollection(where: {slug: $slug}, limit: 1) {
+    query FindBySlug($slug: String!, $preview: Boolean = false) {
+        pageCollection(where: {slug: $slug}, limit: 1, preview: $preview) {
             items {
                 slug
                 __typename
             }
         }
-        teamPageCollection(where: {slug: $slug}, limit: 1) {
+        teamPageCollection(where: {slug: $slug}, limit: 1, preview: $preview)  {
             items {
                 slug
                 __typename
             }
         }
-        caseStudiesCollection(where: {slug: $slug}, limit: 1) {
+        caseStudiesCollection(where: {slug: $slug}, limit: 1, preview: $preview) {
             items {
                 slug
                 __typename
             }
         }
-        aboutPageCollection(where: {slug: $slug}, limit: 1) {
+        aboutPageCollection(where: {slug: $slug}, limit: 1, preview: $preview) {
             items {
                 slug
                 __typename
             }
         }
-        landingPageCollection(where: {slug: $slug}, limit: 1) {
+        landingPageCollection(where: {slug: $slug}, limit: 1, preview: $preview) {
             items {
                 slug
                 __typename
             }
         }
     }
-`
+`;
 
-export async function findContentBySlug(slug: string) {
+export async function findContentBySlug(
+  slug: string,
+  preview: boolean = false,
+) {
   const response = await typedFetchGraphQL<ContentBySlug>(FindBySlugQuery, {
     slug,
-  })
+    preview,
+  }, preview);
 
   if (!response.data) {
-    console.error(`Error for page with slug: ${slug}`, response.errors)
+    console.error(`Error for page with slug: ${slug}`, response.errors);
 
-    return null
+    return null;
   }
 
-  const result = ContentBySlugSchema.safeParse(response.data)
+  const result = ContentBySlugSchema.safeParse(response.data);
 
   if (!result.success) {
-    console.error(`Error for page with slug: ${slug}`, result.error)
-    return null
+    console.error(`Error for page with slug: ${slug}`, result.error);
+    return null;
   }
 
-  const { data } = result
+  const { data } = result;
 
-  const page = data.pageCollection.items[0]
-  const teamPage = data.teamPageCollection.items[0]
-  const caseStudiesPage = data.caseStudiesCollection.items[0]
-  const aboutPage = data.aboutPageCollection.items[0]
-  const landingPage = data.landingPageCollection.items[0]
+  const page = data.pageCollection.items[0];
+  const teamPage = data.teamPageCollection.items[0];
+  const caseStudiesPage = data.caseStudiesCollection.items[0];
+  const aboutPage = data.aboutPageCollection.items[0];
+  const landingPage = data.landingPageCollection.items[0];
 
   if (page) {
-    return page
+    return page;
   }
 
   if (teamPage) {
-    return teamPage
+    return teamPage;
   }
 
   if (caseStudiesPage) {
-    return caseStudiesPage
+    return caseStudiesPage;
   }
 
   if (aboutPage) {
-    return aboutPage
+    return aboutPage;
   }
 
   if (landingPage) {
-    return landingPage
+    return landingPage;
   }
 
-  return null
+  return null;
 }

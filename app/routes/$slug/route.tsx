@@ -37,8 +37,10 @@ import { findContentBySlug, getAllPublishedPages } from "./lib.server"
 import { getSocialMetas } from "~/utils/seo"
 import { type RootLoader } from "~/root"
 import { serverOnly$ } from "vite-env-only"
+import { isPreviewMode } from "~/lib/preview-cookie.server"
+import { useContentfulLiveUpdates } from "@contentful/live-preview/react"
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { slug } = params
 
   invariantResponse(slug, "Page slug not found.", { status: 404 })
@@ -47,8 +49,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   invariantResponse(!foundSlash, "Page slug not found.", { status: 404 })
 
-  const content = await findContentBySlug(slug)
+  const isInPreviewMode = await isPreviewMode(request)
 
+  const content = await findContentBySlug(slug, isInPreviewMode);
+  
   invariantResponse(content, "Content not found.", { status: 404 })
 
   try {
@@ -58,7 +62,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
         invariantResponse(page, "Page not found", { status: 404 })
 
-        return json({ page, __typename: content.__typename } as const)
+        return json({ page, __typename: content.__typename, isInPreviewMode } as const)
       case "TeamPage":
         const teamPage = await getTeamPageBySlug(slug)
 
@@ -197,7 +201,9 @@ export default function Slug() {
 
   switch (data.__typename) {
     case "Page":
-      return <Page {...data.page} />
+      const updatedPage = useContentfulLiveUpdates(data.page);
+
+      return <Page {...updatedPage} />
     case "TeamPage":
       return <TeamPage {...data.teamPage} />
     case "CaseStudies":
