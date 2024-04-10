@@ -4,14 +4,16 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion, useReducedMotion } from "framer-motion"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type SectionHeroProps = SectionHero
 
 export function HeroSection({
-  title,
   mainContent,
   featuredImage,
+  sys,
 }: SectionHeroProps) {
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
   const prefersReducedMotion = useReducedMotion()
 
   const { url, description, width, height } = featuredImage
@@ -32,11 +34,15 @@ export function HeroSection({
               duration: 0.5,
               delay: 0.5,
             }}
-            className="relative w-4/5 md:w-3/4 lg:w-1/2 md:pb-[18rem] lg:pb-0 z-10"
+            className="relative z-10 w-4/5 md:w-3/4 md:pb-[18rem] lg:w-1/2 lg:pb-0"
+            {...inspectorProps({ fieldId: "mainContent" })}
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
-          <div className="relative -mt-[35%] md:mt-0 md:w-3/4 lg:w-1/2">
+          <div
+            className="relative -mt-[35%] md:mt-0 md:w-3/4 lg:w-1/2"
+            {...inspectorProps({ fieldId: "featuredImage" })}
+          >
             <motion.div
               initial={{ padding: prefersReducedMotion ? 0 : "5rem" }}
               whileInView={{ padding: 0 }}
@@ -45,7 +51,7 @@ export function HeroSection({
                 ease: "linear",
                 duration: 1,
               }}
-              className="relative translate-x-[2%] translate-y-[35%] w-[140%] md:absolute md:-right-6 md:bottom-0 md:w-[150%] md:translate-x-[25%] md:translate-y-[40%] lg:translate-x-[40%] lg:translate-y-[45%]"
+              className="relative w-[140%] translate-x-[2%] translate-y-[35%] md:absolute md:-right-6 md:bottom-0 md:w-[150%] md:translate-x-[25%] md:translate-y-[40%] lg:translate-x-[40%] lg:translate-y-[45%]"
             >
               <motion.div
                 initial={{ padding: prefersReducedMotion ? "1.25rem" : 0 }}

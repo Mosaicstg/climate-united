@@ -1,6 +1,6 @@
 import {
-  type Options,
   documentToReactComponents,
+  type Options,
 } from "@contentful/rich-text-react-renderer"
 import { type Page } from "~/models/page.server"
 import Header from "~/ui/components/Header"
@@ -10,6 +10,10 @@ import {
   defaultRichTextRenderOptions,
   getRenderRichTextContentOptions,
 } from "~/utils/rich-text-render-options"
+import {
+  useContentfulInspectorMode,
+  useContentfulLiveUpdates,
+} from "@contentful/live-preview/react"
 
 type PageProps = Page
 
@@ -17,13 +21,18 @@ const richTextRenderOptions: Options = {
   ...defaultRichTextRenderOptions,
 }
 
-export function Page({ headline, mainContent, featuredImage }: PageProps) {
+export function Page(page: PageProps) {
+  const updatedPage = useContentfulLiveUpdates(page)
   const prefersReducedMotion = useReducedMotion()
+
+  const { headline, sys, featuredImage, mainContent } = updatedPage
 
   const renderOptions = getRenderRichTextContentOptions({
     renderOptions: richTextRenderOptions,
     links: mainContent?.links,
   })
+
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
 
   return (
     <>
@@ -37,7 +46,10 @@ export function Page({ headline, mainContent, featuredImage }: PageProps) {
         >
           <div className="flex flex-col items-center gap-12 md:flex-row">
             {featuredImage ? (
-              <div className="relative my-12 md:order-2 md:w-1/3">
+              <div
+                className="relative my-12 md:order-2 md:w-1/3"
+                {...inspectorProps({ fieldId: "featuredImage" })}
+              >
                 <motion.img
                   initial={{
                     opacity: prefersReducedMotion ? 1 : 0,
@@ -91,8 +103,15 @@ export function Page({ headline, mainContent, featuredImage }: PageProps) {
                 !featuredImage ? "md:w-full" : "",
               )}
             >
-              <h1 className="mb-5 text-4xl font-bold">{headline}</h1>
-              {documentToReactComponents(mainContent.json, renderOptions)}
+              <h1
+                className="mb-5 text-4xl font-bold"
+                {...inspectorProps({ fieldId: "headline" })}
+              >
+                {headline}
+              </h1>
+              <div {...inspectorProps({ fieldId: "mainContent" })}>
+                {documentToReactComponents(mainContent.json, renderOptions)}
+              </div>
             </div>
           </div>
         </div>

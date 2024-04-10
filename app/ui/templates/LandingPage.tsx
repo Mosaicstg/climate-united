@@ -8,10 +8,19 @@ import { EventsResourcesSection } from "~/ui/sections/EventsResources"
 import { BucketGridSection } from "~/ui/sections/BucketGrid"
 import { SocialMediaCtaSection } from "~/ui/sections/SocialMediaCta"
 import Header from "~/ui/components/Header"
+import {
+  useContentfulInspectorMode,
+  useContentfulLiveUpdates,
+} from "@contentful/live-preview/react"
 
 type LandingPageProps = LandingPage
 
-export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
+export function LandingPage(landingPage: LandingPageProps) {
+  const updatedLandingPage = useContentfulLiveUpdates(landingPage)
+  const { sectionsCollection, sys } = updatedLandingPage
+
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
+
   return (
     <>
       <Header
@@ -21,17 +30,12 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
         linkColor={"text-white hover:text-blue"}
         hamburgerColor={"text-white hover:text-blue focus:text-blue"}
       />
-      <main>
+      <main {...inspectorProps({ fieldId: "sections" })}>
         {sectionsCollection.items.map((section, index) => {
           switch (section.__typename) {
             case "SectionHero":
               return (
-                <HeroSection
-                  key={`${section.title}-${index}`}
-                  title={section.title}
-                  mainContent={section.mainContent}
-                  featuredImage={section.featuredImage}
-                />
+                <HeroSection key={`${section.title}-${index}`} {...section} />
               )
             case "SectionTextMultiImageSplit":
               return (
