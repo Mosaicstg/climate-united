@@ -48,9 +48,7 @@ export function LandingPage(landingPage: LandingPageProps) {
               return (
                 <TextImageSplitSection
                   key={`${section.title}-${index}`}
-                  title={section.title}
-                  mainContent={section.mainContent}
-                  featuredImage={section.featuredImage}
+                  {...section}
                 />
               )
             case "SectionBucketGrid":

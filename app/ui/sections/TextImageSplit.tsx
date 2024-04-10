@@ -4,23 +4,29 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion, useReducedMotion } from "framer-motion"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type SectionTextImageSplitProps = SectionTextImageSplit
 
 export function TextImageSplitSection({
-  title,
   mainContent,
   featuredImage,
+  sys,
 }: SectionTextImageSplitProps) {
   const prefersReducedMotion = useReducedMotion()
 
   const { url, description, width, height } = featuredImage
 
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
+
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen text-darkBlue">
         <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
-          <div className="relative my-12 w-3/4 md:order-2 md:w-2/5">
+          <div
+            className="relative my-12 w-3/4 md:order-2 md:w-2/5"
+            {...inspectorProps({ fieldId: "featuredImage" })}
+          >
             <motion.img
               initial={{
                 opacity: prefersReducedMotion ? 1 : 0,
@@ -80,6 +86,7 @@ export function TextImageSplitSection({
               delay: 0.5,
             }}
             className="relative md:order-1 md:w-3/5"
+            {...inspectorProps({ fieldId: "mainContent" })}
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
