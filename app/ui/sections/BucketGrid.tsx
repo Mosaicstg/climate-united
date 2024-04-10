@@ -5,14 +5,15 @@ import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { Bucket } from "~/ui/components/Bucket"
 import { motion, useReducedMotion } from "framer-motion"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type SectionBucketGridProps = SectionBucketGrid
 
 export function BucketGridSection({
-  title,
   headline,
   mainContent,
   bucketsCollection,
+  sys,
 }: SectionBucketGridProps) {
   const prefersReducedMotion = useReducedMotion()
 
@@ -24,6 +25,8 @@ export function BucketGridSection({
       },
     },
   }
+
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
 
   return (
     <>
@@ -42,6 +45,7 @@ export function BucketGridSection({
               delay: 0.5,
             }}
             className="relative mb-10 text-2xl font-bold md:text-3xl"
+            {...inspectorProps({ fieldId: "headline" })}
           >
             {headline}
           </motion.h2>
@@ -69,13 +73,7 @@ export function BucketGridSection({
                   break
               }
               return (
-                <Bucket
-                  key={bucket.title}
-                  title={bucket.title}
-                  bucketText={bucket.bucketText}
-                  bucketImage={bucket.bucketImage}
-                  shadowColor={shadowColor}
-                />
+                <Bucket key={bucket.title} {...{ ...bucket, shadowColor }} />
               )
             })}
           </motion.div>
@@ -92,6 +90,7 @@ export function BucketGridSection({
               delay: 0.5,
             }}
             className="relative mx-auto max-w-screen-md"
+            {...inspectorProps({ fieldId: "mainContent" })}
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>

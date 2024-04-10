@@ -4,14 +4,15 @@ import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { motion, useReducedMotion } from "framer-motion"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type BucketProps = Bucket & { shadowColor: string }
 
 export function Bucket({
-  title,
   bucketText,
   bucketImage,
   shadowColor = "bg-green",
+  sys,
 }: BucketProps) {
   const prefersReducedMotion = useReducedMotion()
 
@@ -33,9 +34,14 @@ export function Bucket({
     show: { opacity: 1, y: 0 },
   }
 
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
+
   return (
     <div className="md:w-1/4">
-      <div className="relative mx-auto mb-10 w-1/2 md:w-full">
+      <div
+        className="relative mx-auto mb-10 w-1/2 md:w-full"
+        {...inspectorProps({ fieldId: "bucketImage" })}
+      >
         <motion.img
           variants={image}
           transition={{
@@ -57,6 +63,7 @@ export function Bucket({
           ease: "linear",
         }}
         className="relative"
+        {...inspectorProps({ fieldId: "bucketText" })}
       >
         {documentToReactComponents(bucketText.json, richTextRenderOptions)}
       </motion.div>

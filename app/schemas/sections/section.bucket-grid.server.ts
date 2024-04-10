@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
-import { ImageSchema } from "../contentful-fields/image.server"
+import { BucketSchema } from "~/models/bucket.server"
 
 /**
  * query {
@@ -29,16 +29,13 @@ import { ImageSchema } from "../contentful-fields/image.server"
 
 export const SectionBucketGridSchema = z.object({
   title: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
   headline: z.string(),
   mainContent: RichTextSchema,
   bucketsCollection: z.object({
-    items: z.array(
-      z.object({
-        title: z.string(),
-        bucketText: RichTextSchema,
-        bucketImage: ImageSchema,
-      }),
-    ),
+    items: z.array(BucketSchema),
   }),
 })
 

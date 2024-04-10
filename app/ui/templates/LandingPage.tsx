@@ -55,10 +55,7 @@ export function LandingPage(landingPage: LandingPageProps) {
               return (
                 <BucketGridSection
                   key={`${section.title}-${index}`}
-                  title={section.title}
-                  headline={section.headline}
-                  mainContent={section.mainContent}
-                  bucketsCollection={section.bucketsCollection}
+                  {...section}
                 />
               )
             case "SectionTextImage":

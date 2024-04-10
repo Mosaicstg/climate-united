@@ -378,6 +378,9 @@ query LandingPageBySlug($slug: String!, $preview: Boolean = false) {
             }
             bucketsCollection {
               items {
+                sys {
+                  id
+                }
                 title
                 bucketText {
                   json
