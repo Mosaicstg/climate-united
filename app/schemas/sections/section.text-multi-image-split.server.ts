@@ -23,6 +23,9 @@ import { ImageSchema } from "../contentful-fields/image.server"
 
 export const SectionTextMultiImageSplitSchema = z.object({
   title: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
   mainContent: RichTextSchema,
   featuredImagesCollection: z.object({
     items: ImageSchema.array(),

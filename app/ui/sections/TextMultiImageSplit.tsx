@@ -4,14 +4,17 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion, useReducedMotion } from "framer-motion"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type SectionTextMultiImageSplitProps = SectionTextMultiImageSplit
 
 export function TextMultiImageSplitSection({
   mainContent,
   featuredImagesCollection,
+  sys,
 }: SectionTextMultiImageSplitProps) {
   const prefersReducedMotion = useReducedMotion()
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
 
   const variant1 = {
     hidden: {
@@ -50,7 +53,10 @@ export function TextMultiImageSplitSection({
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green text-darkBlue">
         <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
-          <div className="flex flex-row flex-wrap justify-center md:w-2/5">
+          <div
+            className="flex flex-row flex-wrap justify-center md:w-2/5"
+            {...inspectorProps({ fieldId: "featuredImages" })}
+          >
             {featuredImagesCollection.items.map((image, index) => {
               let animationVariant = {}
               let classes = ""
@@ -103,6 +109,7 @@ export function TextMultiImageSplitSection({
               delay: 0.5,
             }}
             className="relative md:w-3/5"
+            {...inspectorProps({ fieldId: "mainContent" })}
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>

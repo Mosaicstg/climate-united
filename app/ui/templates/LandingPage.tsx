@@ -41,9 +41,7 @@ export function LandingPage(landingPage: LandingPageProps) {
               return (
                 <TextMultiImageSplitSection
                   key={`${section.title}-${index}`}
-                  title={section.title}
-                  mainContent={section.mainContent}
-                  featuredImagesCollection={section.featuredImagesCollection}
+                  {...section}
                 />
               )
             case "SectionTextImageSplit":
