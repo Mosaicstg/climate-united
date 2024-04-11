@@ -95,8 +95,8 @@ export type LandingPage = z.infer<typeof LandingPageSchema>
 
 export async function getLandingPage(id: string) {
   const query = `
-    query {
-        landingPage(id: "${id}") {
+    query LandingPageById($id: String!) {
+        landingPage(id: $id) {
             __typename
             title
             sys {
@@ -108,6 +108,9 @@ export async function getLandingPage(id: string) {
                     __typename
                     ... on SectionHero {
                         title
+                        sys {
+                          id
+                        }
                         mainContent {
                             json
                         }
@@ -121,6 +124,9 @@ export async function getLandingPage(id: string) {
                     }
                     ... on SectionTextMultiImageSplit {
                         title
+                        sys {
+                          id
+                        }
                         mainContent {
                             json
                         }
@@ -135,6 +141,9 @@ export async function getLandingPage(id: string) {
                     }
                     ... on SectionTextImageSplit {
                         title
+                        sys {
+                          id
+                        }
                         mainContent {
                             json
                         }
@@ -147,6 +156,9 @@ export async function getLandingPage(id: string) {
                     }
                     ... on SectionBucketGrid {
                         title
+                        sys {
+                          id
+                        }
                         headline
                         mainContent {
                             json
@@ -154,6 +166,9 @@ export async function getLandingPage(id: string) {
                         bucketsCollection {
                             items {
                                 title
+                        sys {
+                          id
+                        }
                                 bucketText {
                                     json
                                 }
@@ -168,6 +183,9 @@ export async function getLandingPage(id: string) {
                     }
                     ... on SectionTextImage {
                         title
+                        sys {
+                          id
+                        }
                         mainContent {
                             json
                         }
@@ -180,6 +198,9 @@ export async function getLandingPage(id: string) {
                     }
                     ... on SectionEventsResources {
                         title
+                        sys {
+                          id
+                        }
                         headlineEvents
                         eventsCollection(limit: 3) {
                             items {
@@ -230,6 +251,9 @@ export async function getLandingPage(id: string) {
                     }
                     ... on SectionSocialMediaCta {
                         title
+                        sys {
+                          id
+                        }
                         headline
                         socialMediaLinksCollection {
                             items {
@@ -240,6 +264,9 @@ export async function getLandingPage(id: string) {
                     }
                     ... on SectionNewsPressReleases {
                         title
+                        sys {
+                          id
+                        }
                         headline
                         postsCollection(limit: 5) {
                             items {
@@ -293,7 +320,11 @@ export async function getLandingPage(id: string) {
     }
     `
 
-  const response = await typedFetchGraphQL<{ landingPage: LandingPage }>(query)
+  const response = await typedFetchGraphQL<{ landingPage: LandingPage }>(
+    query,
+    { id },
+    false,
+  )
 
   if (!response.data) {
     console.error(`Error for Landing Page with id:${id}`, response.errors)
