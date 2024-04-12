@@ -121,15 +121,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     domainURL: getDomainUrl(request),
     honeypotInputProps: honeypot.getInputProps(),
     previewMode,
-  })
+  } as const)
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
     // Tell the browser to always check the freshness of the cache
-    "Cache-Control": "public, max-age=600, must-revalidate",
-    "Netlify-CDN-Cache-Control":
-      "public, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
