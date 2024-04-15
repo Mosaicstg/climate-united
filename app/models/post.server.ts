@@ -7,13 +7,16 @@ import { SEOSchema } from "./seo.server"
 
 export const PostSchema = z.object({
   title: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
   slug: z.string(),
   headline: z.string(),
   date: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema.nullable().optional(),
-  seo: SEOSchema
+  seo: SEOSchema,
 })
 
 export const PostsSchema = PostSchema.array()
@@ -24,6 +27,9 @@ export async function getPostBySlug(slug: string) {
   const query = `query {
         postCollection(where: { slug: "${slug}" }) {
             items {
+                sys {
+                  id
+                }
                 title
                 slug
                 headline
@@ -50,12 +56,14 @@ export async function getPostBySlug(slug: string) {
         }
     }`
 
-  const response = await typedFetchGraphQL<{ postCollection: { items: Array<Post> } }>(query)
+  const response = await typedFetchGraphQL<{
+    postCollection: { items: Array<Post> }
+  }>(query)
 
   if (!response.data) {
-    console.error(`Error for Post with slug: ${slug}`, response.errors);
+    console.error(`Error for Post with slug: ${slug}`, response.errors)
 
-    return null;
+    return null
   }
 
   const post = response.data.postCollection.items[0]
@@ -67,6 +75,9 @@ export async function getPosts(count: number = 10) {
   const query = `query {
         postCollection(limit: ${count}) {
             items {
+                sys {
+                  id
+                }
                 title
                 slug
                 headline
@@ -100,7 +111,9 @@ export async function getPosts(count: number = 10) {
         }
     }`
 
-  const response = await typedFetchGraphQL<{ postCollection: { items: Array<Post> } }>(query)
+  const response = await typedFetchGraphQL<{
+    postCollection: { items: Array<Post> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Posts`, response.errors)

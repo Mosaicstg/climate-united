@@ -5,6 +5,9 @@ import { z } from "zod"
 export const SocialMediaLinkSchema = z.object({
   platform: z.string(),
   url: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
 })
 
 export const SocialMediaLinksSchema = SocialMediaLinkSchema.array()
@@ -15,6 +18,9 @@ export async function getSocialMediaLinks(count: number = 10) {
   const query = `query {
         socialMediaLinkCollection(limit: ${count}) {
             items {
+                sys {
+                  id 
+                }
                 platform
                 url
             }

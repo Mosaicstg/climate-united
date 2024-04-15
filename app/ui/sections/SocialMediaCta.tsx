@@ -1,15 +1,18 @@
 import type { SectionSocialMediaCta } from "~/schemas/sections/section.social-media-cta.server"
 import { motion, useReducedMotion } from "framer-motion"
 import { SocialLink } from "~/ui/components/SocialMediaLink"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type SectionSocialMediaCtaProps = SectionSocialMediaCta
 
 export function SocialMediaCtaSection({
-  title,
   headline,
   socialMediaLinksCollection,
+  sys,
 }: SectionSocialMediaCtaProps) {
   const prefersReducedMotion = useReducedMotion()
+
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
 
   return (
     <>
@@ -30,16 +33,15 @@ export function SocialMediaCtaSection({
               }}
               className="relative md:w-3/4"
             >
-              <h2 className="mb-6 text-3xl font-bold">{headline}</h2>
+              <h2
+                className="mb-6 text-3xl font-bold"
+                {...inspectorProps({ fieldId: "headline" })}
+              >
+                {headline}
+              </h2>
               <ul className="flex gap-4">
                 {socialMediaLinksCollection.items.map((link, index) => {
-                  return (
-                    <SocialLink
-                      key={index}
-                      platform={link.platform}
-                      url={link.url}
-                    />
-                  )
+                  return <SocialLink key={index} {...link} />
                 })}
               </ul>
             </motion.div>

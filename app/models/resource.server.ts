@@ -3,8 +3,14 @@ import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { z } from "zod"
 
 export const ResourceSchema = z.object({
+  sys: z.object({
+    id: z.string(),
+  }),
   title: z.string(),
   file: z.object({
+    sys: z.object({
+      id: z.string(),
+    }),
     fileName: z.string(),
     url: z.string(),
   }),
@@ -51,7 +57,9 @@ export async function getResources(count: number = 10) {
         }
     }`
 
-  const response = await typedFetchGraphQL<{ resourceCollection: { items: Array<Resource> } }>(query)
+  const response = await typedFetchGraphQL<{
+    resourceCollection: { items: Array<Resource> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Resources`, response.errors)

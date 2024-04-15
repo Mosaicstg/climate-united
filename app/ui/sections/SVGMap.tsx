@@ -24,6 +24,7 @@ import { type action as epaAction } from "~/routes/action.epa-region"
 import { type loader as indexLoader } from "~/routes/_index"
 import { cn } from "~/lib/utils"
 import { flushSync } from "react-dom"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type SectionTextImageProps = SectionTextImage
 
@@ -45,8 +46,10 @@ type Unpacked<T> = T extends (infer U)[]
       ? U
       : T
 
-export function SVGMapSection({ title }: SectionTextImageProps) {
+export function SVGMapSection({ title, sys }: SectionTextImageProps) {
   const { regions } = useLoaderData<typeof indexLoader>()
+
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
 
   const epaRegionFetcher = useFetcher<typeof epaAction>({
     key: "epa-region",
@@ -136,7 +139,10 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-5">
         <div className="mx-auto max-w-screen-xl py-12">
-          <h2 className="mb-4 text-center text-2xl font-bold md:text-3xl">
+          <h2
+            className="mb-4 text-center text-2xl font-bold md:text-3xl"
+            {...inspectorProps({ fieldId: "title" })}
+          >
             {title}
           </h2>
           <epaRegionFetcher.Form method="post" action="/action/epa-region">

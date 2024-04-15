@@ -21,6 +21,9 @@ import { ImageSchema } from "../contentful-fields/image.server"
 
 export const SectionTextImageSchema = z.object({
   title: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
   mainContent: RichTextSchema,
   featuredImage: ImageSchema,
 })

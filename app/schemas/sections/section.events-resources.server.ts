@@ -41,10 +41,14 @@ import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
  */
 export const SectionEventsResourcesSchema = z.object({
   title: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
   headlineEvents: z.string(),
   eventsCollection: z.object({
     items: EventSchema.pick({
       title: true,
+      sys: true,
       slug: true,
       headline: true,
       datetime: true,

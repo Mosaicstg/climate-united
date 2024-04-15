@@ -4,17 +4,20 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion, useReducedMotion } from "framer-motion"
-import { useContentfulInspectorMode } from "@contentful/live-preview/react"
+import {
+  useContentfulInspectorMode,
+  useContentfulLiveUpdates,
+} from "@contentful/live-preview/react"
 
 type SectionHeroProps = SectionHero
 
-export function HeroSection({
-  mainContent,
-  featuredImage,
-  sys,
-}: SectionHeroProps) {
+export function HeroSection(props: SectionHeroProps) {
+  const { sys } = props
   const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
   const prefersReducedMotion = useReducedMotion()
+  const updatedProps = useContentfulLiveUpdates(props)
+
+  const { mainContent, featuredImage } = updatedProps
 
   const { url, description, width, height } = featuredImage
 

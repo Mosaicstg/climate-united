@@ -62,42 +62,28 @@ export function LandingPage(landingPage: LandingPageProps) {
               return (
                 <SVGMapSection
                   key={`${section.title}-${index}}`}
-                  title={section.title}
-                  mainContent={section.mainContent}
-                  featuredImage={section.featuredImage}
+                  {...section}
                 />
               )
             case "SectionEventsResources":
               return (
                 <EventsResourcesSection
                   key={`${section.title}-${index}`}
-                  title={section.title}
-                  headlineEvents={section.headlineEvents}
-                  eventsCollection={section.eventsCollection}
-                  textEvents={section.textEvents}
-                  headlineResources={section.headlineResources}
-                  resourcesCollection={section.resourcesCollection}
-                  featuredImage={section.featuredImage}
+                  {...section}
                 />
               )
             case "SectionSocialMediaCta":
               return (
                 <SocialMediaCtaSection
                   key={`${section.title}-${index}`}
-                  title={section.title}
-                  headline={section.headline}
-                  socialMediaLinksCollection={
-                    section.socialMediaLinksCollection
-                  }
+                  {...section}
                 />
               )
             case "SectionNewsPressReleases":
               return (
                 <NewsPressReleasesSection
                   key={`${section.title}-${index}`}
-                  title={section.title}
-                  headline={section.headline}
-                  postsCollection={section.postsCollection}
+                  {...section}
                 />
               )
             default:

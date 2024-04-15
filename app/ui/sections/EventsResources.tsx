@@ -3,9 +3,10 @@ import { Event } from "~/ui/components/Event"
 import { Resource } from "~/ui/components/Resource"
 import { motion, useReducedMotion } from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import type { Block, Inline} from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type SectionEventsResourcesProps = SectionEventsResources
 
@@ -17,15 +18,23 @@ export function EventsResourcesSection({
   headlineResources,
   resourcesCollection,
   featuredImage,
+  sys,
 }: SectionEventsResourcesProps) {
   const prefersReducedMotion = useReducedMotion()
+
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
 
   return (
     <>
       <section className="overflow-hidden border-t-4 border-solid border-green">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:gap-[12rem] md:px-5">
           <div className="md:w-1/2">
-            <h2 className="mb-5 text-3xl font-bold">{headlineEvents}</h2>
+            <h2
+              className="mb-5 text-3xl font-bold"
+              {...inspectorProps({ fieldId: "headlineEvents" })}
+            >
+              {headlineEvents}
+            </h2>
             <motion.div
               initial={{
                 opacity: prefersReducedMotion ? 1 : 0,
@@ -41,19 +50,7 @@ export function EventsResourcesSection({
               className="relative md:pl-6"
             >
               {eventsCollection.items.map((event, index) => {
-                return (
-                  <Event
-                    key={`${event.slug}-${index}`}
-                    title={event.title}
-                    slug={event.slug}
-                    headline={event.headline}
-                    datetime={event.datetime}
-                    location={event.location}
-                    excerpt={event.excerpt}
-                    mainContent={event.mainContent}
-                    seo={event.seo}
-                  />
-                )
+                return <Event key={`${event.slug}-${index}`} {...event} />
               })}
             </motion.div>
             {textEvents ? (
@@ -70,6 +67,7 @@ export function EventsResourcesSection({
                   delay: 0.5,
                 }}
                 className="relative pt-12 md:pl-6"
+                {...inspectorProps({ fieldId: "textEvents" })}
               >
                 {documentToReactComponents(
                   textEvents.json,
@@ -79,7 +77,12 @@ export function EventsResourcesSection({
             ) : null}
           </div>
           <div className="md:w-1/2">
-            <h2 className="mb-5 text-3xl font-bold">{headlineResources}</h2>
+            <h2
+              className="mb-5 text-3xl font-bold"
+              {...inspectorProps({ fieldId: "headlineResources" })}
+            >
+              {headlineResources}
+            </h2>
             <motion.div
               initial={{
                 opacity: prefersReducedMotion ? 1 : 0,
@@ -95,17 +98,14 @@ export function EventsResourcesSection({
               className="relative"
             >
               {resourcesCollection.items.map((resource) => {
-                return (
-                  <Resource
-                    key={resource.title}
-                    title={resource.title}
-                    file={resource.file}
-                  />
-                )
+                return <Resource key={resource.title} {...resource} />
               })}
             </motion.div>
             {featuredImage ? (
-              <div className="relative mx-auto mt-[5rem] w-[75%]">
+              <div
+                className="relative mx-auto mt-[5rem] w-[75%]"
+                {...inspectorProps({ fieldId: "featuredImage" })}
+              >
                 <motion.img
                   initial={{
                     opacity: prefersReducedMotion ? 1 : 0,

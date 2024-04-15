@@ -6,13 +6,16 @@ import { SEOSchema } from "./seo.server"
 
 export const EventSchema = z.object({
   title: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
   slug: z.string(),
   headline: z.string(),
   datetime: z.string(),
   location: z.string(),
   excerpt: RichTextSchema.nullable().optional(),
   mainContent: RichTextSchema,
-  seo: SEOSchema
+  seo: SEOSchema,
 })
 
 export const EventsSchema = EventSchema.array()
@@ -23,6 +26,9 @@ export async function getEventBySlug(slug: string) {
   const query = `query {
         eventCollection(where: { slug: "${slug}" }) {
             items {
+                sys {
+                  id
+                }
                 title
                 slug
                 headline
@@ -50,7 +56,9 @@ export async function getEventBySlug(slug: string) {
         }
     }`
 
-  const response = await typedFetchGraphQL<{ eventCollection: { items: Array<Event> } }>(query)
+  const response = await typedFetchGraphQL<{
+    eventCollection: { items: Array<Event> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Event with slug:${slug}`, response.errors)
@@ -66,6 +74,9 @@ export async function getEvents(count: number = 10) {
         query {
             eventCollection(order:sys_firstPublishedAt_DESC limit: ${count}) {
                 items {
+                    sys {
+                      id
+                    }
                     title
                     slug
                     headline
@@ -93,7 +104,9 @@ export async function getEvents(count: number = 10) {
             }
         }`
 
-  const response = await typedFetchGraphQL<{ eventCollection: { items: Array<Event> } }>(query)
+  const response = await typedFetchGraphQL<{
+    eventCollection: { items: Array<Event> }
+  }>(query)
 
   if (!response.data) {
     console.error(`Error for Events`, response.errors)

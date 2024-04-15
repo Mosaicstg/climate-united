@@ -1,19 +1,20 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type Post } from "~/models/post.server"
 import { motion, useReducedMotion } from "framer-motion"
+import { useContentfulInspectorMode } from "@contentful/live-preview/react"
 
 type PostProps = Post
 
 export function Post({
-  title,
   slug,
   headline,
-  date,
   excerpt,
-  mainContent,
   featuredImage,
+  sys,
 }: PostProps) {
   const prefersReducedMotion = useReducedMotion()
+
+  const inspectorProps = useContentfulInspectorMode({ entryId: sys.id })
 
   return (
     <div className="mb-12 flex flex-col gap-12 md:flex-row">
@@ -38,6 +39,7 @@ export function Post({
             alt={featuredImage.description || ""}
             width={featuredImage.width}
             height={featuredImage.height}
+            {...inspectorProps({ fieldId: "featuredImage" })}
           />
         ) : null}
       </motion.div>
@@ -55,7 +57,10 @@ export function Post({
         }}
         className="relative md:w-3/5"
       >
-        <h3 className="mb-3 text-xl font-bold">
+        <h3
+          className="mb-3 text-xl font-bold"
+          {...inspectorProps({ fieldId: "headline" })}
+        >
           <a
             className="text-darkBlue duration-300 ease-in-out hover:text-green"
             href={`/news/${slug}`}
@@ -63,9 +68,11 @@ export function Post({
             {headline}
           </a>
         </h3>
-        {excerpt
-          ? documentToReactComponents(excerpt.json, richTextRenderOptions)
-          : null}
+        {excerpt ? (
+          <div {...inspectorProps({ fieldId: "excerpt" })}>
+            {documentToReactComponents(excerpt.json, richTextRenderOptions)}
+          </div>
+        ) : null}
         <a
           className="mt-5 inline-block rounded-full bg-lightGreen px-4 py-1 font-bold uppercase text-white duration-300 ease-in-out hover:bg-darkBlue"
           href={`/news/${slug}`}

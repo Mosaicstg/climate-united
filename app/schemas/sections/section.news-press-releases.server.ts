@@ -28,6 +28,9 @@ import { PostSchema } from "~/models/post.server"
 
 export const SectionNewsPressReleasesSchema = z.object({
   title: z.string(),
+  sys: z.object({
+    id: z.string(),
+  }),
   headline: z.string(),
   postsCollection: z.object({
     items: PostSchema.array(),

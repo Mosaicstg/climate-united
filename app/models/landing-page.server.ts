@@ -95,230 +95,244 @@ export type LandingPage = z.infer<typeof LandingPageSchema>
 
 export async function getLandingPage(id: string) {
   const query = `
-    query LandingPageById($id: String!) {
-        landingPage(id: $id) {
-            __typename
-            title
-            sys {
-              id
+query LandingPageById($id: String!) {
+  landingPage(id: $id) {
+    __typename
+    title
+    sys {
+      id
+    }
+    slug
+    sectionsCollection {
+      items {
+        __typename
+        ... on SectionHero {
+          title
+          sys {
+            id
+          }
+          mainContent {
+            json
+          }
+          featuredImage {
+            fileName
+            url
+            description
+            width
+            height
+          }
+        }
+        ... on SectionTextMultiImageSplit {
+          title
+          sys {
+            id
+          }
+          mainContent {
+            json
+          }
+          featuredImagesCollection {
+            items {
+              fileName
+              url
+              width
+              height
             }
-            slug
-            sectionsCollection {
-                items {
-                    __typename
-                    ... on SectionHero {
-                        title
-                        sys {
-                          id
-                        }
-                        mainContent {
-                            json
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            description
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionTextMultiImageSplit {
-                        title
-                        sys {
-                          id
-                        }
-                        mainContent {
-                            json
-                        }
-                        featuredImagesCollection {
-                            items {
-                                fileName
-                                url
-                                width
-                                height
-                            }
-                        }
-                    }
-                    ... on SectionTextImageSplit {
-                        title
-                        sys {
-                          id
-                        }
-                        mainContent {
-                            json
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionBucketGrid {
-                        title
-                        sys {
-                          id
-                        }
-                        headline
-                        mainContent {
-                            json
-                        }
-                        bucketsCollection {
-                            items {
-                                title
-                        sys {
-                          id
-                        }
-                                bucketText {
-                                    json
-                                }
-                                bucketImage {
-                                    fileName
-                                    url
-                                    width
-                                    height
-                                }
-                            }
-                        }
-                    }
-                    ... on SectionTextImage {
-                        title
-                        sys {
-                          id
-                        }
-                        mainContent {
-                            json
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionEventsResources {
-                        title
-                        sys {
-                          id
-                        }
-                        headlineEvents
-                        eventsCollection(limit: 3) {
-                            items {
-                                title
-                                slug
-                                headline
-                                datetime
-                                location
-                                excerpt {
-                                    json
-                                }
-                                mainContent {
-                                    json
-                                }
-                                seo {
-                                  title
-                                  excerpt
-                                  image {
-                                    fileName
-                                    url
-                                    description
-                                    width
-                                    height
-                                  }
-                                  keywords
-                                }
-                            }
-                        }
-                        textEvents {
-                           json
-                        }
-                        headlineResources
-                        resourcesCollection(limit: 6) {
-                            items {
-                                title
-                                file {
-                                    fileName
-                                    url
-                                }
-                            }
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionSocialMediaCta {
-                        title
-                        sys {
-                          id
-                        }
-                        headline
-                        socialMediaLinksCollection {
-                            items {
-                                platform
-                                url
-                            }
-                        }
-                    }
-                    ... on SectionNewsPressReleases {
-                        title
-                        sys {
-                          id
-                        }
-                        headline
-                        postsCollection(limit: 5) {
-                            items {
-                                title
-                                slug
-                                date
-                                headline
-                                excerpt {
-                                    json
-                                }
-                                mainContent {
-                                    json
-                                }
-                                featuredImage {
-                                    fileName
-                                    url
-                                    description
-                                    width
-                                    height
-                                }
-                                seo {
-                                  title
-                                  excerpt
-                                  image {
-                                    fileName
-                                    url
-                                    description
-                                    width
-                                    height
-                                  }
-                                  keywords
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            seo {
+          }
+        }
+        ... on SectionTextImageSplit {
+          title
+          sys {
+            id
+          }
+          mainContent {
+            json
+          }
+          featuredImage {
+            fileName
+            url
+            width
+            height
+          }
+        }
+        ... on SectionBucketGrid {
+          title
+          sys {
+            id
+          }
+          headline
+          mainContent {
+            json
+          }
+          bucketsCollection {
+            items {
               title
-              excerpt
-              image {
+              sys {
+                id
+              }
+              bucketText {
+                json
+              }
+              bucketImage {
+                fileName
+                url
+                width
+                height
+              }
+            }
+          }
+        }
+        ... on SectionTextImage {
+          title
+          sys {
+            id
+          }
+          mainContent {
+            json
+          }
+          featuredImage {
+            fileName
+            url
+            width
+            height
+          }
+        }
+        ... on SectionEventsResources {
+          title
+          sys {
+            id
+          }
+          headlineEvents
+          eventsCollection(limit: 3) {
+            items {
+              title
+              sys {
+                id
+              }
+              slug
+              headline
+              datetime
+              location
+              excerpt {
+                json
+              }
+              mainContent {
+                json
+              }
+              seo {
+                title
+                excerpt
+                image {
+                  fileName
+                  url
+                  description
+                  width
+                  height
+                }
+                keywords
+              }
+            }
+          }
+          textEvents {
+            json
+          }
+          headlineResources
+          resourcesCollection(limit: 6) {
+            items {
+              title
+              sys {
+                id
+              }
+              file {
+                sys {
+                  id
+                }
+                fileName
+                url
+              }
+            }
+          }
+          featuredImage {
+            fileName
+            url
+            width
+            height
+          }
+        }
+        ... on SectionSocialMediaCta {
+          title
+          sys {
+            id
+          }
+          headline
+          socialMediaLinksCollection {
+            items {
+              sys {
+                id
+              }
+              platform
+              url
+            }
+          }
+        }
+        ... on SectionNewsPressReleases {
+          title
+          sys {
+            id
+          }
+          headline
+          postsCollection(limit: 5) {
+            items {
+              sys {
+                id
+              }
+              title
+              slug
+              date
+              headline
+              excerpt {
+                json
+              }
+              mainContent {
+                json
+              }
+              featuredImage {
                 fileName
                 url
                 description
                 width
                 height
               }
-              keywords
+              seo {
+                title
+                excerpt
+                image {
+                  fileName
+                  url
+                  description
+                  width
+                  height
+                }
+                keywords
+              }
             }
+          }
         }
+      }
     }
-    `
+    seo {
+      title
+      excerpt
+      image {
+        fileName
+        url
+        description
+        width
+        height
+      }
+      keywords
+    }
+  }
+}`
 
   const response = await typedFetchGraphQL<{ landingPage: LandingPage }>(
     query,
@@ -449,6 +463,9 @@ query LandingPageBySlug($slug: String!, $preview: Boolean = false) {
             eventsCollection(limit: 3) {
               items {
                 title
+                sys {
+                  id
+                }
                 slug
                 headline
                 datetime
@@ -479,8 +496,14 @@ query LandingPageBySlug($slug: String!, $preview: Boolean = false) {
             headlineResources
             resourcesCollection(limit: 6) {
               items {
+                sys {
+                  id
+                }
                 title
                 file {
+                  sys {
+                    id
+                  }
                   fileName
                   url
                 }
@@ -501,6 +524,9 @@ query LandingPageBySlug($slug: String!, $preview: Boolean = false) {
             headline
             socialMediaLinksCollection {
               items {
+                sys {
+                  id
+                }
                 platform
                 url
               }
@@ -515,6 +541,9 @@ query LandingPageBySlug($slug: String!, $preview: Boolean = false) {
             postsCollection(limit: 5) {
               items {
                 title
+                sys {
+                  id
+                }
                 slug
                 date
                 headline
