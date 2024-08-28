@@ -6,7 +6,6 @@ import { SVGMapSection } from "../sections/SVGMap"
 import { NewsPressReleasesSection } from "~/ui/sections/NewsPressReleases"
 import { EventsResourcesSection } from "~/ui/sections/EventsResources"
 import { BucketGridSection } from "~/ui/sections/BucketGrid"
-import { StatBucketGridSection } from "~/ui/sections/StatBucketGrid"
 import { SocialMediaCtaSection } from "~/ui/sections/SocialMediaCta"
 import Header from "~/ui/components/Header"
 
@@ -60,16 +59,6 @@ export function LandingPage({ title, sectionsCollection }: LandingPageProps) {
                   headline={section.headline}
                   mainContent={section.mainContent}
                   bucketsCollection={section.bucketsCollection}
-                />
-              )
-            case "SectionStatBucketGrid":
-              return (
-                <StatBucketGridSection
-                  key={`${section.title}-${index}`}
-                  title={section.title}
-                  headline={section.headline}
-                  mainContent={section.mainContent}
-                  statBucketsCollection={section.statBucketsCollection}
                 />
               )
             case "SectionTextImage":
