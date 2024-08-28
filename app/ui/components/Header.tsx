@@ -74,6 +74,7 @@ export default function Header({
                 navMenuClasses="flex flex-col font-bold md:border-0 md:p-0 min-[800px]:flex-row min-[800px]:space-x-5 min-[800px]:text-sm lg:space-x-8 lg:text-base rtl:space-x-reverse"
                 navItemClasses={`${linkColor}`}
                 navItemsCollection={data.mainMenu.navItemsCollection}
+                showSubNavMenus
               />
             </div>
           ) : null}

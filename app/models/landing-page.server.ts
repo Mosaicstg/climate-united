@@ -34,6 +34,7 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   SectionNewsPressReleasesSchema.merge(
     z.object({ __typename: z.literal("SectionNewsPressReleases") }),
   ),
+  z.object({ __typename: z.literal("SectionStatBucketGrid") }),
 ])
 
 export const LandingPageSchema = z.object({
@@ -252,6 +253,10 @@ export async function getLandingPage(id: string) {
   }
 
   const landingPage = response.data.landingPage
+
+  console.log(landingPage.sectionsCollection.items)
+
+  console.log(landingPage)
 
   return validateWithSchema(LandingPageSchema, landingPage)
 }
