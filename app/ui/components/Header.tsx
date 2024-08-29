@@ -91,7 +91,7 @@ export default function Header({
               )}
               id="navbar-default"
             >
-              <HeaderNavMenu>
+              <HeaderNavMenu className="relative [&>*>ul]:right-0">
                 {data.mainMenu.navItemsCollection.items.map((navItem) => {
                   const { name, childNavItemsCollection } = navItem
 
@@ -143,10 +143,9 @@ function NavItemWithDropDown({
   }
 
   return (
-    <HeaderNavMenuItem className="relative">
+    <>
       <HeaderNavMenuSubMenuToggleButton
         className={cn(
-          "text-green after:text-xl after:ease-in-out hover:text-blue",
           useAlternativeStyle ? "text-white" : "",
           subMenuOpen ? "after:rotate-45" : "",
         )}
@@ -184,6 +183,6 @@ function NavItemWithDropDown({
           )
         })}
       </HeaderNavMenuSubMenu>
-    </HeaderNavMenuItem>
+    </>
   )
 }
