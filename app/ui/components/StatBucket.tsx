@@ -8,7 +8,6 @@ import { motion, useReducedMotion } from "framer-motion"
 type StatBucketProps = StatBucket
 
 export function StatBucket({
-  title,
   headline,
   subheadline,
   bucketText,

@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { RichTextSchema } from "~/schemas/contentful-fields/rich-text.server"
 import { ImageSchema } from "../contentful-fields/image.server"
+import { StatBucketSchema } from "~/models/stat-bucket.server"
 
 /**
  * query {
@@ -35,16 +36,7 @@ export const SectionStatBucketGridSchema = z.object({
   headline: z.string(),
   mainContent: RichTextSchema,
   statBucketsCollection: z.object({
-    items: z.array(
-      z.object({
-        title: z.string(),
-        headline: z.string().nullable().optional(),
-        subheadline: z.string().nullable().optional(),
-        bucketText: RichTextSchema.nullable().optional(),
-        bucketImage: ImageSchema.nullable().optional(),
-        link: z.string().nullable().optional(),
-      }),
-    ),
+    items: z.array(StatBucketSchema),
   }),
 })
 
