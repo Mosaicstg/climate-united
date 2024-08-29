@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef } from "react"
+import { cn } from "~/lib/utils"
 
 export type NavItemLinkProps = ComponentPropsWithRef<"a">
 
@@ -10,7 +11,12 @@ export function NavItemLink({
   ...restOfProps
 }: NavItemLinkProps) {
   return (
-    <a className={className} href={href} rel={rel} {...restOfProps}>
+    <a
+      className={cn("text-green hover:text-blue focus:text-blue", className)}
+      href={href}
+      rel={rel}
+      {...restOfProps}
+    >
       {children}
     </a>
   )

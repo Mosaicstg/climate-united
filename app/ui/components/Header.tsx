@@ -1,47 +1,67 @@
-import { useState } from "react"
+import { type ComponentPropsWithoutRef, useState, useId } from "react"
+import type { loader as RootLoader } from "~/root"
+import { useRouteLoaderData } from "@remix-run/react"
 import Logo from "~/ui/components/Logo"
 import LogoWhite from "~/ui/components/Logo-White"
-import { useRouteLoaderData } from "@remix-run/react"
-import type { loader as RootLoader } from "~/root"
-import { NavMenu } from "~/ui/components/NavMenu"
+import {
+  HeaderNavMenu,
+  HeaderNavMenuItem,
+  HeaderNavMenuSubMenu,
+  HeaderNavMenuSubMenuToggleButton,
+  HeaderNavMenuSubMenuNavItem,
+  HeaderNavMenuSubMenuLink,
+} from "./HeaderNavMenu"
+import { cn } from "~/lib/utils"
+import { getURLFromNavItem } from "~/utils/get-relative-url-from-nav-item"
+import type { NavItem } from "~/models/nav-menu.server"
+import { NavItemLink } from "./NavItem"
+
+type HeaderProps = ComponentPropsWithoutRef<"header"> & {
+  useAlternativeStyle?: boolean
+}
 
 export default function Header({
-  altLogo = false,
-  bgColor = "bg-white",
-  borderColor = "md:border-blue",
-  linkColor = "text-green hover:text-blue",
-  hamburgerColor = "text-darkBlue hover:text-green focus:text-green",
-}: {
-  altLogo?: boolean
-  bgColor?: string
-  borderColor?: string
-  linkColor?: string
-  hamburgerColor?: string
-}) {
+  className,
+  useAlternativeStyle = false,
+  ...restOfProps
+}: HeaderProps) {
   const [isNavOpen, setIsNavOpen] = useState(false)
 
   // Needed to access root loader since <Header> is called on separate routes
   const data = useRouteLoaderData<typeof RootLoader>("root")
 
   return (
-    <header className={`${bgColor}`}>
+    <header
+      className={cn(
+        "relative top-0 z-50 bg-white",
+        useAlternativeStyle ? `bg-lightGreen` : "",
+        className,
+      )}
+      {...restOfProps}
+    >
       <nav>
         <div
-          className={`mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-x-12 gap-y-5 p-5 md:border-b-4 md:border-dotted ${borderColor}`}
+          className={cn(
+            "mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-x-12 gap-y-5 border-blue p-5 md:border-b-4 md:border-dotted",
+            useAlternativeStyle ? "border-white" : "",
+          )}
         >
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <div className="w-[180px]">
-              {altLogo ? <LogoWhite /> : <Logo />}
+              {useAlternativeStyle ? <LogoWhite /> : <Logo />}
             </div>
             <span className="sr-only">Climate United</span>
           </a>
           <button
             data-collapse-toggle="navbar-main"
             type="button"
-            className={`inline-flex h-8 w-8 items-center justify-center rounded-lg text-sm ${hamburgerColor} focus:outline-none min-[800px]:hidden`}
+            className={cn(
+              "inline-flex h-8 items-center justify-center rounded-lg text-sm text-darkBlue hover:text-blue focus:text-blue focus:outline-none min-[800px]:hidden",
+              useAlternativeStyle ? "text-white" : "",
+            )}
             aria-controls="navbar-default"
             aria-expanded={isNavOpen}
             onClick={() => setIsNavOpen(!isNavOpen)}
@@ -65,21 +85,105 @@ export default function Header({
           </button>
           {data && data.mainMenu ? (
             <div
-              className={`${
-                isNavOpen ? "block" : "hidden"
-              } w-full min-[800px]:block min-[800px]:w-auto`}
+              className={cn(
+                "w-full min-[800px]:block min-[800px]:w-auto",
+                isNavOpen ? "block" : "hidden",
+              )}
               id="navbar-default"
             >
-              <NavMenu
-                navMenuClasses="flex flex-col font-bold md:border-0 md:p-0 min-[800px]:flex-row min-[800px]:space-x-5 min-[800px]:text-sm lg:space-x-8 lg:text-base rtl:space-x-reverse"
-                navItemClasses={`${linkColor}`}
-                navItemsCollection={data.mainMenu.navItemsCollection}
-                showSubNavMenus
-              />
+              <HeaderNavMenu>
+                {data.mainMenu.navItemsCollection.items.map((navItem) => {
+                  const { name, childNavItemsCollection } = navItem
+
+                  const hasSubMenu = childNavItemsCollection.items.length > 0
+
+                  const url = getURLFromNavItem(navItem)
+
+                  return (
+                    <HeaderNavMenuItem key={name}>
+                      {hasSubMenu ? (
+                        <NavItemWithDropDown
+                          navItem={navItem}
+                          useAlternativeStyle={useAlternativeStyle}
+                        />
+                      ) : (
+                        <NavItemLink
+                          href={url}
+                          className={cn(
+                            useAlternativeStyle ? "text-white" : "",
+                          )}
+                        >
+                          {name}
+                        </NavItemLink>
+                      )}
+                    </HeaderNavMenuItem>
+                  )
+                })}
+              </HeaderNavMenu>
             </div>
           ) : null}
         </div>
       </nav>
     </header>
+  )
+}
+
+function NavItemWithDropDown({
+  navItem,
+  useAlternativeStyle = false,
+}: {
+  navItem: NavItem
+  useAlternativeStyle?: boolean
+}) {
+  const buttonId = useId()
+  const [subMenuOpen, setSubMenuOpen] = useState(false)
+
+  function onClick(_: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    setSubMenuOpen((subMenuOpen) => !subMenuOpen)
+  }
+
+  return (
+    <HeaderNavMenuItem className="relative">
+      <HeaderNavMenuSubMenuToggleButton
+        className={cn(
+          "text-green after:text-xl after:ease-in-out hover:text-blue",
+          useAlternativeStyle ? "text-white" : "",
+          subMenuOpen ? "after:rotate-45" : "",
+        )}
+        id={buttonId}
+        onClick={onClick}
+      >
+        {navItem.name}
+      </HeaderNavMenuSubMenuToggleButton>
+      <HeaderNavMenuSubMenu
+        className={cn(
+          useAlternativeStyle
+            ? "border-b-white bg-lightGreen text-white md:border-b-lightGreen md:bg-white md:text-black"
+            : "",
+          subMenuOpen ? "flex flex-col" : "",
+        )}
+        aria-describedby={buttonId}
+      >
+        {navItem.childNavItemsCollection.items.map((subNavItem, index) => {
+          let url = getURLFromNavItem(subNavItem)
+          let { externalLink } = subNavItem
+
+          return (
+            <HeaderNavMenuSubMenuNavItem key={index}>
+              <HeaderNavMenuSubMenuLink
+                href={url}
+                rel={
+                  url === externalLink
+                    ? "external nofollow noreferrer"
+                    : undefined
+                }
+              >
+                {subNavItem.name}
+              </HeaderNavMenuSubMenuLink>
+            </HeaderNavMenuSubMenuNavItem>
+          )
+        })}
+      </HeaderNavMenuSubMenu>
+    </HeaderNavMenuItem>
   )
 }
