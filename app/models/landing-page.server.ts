@@ -3,6 +3,7 @@ import { z } from "zod"
 import { SectionHeroSchema } from "~/schemas/sections/section.hero.server"
 import { SectionTextMultiImageSplitSchema } from "~/schemas/sections/section.text-multi-image-split.server"
 import { SectionBucketGridSchema } from "~/schemas/sections/section.bucket-grid.server"
+import { SectionStatBucketGridSchema } from "~/schemas/sections/section.stat-bucket-grid.server"
 import { SectionTextImageSchema } from "~/schemas/sections/section.text-image.server"
 import { SectionEventsResourcesSchema } from "~/schemas/sections/section.events-resources.server"
 import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-image-split.server"
@@ -21,6 +22,9 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   ),
   SectionBucketGridSchema.merge(
     z.object({ __typename: z.literal("SectionBucketGrid") }),
+  ),
+  SectionStatBucketGridSchema.merge(
+    z.object({ __typename: z.literal("SectionStatBucketGrid") }),
   ),
   SectionTextImageSchema.merge(
     z.object({ __typename: z.literal("SectionTextImage") }),
@@ -54,7 +58,7 @@ export async function getLandingPage(id: string) {
         landingPage(id: "${id}") {
             title
             slug
-            sectionsCollection {
+            sectionsCollection(limit: 50) {
                 items {
                     __typename
                     ... on SectionHero {
@@ -114,6 +118,30 @@ export async function getLandingPage(id: string) {
                                     width
                                     height
                                 }
+                            }
+                        }
+                    }
+                    ... on SectionStatBucketGrid {
+                        title
+                        headline
+                        mainContent {
+                            json
+                        }
+                        statBucketsCollection {
+                            items {
+                                title
+                                headline
+                                subheadline
+                                bucketText {
+                                    json
+                                }
+                                bucketImage {
+                                    fileName
+                                    url
+                                    width
+                                    height
+                                }
+                                link
                             }
                         }
                     }
@@ -267,7 +295,7 @@ const LandingPageBySlugQuery = `
             items {
                 title
                 slug
-                sectionsCollection {
+                sectionsCollection(limit: 50) {
                     items {
                         __typename
                         ... on SectionHero {
@@ -327,6 +355,30 @@ const LandingPageBySlugQuery = `
                                         width
                                         height
                                     }
+                                }
+                            }
+                        }
+                        ... on SectionStatBucketGrid {
+                            title
+                            headline
+                            mainContent {
+                                json
+                            }
+                            statBucketsCollection {
+                                items {
+                                    title
+                                    headline
+                                    subheadline
+                                    bucketText {
+                                        json
+                                    }
+                                    bucketImage {
+                                        fileName
+                                        url
+                                        width
+                                        height
+                                    }
+                                    link
                                 }
                             }
                         }
