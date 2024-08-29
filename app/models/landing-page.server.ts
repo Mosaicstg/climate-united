@@ -38,7 +38,6 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   SectionNewsPressReleasesSchema.merge(
     z.object({ __typename: z.literal("SectionNewsPressReleases") }),
   ),
-  z.object({ __typename: z.literal("SectionStatBucketGrid") }),
 ])
 
 export const LandingPageSchema = z.object({
