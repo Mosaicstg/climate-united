@@ -91,6 +91,7 @@ netlify deploy --build --prod
 |           |                          |                                                                                                                                                                    |
 | Section   | About                    | Title, Featured Image, Main Content, Images                                                                                                                        |
 | Section   | Bucket Grid              | Title, Headline, Main Content, Buckets                                                                                                                             |
+| Section   | Stat Bucket Grid         | Title, Headline, Main Content, Buckets                                                                                                                             |
 | Section   | Events + Resources       | Title, Headline Events, Events, Text Events, Headline Resources, Resources, Featured Image                                                                         |
 | Section   | Hero                     | Title, Main Content, Featured Image                                                                                                                                |
 | Section   | News + Press Releases    | Title, Headline, Posts                                                                                                                                             |
@@ -101,6 +102,7 @@ netlify deploy --build --prod
 | Section   | Text + Image Multi-Split | Title, Main Content, Featured Images                                                                                                                               |
 |           |                          |                                                                                                                                                                    |
 | Component | Bucket                   | Title, Bucket Text, Bucket Image                                                                                                                                   |
+| Component | Stat Bucket              | Title, Headline, Subheadline, Bucket Text, Bucket Image, Link                                                                                                      |
 | Component | EPA Region               | Name, Slug, Description                                                                                                                                            |
 | Component | Nav Item                 | Name, Linked Item                                                                                                                                                  |
 | Component | Nav Menu                 | Name, Menu Location, Nav Items                                                                                                                                     |
