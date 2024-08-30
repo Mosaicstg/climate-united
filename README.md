@@ -78,7 +78,7 @@ netlify deploy --build --prod
 ## Content Types
 
 | Category  | Content Type             | Fields                                                                                                                                                             |
-|-----------|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Page      | Page                     | Title, Slug, Headline, Main Content, Featured Image, SEO                                                                                                           |
 | Page      | Post                     | Title, Slug, Headline, Date, Excerpt, Main Content, Featured Image, SEO                                                                                            |
 | Page      | Event                    | Title, Slug, Headline, Date/Time, Location, Excerpt, Main Content, SEO                                                                                             |
@@ -104,7 +104,7 @@ netlify deploy --build --prod
 | Component | Bucket                   | Title, Bucket Text, Bucket Image                                                                                                                                   |
 | Component | Stat Bucket              | Title, Headline, Subheadline, Bucket Text, Bucket Image, Link                                                                                                      |
 | Component | EPA Region               | Name, Slug, Description                                                                                                                                            |
-| Component | Nav Item                 | Name, Linked Item                                                                                                                                                  |
+| Component | Nav Item                 | Name, Linked Item, External Link, Child Nav Items                                                                                                                   |
 | Component | Nav Menu                 | Name, Menu Location, Nav Items                                                                                                                                     |
 | Component | Resource                 | Title, File                                                                                                                                                        |
 | Component | SEO                      | Title, Excerpt, Image, Keywords                                                                                                                                    |
