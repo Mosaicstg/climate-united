@@ -281,10 +281,6 @@ export async function getLandingPage(id: string) {
 
   const landingPage = response.data.landingPage
 
-  console.log(landingPage.sectionsCollection.items)
-
-  console.log(landingPage)
-
   return validateWithSchema(LandingPageSchema, landingPage)
 }
 
