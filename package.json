@@ -73,6 +73,9 @@
     "node": ">=18"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["eslint --cache --fix", "prettier --write"]
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   }
 }
