@@ -7,6 +7,7 @@
     "build": "remix vite:build",
     "build:profile": "remix vite:build --profile",
     "dev": "remix vite:dev",
+    "dev:debug": "node --inspect-brk node_modules/.bin/remix vite:dev",
     "start": "netlify serve",
     "typecheck": "tsc -b",
     "redirects:enable": "shx cp .redirects public/_redirects",
