@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from "react"
+import { forwardRef, type ComponentPropsWithoutRef } from "react"
 import { cn } from "~/lib/utils"
 
 type HeaderNavMenuProps = ComponentPropsWithoutRef<"ul">
@@ -52,15 +52,17 @@ function HeaderNavMenuSubMenuToggleButton({
 
 type HeaderNavMenuSubMenuProps = ComponentPropsWithoutRef<"ul">
 
-function HeaderNavMenuSubMenu({
-  children,
-  className,
-  ...restOfProps
-}: HeaderNavMenuSubMenuProps) {
+const HeaderNavMenuSubMenu = forwardRef<
+  // the "type" of the element that will be assigned the ref
+  HTMLUListElement,
+  // props that will be passed to component
+  HeaderNavMenuSubMenuProps
+>(({ children, className, ...restOfProps }, ref) => {
   return (
     <ul
+      ref={ref}
       className={cn(
-        "md:text-md relative top-[115%] z-10 m-0 hidden min-w-[200px] gap-2 border-b-2 border-b-green bg-white p-4 pt-2 text-sm text-green md:absolute md:mt-2 md:pt-4 md:text-black md:shadow-md md:shadow-black/10",
+        "md:text-md relative top-[115%] z-10 m-0 hidden min-w-[200px] gap-2 overflow-hidden border-b-2 border-b-green bg-white p-4 pt-2 text-sm text-green md:absolute md:mt-2 md:pt-4 md:text-black md:shadow-md md:shadow-black/10",
         className,
       )}
       {...restOfProps}
@@ -68,7 +70,9 @@ function HeaderNavMenuSubMenu({
       {children}
     </ul>
   )
-}
+})
+
+HeaderNavMenuSubMenu.displayName = "HeaderNavMenuSubMenu"
 
 type HeaderNavMenuSubMenuNavItemProps = ComponentPropsWithoutRef<"li">
 

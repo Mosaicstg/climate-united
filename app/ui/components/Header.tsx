@@ -1,20 +1,21 @@
-import { type ComponentPropsWithoutRef, useState, useId } from "react"
-import type { loader as RootLoader } from "~/root"
+import { useState, useId, useRef } from "react"
 import { useRouteLoaderData } from "@remix-run/react"
-import Logo from "~/ui/components/Logo"
-import LogoWhite from "~/ui/components/Logo-White"
 import {
   HeaderNavMenu,
   HeaderNavMenuItem,
   HeaderNavMenuSubMenu,
-  HeaderNavMenuSubMenuToggleButton,
-  HeaderNavMenuSubMenuNavItem,
   HeaderNavMenuSubMenuLink,
+  HeaderNavMenuSubMenuNavItem,
+  HeaderNavMenuSubMenuToggleButton,
 } from "./HeaderNavMenu"
+import Logo from "~/ui/components/Logo"
+import LogoWhite from "~/ui/components/Logo-White"
+import { NavItemLink } from "./NavItem"
 import { cn } from "~/lib/utils"
 import { getURLFromNavItem } from "~/utils/get-relative-url-from-nav-item"
-import type { NavItem } from "~/models/nav-menu.server"
-import { NavItemLink } from "./NavItem"
+import { type ComponentPropsWithoutRef } from "react"
+import { type NavItem } from "~/models/nav-menu.server"
+import { type loader as RootLoader } from "~/root"
 
 type HeaderProps = ComponentPropsWithoutRef<"header"> & {
   useAlternativeStyle?: boolean
@@ -137,6 +138,9 @@ function NavItemWithDropDown({
 }) {
   const buttonId = useId()
   const [subMenuOpen, setSubMenuOpen] = useState(false)
+  // TODO: use this ref to help "animate" the open/closing of dropdown on mobile
+  const subMenuRef = useRef<HTMLUListElement>(null)
+  const subMenuId = `sub-menu-${buttonId}`
 
   function onClick(_: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSubMenuOpen((subMenuOpen) => !subMenuOpen)
@@ -145,23 +149,29 @@ function NavItemWithDropDown({
   return (
     <>
       <HeaderNavMenuSubMenuToggleButton
+        type="button"
         className={cn(
           useAlternativeStyle ? "text-white" : "",
           subMenuOpen ? "after:rotate-45" : "",
         )}
         id={buttonId}
         onClick={onClick}
+        aria-controls={subMenuId}
+        aria-expanded={subMenuOpen}
       >
         {navItem.name}
       </HeaderNavMenuSubMenuToggleButton>
       <HeaderNavMenuSubMenu
+        ref={subMenuRef}
         className={cn(
           useAlternativeStyle
             ? "border-b-white bg-lightGreen text-white md:border-b-lightGreen md:bg-white md:text-black"
             : "",
           subMenuOpen ? "flex flex-col" : "",
         )}
-        aria-describedby={buttonId}
+        aria-labelledby={buttonId}
+        id={subMenuId}
+        role="menu"
       >
         {navItem.childNavItemsCollection.items.map((subNavItem, index) => {
           let url = getURLFromNavItem(subNavItem)
