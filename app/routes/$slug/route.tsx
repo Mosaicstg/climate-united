@@ -36,7 +36,7 @@ import { invariantResponse } from "~/utils/invariant.server"
 import { findContentBySlug, getAllPublishedPages } from "./lib.server"
 import { getSocialMetas } from "~/utils/seo"
 import { type RootLoader } from "~/root"
-import { serverOnly$ } from "vite-env-only"
+import { serverOnly$ } from "vite-env-only/macros"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { slug } = params

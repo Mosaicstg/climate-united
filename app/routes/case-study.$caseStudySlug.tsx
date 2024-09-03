@@ -14,7 +14,7 @@ import { getSocialMetas } from "~/utils/seo"
 import type { SEOHandle } from "@nasa-gcn/remix-seo"
 import { Show500 } from "~/ui/templates/500"
 import { z } from "zod"
-import { serverOnly$ } from "vite-env-only"
+import { serverOnly$ } from "vite-env-only/macros"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { caseStudySlug } = params

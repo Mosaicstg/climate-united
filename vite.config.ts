@@ -2,7 +2,7 @@ import { vitePlugin as remix } from "@remix-run/dev"
 import { installGlobals } from "@remix-run/node"
 import { defineConfig } from "vite"
 import tsconfigPaths from "vite-tsconfig-paths"
-import envOnly from "vite-env-only"
+import { envOnlyMacros } from "vite-env-only"
 import { netlifyPlugin } from "@netlify/remix-adapter/plugin"
 import { remixDevTools } from "remix-development-tools"
 
@@ -20,7 +20,7 @@ export default defineConfig({
     include: ["./app/entry.client.tsx", "./app/root.tsx"],
   },
   plugins: [
-    envOnly(),
+    envOnlyMacros(),
     remixDevTools(),
     remix(),
     netlifyPlugin(),

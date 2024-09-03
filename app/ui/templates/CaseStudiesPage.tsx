@@ -105,7 +105,7 @@ export function CaseStudiesPage({
                       className="border-b-2 border-b-green py-5 lg:px-10"
                     >
                       <AccordionTrigger
-                        aria-label={name}
+                        aria-label={`${name}${description ? ` ${description}` : ""}`}
                         className="hover:no-underline"
                       >
                         <span className="flex flex-col items-start gap-2 text-darkBlue">
