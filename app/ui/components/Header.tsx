@@ -94,7 +94,8 @@ export default function Header({
             >
               <HeaderNavMenu className="relative [&>*>ul]:right-0">
                 {data.mainMenu.navItemsCollection.items.map((navItem) => {
-                  const { name, childNavItemsCollection } = navItem
+                  const { name, childNavItemsCollection, externalLink } =
+                    navItem
 
                   const hasSubMenu = childNavItemsCollection.items.length > 0
 
@@ -110,6 +111,12 @@ export default function Header({
                       ) : (
                         <NavItemLink
                           href={url}
+                          target={url === externalLink ? "_blank" : undefined}
+                          rel={
+                            url === externalLink
+                              ? "external nofollow noreferrer"
+                              : undefined
+                          }
                           className={cn(
                             useAlternativeStyle ? "text-white" : "",
                           )}
@@ -181,6 +188,7 @@ function NavItemWithDropDown({
             <HeaderNavMenuSubMenuNavItem key={index}>
               <HeaderNavMenuSubMenuLink
                 href={url}
+                target={url === externalLink ? "_blank" : undefined}
                 rel={
                   url === externalLink
                     ? "external nofollow noreferrer"
