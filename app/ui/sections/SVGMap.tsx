@@ -84,7 +84,7 @@ export function SVGMapSection({ title }: SectionTextImageProps) {
     formData.set("region", selectedRegion)
 
     epaRegionFetcher.submit(formData, {
-      action: "action/epa-region",
+      action: "/action/epa-region",
       method: "post",
     })
 
