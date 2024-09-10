@@ -20,7 +20,9 @@ export function LandingPage({
   return (
     <>
       {headerOptions == "Green Header" ? (
-        <Header useAlternativeStyle />
+        <Header useGreenHeaderStyle />
+      ) : headerOptions == "Transparent Header" ? (
+        <Header useTransparentHeaderStyle />
       ) : (
         <Header />
       )}
