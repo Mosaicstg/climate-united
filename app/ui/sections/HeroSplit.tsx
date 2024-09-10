@@ -23,7 +23,7 @@ export function HeroSplitSection({
 
   return (
     <>
-      <section className="items-center gap-0 overflow-hidden bg-paleGreen text-darkBlue md:grid md:grid-cols-2">
+      <section className="items-center gap-0 overflow-hidden bg-white text-darkBlue md:grid md:grid-cols-2">
         <div
           className={`max-w-full bg-[#82A59C] md:aspect-video md:min-h-full ${imageAlignmentClass}`}
         >
