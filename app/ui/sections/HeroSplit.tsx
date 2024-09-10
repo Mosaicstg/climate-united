@@ -17,30 +17,28 @@ export function HeroSplitSection({
   let imageAlignmentClass = imageAlignment == "Image Right" ? "md:order-2" : ""
 
   let containerAlignmentClass =
-    imageAlignment == "Image Right" ? "md:order-1" : ""
+    imageAlignment == "Image Right"
+      ? "md:ml-auto md:pl-5 md:pr-10 lg:pr-20 md:order-1"
+      : "md:mr-auto md:pr-5 md:pl-10 lg:pl-20"
 
   return (
     <>
-      <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen text-darkBlue">
-        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
-          <div
-            className={`relative my-12 w-full md:w-1/2 ${imageAlignmentClass}`}
-          >
-            <div className="max-w-full bg-[#82A59C] md:aspect-video md:min-h-full">
-              <img
-                className="min-h-full w-full object-cover object-center"
-                src={url}
-                alt={description || ""}
-                width={width}
-                height={height}
-              />
-            </div>
-          </div>
-          <div
-            className={`relative w-full md:w-1/2 ${containerAlignmentClass}`}
-          >
-            {documentToReactComponents(mainContent.json, richTextRenderOptions)}
-          </div>
+      <section className="items-center gap-0 overflow-hidden bg-paleGreen text-darkBlue md:grid md:grid-cols-2">
+        <div
+          className={`max-w-full bg-[#82A59C] md:aspect-video md:min-h-full ${imageAlignmentClass}`}
+        >
+          <img
+            className="min-h-full w-full object-cover object-center"
+            src={url}
+            alt={description || ""}
+            width={width}
+            height={height}
+          />
+        </div>
+        <div
+          className={`w-full px-6 py-10 md:max-w-screen-sm lg:py-20 ${containerAlignmentClass}`}
+        >
+          {documentToReactComponents(mainContent.json, richTextRenderOptions)}
         </div>
       </section>
     </>
@@ -62,8 +60,10 @@ export const richTextRenderOptions = {
         </a>
       )
     },
-    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-2xl font-bold md:text-4xl">{children}</h2>
+    [BLOCKS.HEADING_1]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h1 className="mb-5 text-3xl font-semibold md:text-5xl">{children}</h1>
+      )
     },
   },
 }

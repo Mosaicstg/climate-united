@@ -57,241 +57,141 @@ export const LandingPageSchema = z.object({
 export type LandingPage = z.infer<typeof LandingPageSchema>
 
 export async function getLandingPage(id: string) {
-  const query = `
-    query {
-        landingPage(id: "${id}") {
+  const query = `query {
+landingPage(id: "${id}") {
+title
+slug
+headerOptions
+sectionsCollection(limit: 12) {
+    items {
+        __typename
+        ... on SectionHero {
             title
-            slug
-            headerOptions
-            sectionsCollection(limit: 12) {
+            mainContent { json }
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionHeroSplit {
+            title
+            mainContent { json }
+            imageAlignment
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionTextMultiImageSplit {
+            title
+            mainContent { json }
+            featuredImagesCollection {
+                items { fileName url width height }
+            }
+        }
+        ... on SectionTextImageSplit {
+            title
+            mainContent { json }
+            imageAlignment
+            imageShape
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionBucketGrid {
+            title
+            headline
+            mainContent { json }
+            bucketsCollection {
                 items {
-                    __typename
-                    ... on SectionHero {
-                        title
-                        mainContent {
-                            json
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            description
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionHeroSplit {
-                        title
-                        mainContent {
-                            json
-                        }
-                        imageAlignment
-                        featuredImage {
-                            fileName
-                            url
-                            description
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionTextMultiImageSplit {
-                        title
-                        mainContent {
-                            json
-                        }
-                        featuredImagesCollection {
-                            items {
-                                fileName
-                                url
-                                width
-                                height
-                            }
-                        }
-                    }
-                    ... on SectionTextImageSplit {
-                        title
-                        mainContent {
-                            json
-                        }
-                        imageAlignment
-                        imageShape
-                        featuredImage {
-                            fileName
-                            url
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionBucketGrid {
-                        title
-                        headline
-                        mainContent {
-                            json
-                        }
-                        bucketsCollection {
-                            items {
-                                title
-                                bucketText {
-                                    json
-                                }
-                                bucketImage {
-                                    fileName
-                                    url
-                                    width
-                                    height
-                                }
-                            }
-                        }
-                    }
-                    ... on SectionStatBucketGrid {
-                        title
-                        headline
-                        mainContent {
-                            json
-                        }
-                        statBucketsCollection {
-                            items {
-                                title
-                                headline
-                                subheadline
-                                bucketText {
-                                    json
-                                }
-                                bucketImage {
-                                    fileName
-                                    url
-                                    width
-                                    height
-                                }
-                                link
-                            }
-                        }
-                    }
-                    ... on SectionTextImage {
-                        title
-                        mainContent {
-                            json
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionEventsResources {
-                        title
-                        headlineEvents
-                        eventsCollection(limit: 3) {
-                            items {
-                                title
-                                slug
-                                headline
-                                datetime
-                                location
-                                excerpt {
-                                    json
-                                }
-                                mainContent {
-                                    json
-                                }
-                                seo {
-                                  title
-                                  excerpt
-                                  image {
-                                    fileName
-                                    url
-                                    description
-                                    width
-                                    height
-                                  }
-                                  keywords
-                                }
-                            }
-                        }
-                        textEvents {
-                           json
-                        }
-                        headlineResources
-                        resourcesCollection(limit: 6) {
-                            items {
-                                title
-                                file {
-                                    fileName
-                                    url
-                                }
-                            }
-                        }
-                        featuredImage {
-                            fileName
-                            url
-                            width
-                            height
-                        }
-                    }
-                    ... on SectionSocialMediaCta {
-                        title
-                        headline
-                        socialMediaLinksCollection {
-                            items {
-                                platform
-                                url
-                            }
-                        }
-                    }
-                    ... on SectionNewsPressReleases {
-                        title
-                        headline
-                        postsCollection(limit: 5) {
-                            items {
-                                title
-                                slug
-                                date
-                                headline
-                                excerpt {
-                                    json
-                                }
-                                mainContent {
-                                    json
-                                }
-                                featuredImage {
-                                    fileName
-                                    url
-                                    description
-                                    width
-                                    height
-                                }
-                                seo {
-                                  title
-                                  excerpt
-                                  image {
-                                    fileName
-                                    url
-                                    description
-                                    width
-                                    height
-                                  }
-                                  keywords
-                                }
-                            }
-                        }
+                    title
+                    bucketText { json }
+                    bucketImage { fileName url width height }
+                }
+            }
+        }
+        ... on SectionStatBucketGrid {
+            title
+            headline
+            mainContent { json }
+            statBucketsCollection {
+                items {
+                    title
+                    headline
+                    subheadline
+                    bucketText { json }
+                    bucketImage { fileName url width height }
+                    link
+                }
+            }
+        }
+        ... on SectionTextImage {
+            title
+            mainContent { json }
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionEventsResources {
+            title
+            headlineEvents
+            eventsCollection(limit: 3) {
+                items {
+                    title
+                    slug
+                    headline
+                    datetime
+                    location
+                    excerpt { json }
+                    mainContent { json }
+                    seo {
+                      title
+                      excerpt
+                      image { fileName url description width height }
+                      keywords
                     }
                 }
             }
-            seo {
-              title
-              excerpt
-              image {
-                fileName
-                url
-                description
-                width
-                height
-              }
-              keywords
+            textEvents {
+               json
+            }
+            headlineResources
+            resourcesCollection(limit: 6) {
+                items {
+                    title
+                    file { fileName url }
+                }
+            }
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionSocialMediaCta {
+            title
+            headline
+            socialMediaLinksCollection {
+                items { platform url }
+            }
+        }
+        ... on SectionNewsPressReleases {
+            title
+            headline
+            postsCollection(limit: 5) {
+                items {
+                    title
+                    slug
+                    date
+                    headline
+                    excerpt { json }
+                    mainContent { json }
+                    featuredImage { fileName url description width height }
+                    seo {
+                      title
+                      excerpt
+                      image { fileName url description width height }
+                      keywords
+                    }
+                }
             }
         }
     }
-    `
+}
+seo {
+  title
+  excerpt
+  image { fileName url description width height }
+  keywords
+}
+}
+}`
 
   const response = await typedFetchGraphQL<{ landingPage: LandingPage }>(query)
 
@@ -306,243 +206,143 @@ export async function getLandingPage(id: string) {
   return validateWithSchema(LandingPageSchema, landingPage)
 }
 
-const LandingPageBySlugQuery = `
-    query LandingPageBySlug($slug: String!) {
-        landingPageCollection(where: { slug: $slug }, limit: 1) {
-            items {
-                title
-                slug
-                headerOptions
-                sectionsCollection(limit: 12) {
-                    items {
-                        __typename
-                        ... on SectionHero {
-                            title
-                            mainContent {
-                                json
-                            }
-                            featuredImage {
-                                fileName
-                                url
-                                description
-                                width
-                                height
-                            }
-                        }
-                        ... on SectionHeroSplit {
-                            title
-                            mainContent {
-                                json
-                            }
-                            imageAlignment
-                            featuredImage {
-                                fileName
-                                url
-                                description
-                                width
-                                height
-                            }
-                        }
-                        ... on SectionTextMultiImageSplit {
-                            title
-                            mainContent {
-                                json
-                            }
-                            featuredImagesCollection {
-                                items {
-                                    fileName
-                                    url
-                                    width
-                                    height
-                                }
-                            }
-                        }
-                        ... on SectionTextImageSplit {
-                            title
-                            mainContent {
-                                json
-                            }
-                            imageAlignment
-                            imageShape
-                            featuredImage {
-                                fileName
-                                url
-                                width
-                                height
-                            }
-                        }
-                        ... on SectionBucketGrid {
-                            title
-                            headline
-                            mainContent {
-                                json
-                            }
-                            bucketsCollection {
-                                items {
-                                    title
-                                    bucketText {
-                                        json
-                                    }
-                                    bucketImage {
-                                        fileName
-                                        url
-                                        width
-                                        height
-                                    }
-                                }
-                            }
-                        }
-                        ... on SectionStatBucketGrid {
-                            title
-                            headline
-                            mainContent {
-                                json
-                            }
-                            statBucketsCollection {
-                                items {
-                                    title
-                                    headline
-                                    subheadline
-                                    bucketText {
-                                        json
-                                    }
-                                    bucketImage {
-                                        fileName
-                                        url
-                                        width
-                                        height
-                                    }
-                                    link
-                                }
-                            }
-                        }
-                        ... on SectionTextImage {
-                            title
-                            mainContent {
-                                json
-                            }
-                            featuredImage {
-                                fileName
-                                url
-                                width
-                                height
-                            }
-                        }
-                        ... on SectionEventsResources {
-                            title
-                            headlineEvents
-                            eventsCollection(limit: 3) {
-                                items {
-                                    title
-                                    slug
-                                    headline
-                                    datetime
-                                    location
-                                    excerpt {
-                                        json
-                                    }
-                                    mainContent {
-                                        json
-                                    }
-                                    seo {
-                                    title
-                                    excerpt
-                                    image {
-                                        fileName
-                                        url
-                                        description
-                                        width
-                                        height
-                                    }
-                                    keywords
-                                    }
-                                }
-                            }
-                            textEvents {
-                            json
-                            }
-                            headlineResources
-                            resourcesCollection(limit: 6) {
-                                items {
-                                    title
-                                    file {
-                                        fileName
-                                        url
-                                    }
-                                }
-                            }
-                            featuredImage {
-                                fileName
-                                url
-                                width
-                                height
-                            }
-                        }
-                        ... on SectionSocialMediaCta {
-                            title
-                            headline
-                            socialMediaLinksCollection {
-                                items {
-                                    platform
-                                    url
-                                }
-                            }
-                        }
-                        ... on SectionNewsPressReleases {
-                            title
-                            headline
-                            postsCollection(limit: 5) {
-                                items {
-                                    title
-                                    slug
-                                    date
-                                    headline
-                                    excerpt {
-                                        json
-                                    }
-                                    mainContent {
-                                        json
-                                    }
-                                    featuredImage {
-                                        fileName
-                                        url
-                                        description
-                                        width
-                                        height
-                                    }
-                                    seo {
-                                    title
-                                    excerpt
-                                    image {
-                                        fileName
-                                        url
-                                        description
-                                        width
-                                        height
-                                    }
-                                    keywords
-                                    }
-                                }
-                            }
-                        }
+const LandingPageBySlugQuery = `query LandingPageBySlug($slug: String!) {
+landingPageCollection(where: { slug: $slug }, limit: 1) {
+items {
+title
+slug
+headerOptions
+sectionsCollection(limit: 12) {
+    items {
+        __typename
+        ... on SectionHero {
+            title
+            mainContent { json }
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionHeroSplit {
+            title
+            mainContent { json }
+            imageAlignment
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionTextMultiImageSplit {
+            title
+            mainContent { json }
+            featuredImagesCollection {
+                items { fileName url width height }
+            }
+        }
+        ... on SectionTextImageSplit {
+            title
+            mainContent { json }
+            imageAlignment
+            imageShape
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionBucketGrid {
+            title
+            headline
+            mainContent { json }
+            bucketsCollection {
+                items {
+                    title
+                    bucketText { json }
+                    bucketImage { fileName url width height }
+                }
+            }
+        }
+        ... on SectionStatBucketGrid {
+            title
+            headline
+            mainContent { json }
+            statBucketsCollection {
+                items {
+                    title
+                    headline
+                    subheadline
+                    bucketText { json }
+                    bucketImage { fileName url width height }
+                    link
+                }
+            }
+        }
+        ... on SectionTextImage {
+            title
+            mainContent { json }
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionEventsResources {
+            title
+            headlineEvents
+            eventsCollection(limit: 3) {
+                items {
+                    title
+                    slug
+                    headline
+                    datetime
+                    location
+                    excerpt { json }
+                    mainContent { json }
+                    seo {
+                      title
+                      excerpt
+                      image { fileName url description width height }
+                      keywords
                     }
                 }
-                seo {
+            }
+            textEvents {
+               json
+            }
+            headlineResources
+            resourcesCollection(limit: 6) {
+                items {
                     title
-                    excerpt
-                    image {
-                        fileName
-                        url
-                        description
-                        width
-                        height
+                    file { fileName url }
+                }
+            }
+            featuredImage { fileName url description width height }
+        }
+        ... on SectionSocialMediaCta {
+            title
+            headline
+            socialMediaLinksCollection {
+                items { platform url }
+            }
+        }
+        ... on SectionNewsPressReleases {
+            title
+            headline
+            postsCollection(limit: 5) {
+                items {
+                    title
+                    slug
+                    date
+                    headline
+                    excerpt { json }
+                    mainContent { json }
+                    featuredImage { fileName url description width height }
+                    seo {
+                      title
+                      excerpt
+                      image { fileName url description width height }
+                      keywords
                     }
-                    keywords
                 }
             }
         }
     }
-`
+}
+seo {
+    title
+    excerpt
+    image { fileName url description width height }
+    keywords
+}
+}
+}
+}`
 
 export async function getLandingPageBySlug(
   slug: string,
