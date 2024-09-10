@@ -38,7 +38,9 @@ export default function Header({
       className={cn(
         "relative top-0 z-50 w-full bg-white",
         useGreenHeaderStyle ? `bg-lightGreen` : "",
-        useTransparentHeaderStyle ? `absolute left-0 bg-transparent` : "",
+        useTransparentHeaderStyle
+          ? `bg-lightGreen md:absolute md:left-0 md:bg-transparent`
+          : "",
         className,
       )}
       {...restOfProps}
