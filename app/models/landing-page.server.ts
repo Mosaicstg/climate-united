@@ -1,6 +1,7 @@
 import { typedFetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
 import { SectionHeroSchema } from "~/schemas/sections/section.hero.server"
+import { SectionHeroSplitSchema } from "~/schemas/sections/section.hero-split.server"
 import { SectionTextMultiImageSplitSchema } from "~/schemas/sections/section.text-multi-image-split.server"
 import { SectionBucketGridSchema } from "~/schemas/sections/section.bucket-grid.server"
 import { SectionStatBucketGridSchema } from "~/schemas/sections/section.stat-bucket-grid.server"
@@ -14,6 +15,9 @@ import { SEOSchema } from "./seo.server"
 
 const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   SectionHeroSchema.merge(z.object({ __typename: z.literal("SectionHero") })),
+  SectionHeroSplitSchema.merge(
+    z.object({ __typename: z.literal("SectionHeroSplit") }),
+  ),
   SectionTextMultiImageSplitSchema.merge(
     z.object({ __typename: z.literal("SectionTextMultiImageSplit") }),
   ),
@@ -43,6 +47,7 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
 export const LandingPageSchema = z.object({
   title: z.string(),
   slug: z.string(),
+  headerOptions: z.string(),
   sectionsCollection: z.object({
     items: z.array(SectionsDiscriminatedUnion),
   }),
@@ -57,7 +62,8 @@ export async function getLandingPage(id: string) {
         landingPage(id: "${id}") {
             title
             slug
-            sectionsCollection(limit: 50) {
+            headerOptions
+            sectionsCollection(limit: 12) {
                 items {
                     __typename
                     ... on SectionHero {
@@ -65,6 +71,20 @@ export async function getLandingPage(id: string) {
                         mainContent {
                             json
                         }
+                        featuredImage {
+                            fileName
+                            url
+                            description
+                            width
+                            height
+                        }
+                    }
+                    ... on SectionHeroSplit {
+                        title
+                        mainContent {
+                            json
+                        }
+                        imageAlignment
                         featuredImage {
                             fileName
                             url
@@ -92,6 +112,8 @@ export async function getLandingPage(id: string) {
                         mainContent {
                             json
                         }
+                        imageAlignment
+                        imageShape
                         featuredImage {
                             fileName
                             url
@@ -290,7 +312,8 @@ const LandingPageBySlugQuery = `
             items {
                 title
                 slug
-                sectionsCollection(limit: 50) {
+                headerOptions
+                sectionsCollection(limit: 12) {
                     items {
                         __typename
                         ... on SectionHero {
@@ -298,6 +321,20 @@ const LandingPageBySlugQuery = `
                             mainContent {
                                 json
                             }
+                            featuredImage {
+                                fileName
+                                url
+                                description
+                                width
+                                height
+                            }
+                        }
+                        ... on SectionHeroSplit {
+                            title
+                            mainContent {
+                                json
+                            }
+                            imageAlignment
                             featuredImage {
                                 fileName
                                 url
@@ -325,6 +362,8 @@ const LandingPageBySlugQuery = `
                             mainContent {
                                 json
                             }
+                            imageAlignment
+                            imageShape
                             featuredImage {
                                 fileName
                                 url

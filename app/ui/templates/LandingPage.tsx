@@ -1,5 +1,6 @@
 import { type LandingPage } from "~/models/landing-page.server"
 import { HeroSection } from "~/ui/sections/Hero"
+import { HeroSplitSection } from "~/ui/sections/HeroSplit"
 import { TextMultiImageSplitSection } from "~/ui/sections/TextMultiImageSplit"
 import { TextImageSplitSection } from "~/ui/sections/TextImageSplit"
 import { SVGMapSection } from "../sections/SVGMap"
@@ -12,10 +13,17 @@ import Header from "~/ui/components/Header"
 
 type LandingPageProps = LandingPage
 
-export function LandingPage({ sectionsCollection }: LandingPageProps) {
+export function LandingPage({
+  headerOptions,
+  sectionsCollection,
+}: LandingPageProps) {
   return (
     <>
-      <Header useAlternativeStyle />
+      {headerOptions == "Green Header" ? (
+        <Header useAlternativeStyle />
+      ) : (
+        <Header />
+      )}
       <main>
         {sectionsCollection.items.map((section, index) => {
           switch (section.__typename) {
@@ -25,6 +33,16 @@ export function LandingPage({ sectionsCollection }: LandingPageProps) {
                   key={`${section.title}-${index}`}
                   title={section.title}
                   mainContent={section.mainContent}
+                  featuredImage={section.featuredImage}
+                />
+              )
+            case "SectionHeroSplit":
+              return (
+                <HeroSplitSection
+                  key={`${section.title}-${index}`}
+                  title={section.title}
+                  mainContent={section.mainContent}
+                  imageAlignment={section.imageAlignment}
                   featuredImage={section.featuredImage}
                 />
               )
@@ -43,6 +61,8 @@ export function LandingPage({ sectionsCollection }: LandingPageProps) {
                   key={`${section.title}-${index}`}
                   title={section.title}
                   mainContent={section.mainContent}
+                  imageAlignment={section.imageAlignment}
+                  imageShape={section.imageShape}
                   featuredImage={section.featuredImage}
                 />
               )
