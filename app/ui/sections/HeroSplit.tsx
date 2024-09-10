@@ -23,7 +23,7 @@ export function HeroSplitSection({
 
   return (
     <>
-      <section className="items-center gap-0 overflow-hidden bg-white text-darkBlue md:grid md:grid-cols-2">
+      <section className="items-center gap-0 overflow-hidden bg-lightGreen text-white md:grid md:grid-cols-2">
         <div
           className={`max-w-full bg-[#82A59C] md:aspect-video md:min-h-full ${imageAlignmentClass}`}
         >
@@ -52,7 +52,7 @@ export const richTextRenderOptions = {
       const { uri } = data
       return (
         <a
-          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen"
+          className="mt-5 inline-block rounded-full border-2 border-solid border-white px-6 py-3 font-bold duration-300 ease-in-out hover:bg-white hover:text-lightGreen"
           rel="noreferrer"
           href={uri}
         >
