@@ -1,5 +1,6 @@
 import { type LandingPage } from "~/models/landing-page.server"
 import { HeroSection } from "~/ui/sections/Hero"
+import { HeroSplitSection } from "~/ui/sections/HeroSplit"
 import { TextMultiImageSplitSection } from "~/ui/sections/TextMultiImageSplit"
 import { TextImageSplitSection } from "~/ui/sections/TextImageSplit"
 import { SVGMapSection } from "../sections/SVGMap"
@@ -8,14 +9,25 @@ import { EventsResourcesSection } from "~/ui/sections/EventsResources"
 import { BucketGridSection } from "~/ui/sections/BucketGrid"
 import { StatBucketGridSection } from "~/ui/sections/StatBucketGrid"
 import { SocialMediaCtaSection } from "~/ui/sections/SocialMediaCta"
+import { AboutSection } from "~/ui/sections/About"
+import { AccordionsSection } from "~/ui/sections/Accordions"
 import Header from "~/ui/components/Header"
 
 type LandingPageProps = LandingPage
 
-export function LandingPage({ sectionsCollection }: LandingPageProps) {
+export function LandingPage({
+  headerOptions,
+  sectionsCollection,
+}: LandingPageProps) {
   return (
     <>
-      <Header useAlternativeStyle />
+      {headerOptions == "Green Header" ? (
+        <Header useGreenHeaderStyle />
+      ) : headerOptions == "Transparent Header" ? (
+        <Header useTransparentHeaderStyle />
+      ) : (
+        <Header />
+      )}
       <main>
         {sectionsCollection.items.map((section, index) => {
           switch (section.__typename) {
@@ -25,6 +37,16 @@ export function LandingPage({ sectionsCollection }: LandingPageProps) {
                   key={`${section.title}-${index}`}
                   title={section.title}
                   mainContent={section.mainContent}
+                  featuredImage={section.featuredImage}
+                />
+              )
+            case "SectionHeroSplit":
+              return (
+                <HeroSplitSection
+                  key={`${section.title}-${index}`}
+                  title={section.title}
+                  mainContent={section.mainContent}
+                  imageAlignment={section.imageAlignment}
                   featuredImage={section.featuredImage}
                 />
               )
@@ -43,6 +65,8 @@ export function LandingPage({ sectionsCollection }: LandingPageProps) {
                   key={`${section.title}-${index}`}
                   title={section.title}
                   mainContent={section.mainContent}
+                  imageAlignment={section.imageAlignment}
+                  imageShape={section.imageShape}
                   featuredImage={section.featuredImage}
                 />
               )
@@ -106,6 +130,26 @@ export function LandingPage({ sectionsCollection }: LandingPageProps) {
                   title={section.title}
                   headline={section.headline}
                   postsCollection={section.postsCollection}
+                />
+              )
+            case "SectionAbout":
+              return (
+                <AboutSection
+                  key={section.title}
+                  title={section.title}
+                  mainContent={section.mainContent}
+                  featuredImage={section.featuredImage}
+                  imagesCollection={section.imagesCollection}
+                />
+              )
+            case "SectionAccordions":
+              return (
+                <AccordionsSection
+                  key={section.title}
+                  title={section.title}
+                  headline={section.headline}
+                  mainContent={section.mainContent}
+                  accordionItemsCollection={section.accordionItemsCollection}
                 />
               )
             default:

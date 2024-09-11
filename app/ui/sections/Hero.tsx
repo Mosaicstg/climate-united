@@ -7,19 +7,23 @@ import { motion, useReducedMotion } from "framer-motion"
 
 type SectionHeroProps = SectionHero
 
-export function HeroSection({
-  title,
-  mainContent,
-  featuredImage,
-}: SectionHeroProps) {
+export function HeroSection({ mainContent, featuredImage }: SectionHeroProps) {
   const prefersReducedMotion = useReducedMotion()
 
   const { url, description, width, height } = featuredImage
 
   return (
     <>
-      <section className="overflow-hidden bg-lightGreen text-white">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-6 py-12 md:flex-row md:gap-12 md:px-0 md:py-[10rem] md:pl-5">
+      <section className="relative bg-lightGreen text-white before:absolute before:left-0 before:top-0 before:z-10 before:block before:h-full before:w-full before:bg-darkBlue before:opacity-35">
+        <img
+          className="absolute left-0 top-0 z-0 h-full w-full object-cover"
+          src={url}
+          alt={description || ""}
+          width={width}
+          height={height}
+          aria-hidden={true}
+        />
+        <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-6 py-12 md:flex-row md:gap-12 md:px-0 md:pb-[10rem] md:pl-5 md:pt-[15rem]">
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
@@ -32,81 +36,10 @@ export function HeroSection({
               duration: 0.5,
               delay: 0.5,
             }}
-            className="relative w-4/5 md:w-3/4 lg:w-1/2 md:pb-[18rem] lg:pb-0 z-10"
+            className="relative z-20 w-4/5 md:w-3/4 md:pb-[18rem] lg:w-1/2 lg:pb-0"
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
-          <div className="relative -mt-[35%] md:mt-0 md:w-3/4 lg:w-1/2">
-            <motion.div
-              initial={{ padding: prefersReducedMotion ? 0 : "5rem" }}
-              whileInView={{ padding: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                ease: "linear",
-                duration: 1,
-              }}
-              className="relative translate-x-[2%] translate-y-[35%] w-[140%] md:absolute md:-right-6 md:bottom-0 md:w-[150%] md:translate-x-[25%] md:translate-y-[40%] lg:translate-x-[40%] lg:translate-y-[45%]"
-            >
-              <motion.div
-                initial={{ padding: prefersReducedMotion ? "1.25rem" : 0 }}
-                whileInView={{ padding: "1.25rem" }}
-                viewport={{ once: true }}
-                transition={{
-                  ease: "linear",
-                  duration: 0.25,
-                  delay: 0.75,
-                }}
-                className="rounded-full bg-[#52C4A5] p-5"
-              >
-                <motion.div
-                  initial={{ padding: prefersReducedMotion ? "1.25rem" : 0 }}
-                  whileInView={{ padding: "1.25rem" }}
-                  viewport={{ once: true }}
-                  transition={{
-                    ease: "linear",
-                    duration: 0.25,
-                    delay: 0.5,
-                  }}
-                  className="rounded-full bg-[#73CFB7] p-5"
-                >
-                  <motion.div
-                    initial={{
-                      padding: prefersReducedMotion ? "1.25rem" : 0,
-                    }}
-                    whileInView={{ padding: "1.25rem" }}
-                    viewport={{ once: true }}
-                    transition={{
-                      ease: "linear",
-                      duration: 0.25,
-                      delay: 0.25,
-                    }}
-                    className="rounded-full bg-[#A8E0D3] p-5"
-                  >
-                    <motion.div
-                      initial={{
-                        padding: prefersReducedMotion ? "1.25rem" : 0,
-                      }}
-                      whileInView={{ padding: "1.25rem" }}
-                      viewport={{ once: true }}
-                      transition={{
-                        ease: "linear",
-                        duration: 0.25,
-                      }}
-                      className="rounded-full bg-[#D8F0EC] p-5"
-                    >
-                      <img
-                        className="w-full rounded-full"
-                        src={url}
-                        alt={description || ""}
-                        width={width}
-                        height={height}
-                      />
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          </div>
         </div>
       </section>
     </>

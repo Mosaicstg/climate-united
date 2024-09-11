@@ -18,12 +18,14 @@ import { type NavItem } from "~/models/nav-menu.server"
 import { type loader as RootLoader } from "~/root"
 
 type HeaderProps = ComponentPropsWithoutRef<"header"> & {
-  useAlternativeStyle?: boolean
+  useGreenHeaderStyle?: boolean
+  useTransparentHeaderStyle?: boolean
 }
 
 export default function Header({
   className,
-  useAlternativeStyle = false,
+  useGreenHeaderStyle = false,
+  useTransparentHeaderStyle = false,
   ...restOfProps
 }: HeaderProps) {
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -34,8 +36,11 @@ export default function Header({
   return (
     <header
       className={cn(
-        "relative top-0 z-50 bg-white",
-        useAlternativeStyle ? `bg-lightGreen` : "",
+        "relative top-0 z-50 w-full bg-white",
+        useGreenHeaderStyle ? `bg-lightGreen` : "",
+        useTransparentHeaderStyle
+          ? `bg-lightGreen md:absolute md:left-0 md:bg-transparent`
+          : "",
         className,
       )}
       {...restOfProps}
@@ -44,7 +49,8 @@ export default function Header({
         <div
           className={cn(
             "mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-x-12 gap-y-5 border-blue p-5 md:border-b-4 md:border-dotted",
-            useAlternativeStyle ? "border-white" : "",
+            useGreenHeaderStyle ? "border-white" : "",
+            useTransparentHeaderStyle ? "border-white" : "",
           )}
         >
           <a
@@ -52,7 +58,13 @@ export default function Header({
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <div className="w-[180px]">
-              {useAlternativeStyle ? <LogoWhite /> : <Logo />}
+              {useGreenHeaderStyle ? (
+                <LogoWhite />
+              ) : useTransparentHeaderStyle ? (
+                <LogoWhite />
+              ) : (
+                <Logo />
+              )}
             </div>
             <span className="sr-only">Climate United</span>
           </a>
@@ -61,7 +73,8 @@ export default function Header({
             type="button"
             className={cn(
               "inline-flex h-8 items-center justify-center rounded-lg text-sm text-darkBlue hover:text-blue focus:text-blue focus:outline-none min-[800px]:hidden",
-              useAlternativeStyle ? "text-white" : "",
+              useGreenHeaderStyle ? "text-white" : "",
+              useTransparentHeaderStyle ? "text-white" : "",
             )}
             aria-controls="navbar-default"
             aria-expanded={isNavOpen}
@@ -106,7 +119,9 @@ export default function Header({
                       {hasSubMenu ? (
                         <NavItemWithDropDown
                           navItem={navItem}
-                          useAlternativeStyle={useAlternativeStyle}
+                          useAlternativeStyle={
+                            useGreenHeaderStyle || useTransparentHeaderStyle
+                          }
                         />
                       ) : (
                         <NavItemLink
@@ -118,7 +133,8 @@ export default function Header({
                               : undefined
                           }
                           className={cn(
-                            useAlternativeStyle ? "text-white" : "",
+                            useGreenHeaderStyle ? "text-white" : "",
+                            useTransparentHeaderStyle ? "text-white" : "",
                           )}
                         >
                           {name}
