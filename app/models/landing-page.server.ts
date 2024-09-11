@@ -11,6 +11,7 @@ import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-ima
 import { SectionNewsPressReleasesSchema } from "~/schemas/sections/section.news-press-releases.server"
 import { SectionSocialMediaCtaSchema } from "~/schemas/sections/section.social-media-cta.server"
 import { SectionAboutSchema } from "~/schemas/sections/section.about.server"
+import { SectionAccordionsSchema } from "~/schemas/sections/section.accordions.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { SEOSchema } from "./seo.server"
 
@@ -44,6 +45,9 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
     z.object({ __typename: z.literal("SectionNewsPressReleases") }),
   ),
   SectionAboutSchema.merge(z.object({ __typename: z.literal("SectionAbout") })),
+  SectionAccordionsSchema.merge(
+    z.object({ __typename: z.literal("SectionAccordions") }),
+  ),
 ])
 
 export const LandingPageSchema = z.object({
@@ -64,7 +68,7 @@ landingPage(id: "${id}") {
 title
 slug
 headerOptions
-sectionsCollection(limit: 12) {
+sectionsCollection(limit: 15) {
     items {
         __typename
         ... on SectionHero {
@@ -190,6 +194,18 @@ sectionsCollection(limit: 12) {
             featuredImage { fileName url description width height }
             imagesCollection {
               items { fileName url width height }
+            }
+        }
+        ... on SectionAccordions {
+            title
+            headline
+            mainContent { json }
+            accordionItemsCollection {
+              items {
+                title
+                headline
+                mainContent { json }
+              }
             }
         }
     }
@@ -222,7 +238,7 @@ items {
 title
 slug
 headerOptions
-sectionsCollection(limit: 12) {
+sectionsCollection(limit: 15) {
     items {
         __typename
         ... on SectionHero {
@@ -348,6 +364,18 @@ sectionsCollection(limit: 12) {
             featuredImage { fileName url description width height }
             imagesCollection {
               items { fileName url width height }
+            }
+        }
+        ... on SectionAccordions {
+            title
+            headline
+            mainContent { json }
+            accordionItemsCollection {
+              items {
+                title
+                headline
+                mainContent { json }
+              }
             }
         }
     }

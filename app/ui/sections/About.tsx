@@ -17,7 +17,7 @@ export function AboutSection({
 
   return (
     <section>
-      <div className="mx-auto mb-12 max-w-screen-lg text-darkBlue">
+      <div className="mx-auto mb-12 max-w-screen-lg px-6 text-darkBlue md:px-5">
         {featuredImage ? (
           <motion.img
             initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
@@ -35,7 +35,7 @@ export function AboutSection({
           />
         ) : null}
       </div>
-      <div className="mx-auto mb-12 max-w-[912px] text-darkBlue">
+      <div className="mx-auto mb-12 max-w-[912px] px-6 text-darkBlue md:px-5">
         <motion.div
           initial={{
             opacity: prefersReducedMotion ? 1 : 0,
@@ -93,7 +93,11 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl font-bold md:-mx-8 xl:-mx-12">{children}</h2>
+      return (
+        <h2 className="mb-5 text-3xl font-bold md:-mx-8 xl:-mx-12">
+          {children}
+        </h2>
+      )
     },
     [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
       return <h3 className="mx-auto mb-5 text-xl font-bold">{children}</h3>

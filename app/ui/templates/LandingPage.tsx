@@ -10,6 +10,7 @@ import { BucketGridSection } from "~/ui/sections/BucketGrid"
 import { StatBucketGridSection } from "~/ui/sections/StatBucketGrid"
 import { SocialMediaCtaSection } from "~/ui/sections/SocialMediaCta"
 import { AboutSection } from "~/ui/sections/About"
+import { AccordionsSection } from "~/ui/sections/Accordions"
 import Header from "~/ui/components/Header"
 
 type LandingPageProps = LandingPage
@@ -139,6 +140,16 @@ export function LandingPage({
                   mainContent={section.mainContent}
                   featuredImage={section.featuredImage}
                   imagesCollection={section.imagesCollection}
+                />
+              )
+            case "SectionAccordions":
+              return (
+                <AccordionsSection
+                  key={section.title}
+                  title={section.title}
+                  headline={section.headline}
+                  mainContent={section.mainContent}
+                  accordionItemsCollection={section.accordionItemsCollection}
                 />
               )
             default:
