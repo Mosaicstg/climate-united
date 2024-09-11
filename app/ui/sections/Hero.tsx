@@ -21,6 +21,7 @@ export function HeroSection({ mainContent, featuredImage }: SectionHeroProps) {
           alt={description || ""}
           width={width}
           height={height}
+          aria-hidden={true}
         />
         <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-6 py-12 md:flex-row md:gap-12 md:px-0 md:pb-[10rem] md:pl-5 md:pt-[15rem]">
           <motion.div

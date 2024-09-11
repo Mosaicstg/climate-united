@@ -4,7 +4,7 @@ import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion, useReducedMotion } from "framer-motion"
-import React from "react"
+import { cn } from "~/lib/utils"
 
 type SectionTextImageSplitProps = SectionTextImageSplit
 
@@ -111,7 +111,11 @@ export function TextImageSplitSection({
       <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen text-darkBlue">
         <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
           <div
-            className={`relative my-12 w-3/4 ${imageAlignmentClass} ${imageContainerClasses}`}
+            className={cn(
+              "relative my-12 w-3/4",
+              imageAlignmentClass,
+              imageContainerClasses,
+            )}
           >
             {imageShape == "Circle Image" ? circleImage : defaultImage}
           </div>
@@ -127,7 +131,11 @@ export function TextImageSplitSection({
               duration: 0.5,
               delay: 0.5,
             }}
-            className={`relative ${containerAlignmentClass} ${contentContainerClasses}`}
+            className={cn(
+              "relative",
+              containerAlignmentClass,
+              contentContainerClasses,
+            )}
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
           </motion.div>
