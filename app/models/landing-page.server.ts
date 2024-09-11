@@ -53,7 +53,7 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
 export const LandingPageSchema = z.object({
   title: z.string(),
   slug: z.string(),
-  headerOptions: z.string(),
+  headerOptions: z.string().nullable(),
   sectionsCollection: z.object({
     items: z.array(SectionsDiscriminatedUnion),
   }),
