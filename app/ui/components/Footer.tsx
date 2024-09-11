@@ -84,7 +84,7 @@ export default function Footer() {
             <nav className="col-span-2">
               <NavMenu
                 navMenuClasses=""
-                navItemClasses="duration-300 ease-in-out hover:text-blue"
+                navItemClasses="duration-300 ease-in-out text-white hover:text-blue"
                 navItemsCollection={data.footerMenu.navItemsCollection}
               />
             </nav>
