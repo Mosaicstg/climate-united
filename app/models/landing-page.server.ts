@@ -10,6 +10,7 @@ import { SectionEventsResourcesSchema } from "~/schemas/sections/section.events-
 import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-image-split.server"
 import { SectionNewsPressReleasesSchema } from "~/schemas/sections/section.news-press-releases.server"
 import { SectionSocialMediaCtaSchema } from "~/schemas/sections/section.social-media-cta.server"
+import { SectionAboutSchema } from "~/schemas/sections/section.about.server"
 import { validateWithSchema } from "~/utils/validate-with-schema.server"
 import { SEOSchema } from "./seo.server"
 
@@ -42,6 +43,7 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   SectionNewsPressReleasesSchema.merge(
     z.object({ __typename: z.literal("SectionNewsPressReleases") }),
   ),
+  SectionAboutSchema.merge(z.object({ __typename: z.literal("SectionAbout") })),
 ])
 
 export const LandingPageSchema = z.object({
@@ -180,6 +182,14 @@ sectionsCollection(limit: 12) {
                       keywords
                     }
                 }
+            }
+        }
+        ... on SectionAbout {
+            title
+            mainContent { json }
+            featuredImage { fileName url description width height }
+            imagesCollection {
+              items { fileName url width height }
             }
         }
     }
@@ -330,6 +340,14 @@ sectionsCollection(limit: 12) {
                       keywords
                     }
                 }
+            }
+        }
+        ... on SectionAbout {
+            title
+            mainContent { json }
+            featuredImage { fileName url description width height }
+            imagesCollection {
+              items { fileName url width height }
             }
         }
     }
