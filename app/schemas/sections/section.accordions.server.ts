@@ -25,8 +25,8 @@ import { AccordionItemSchema } from "~/models/accordion-item.server"
 
 export const SectionAccordionsSchema = z.object({
   title: z.string(),
-  headline: z.string(),
-  mainContent: RichTextSchema,
+  headline: z.string().optional().nullable(),
+  mainContent: RichTextSchema.optional().nullable(),
   accordionItemsCollection: z.object({
     items: z.array(AccordionItemSchema),
   }),
