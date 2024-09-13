@@ -68,7 +68,7 @@ landingPage(id: "${id}") {
 title
 slug
 headerOptions
-sectionsCollection(limit: 15) {
+sectionsCollection(limit: 20) {
     items {
         __typename
         ... on SectionHero {
@@ -190,7 +190,15 @@ sectionsCollection(limit: 15) {
         }
         ... on SectionAbout {
             title
-            mainContent { json }
+            mainContent {
+              json
+              links {
+                assets {
+                  block { sys { id } url title width height description fileName contentType }
+                  hyperlink { sys { id } url fileName }
+                }
+              }
+            }
             featuredImage { fileName url description width height }
             imagesCollection {
               items { fileName url width height }
@@ -238,7 +246,7 @@ items {
 title
 slug
 headerOptions
-sectionsCollection(limit: 15) {
+sectionsCollection(limit: 20) {
     items {
         __typename
         ... on SectionHero {
@@ -360,7 +368,15 @@ sectionsCollection(limit: 15) {
         }
         ... on SectionAbout {
             title
-            mainContent { json }
+            mainContent {
+              json
+              links {
+                assets {
+                  block { sys { id } url title width height description fileName contentType }
+                  hyperlink { sys { id } url fileName }
+                }
+              }
+            }
             featuredImage { fileName url description width height }
             imagesCollection {
               items { fileName url width height }

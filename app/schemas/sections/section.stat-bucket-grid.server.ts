@@ -34,7 +34,7 @@ import { StatBucketSchema } from "~/models/stat-bucket.server"
 export const SectionStatBucketGridSchema = z.object({
   title: z.string(),
   headline: z.string(),
-  mainContent: RichTextSchema,
+  mainContent: RichTextSchema.nullable().optional(),
   statBucketsCollection: z.object({
     items: z.array(StatBucketSchema),
   }),
