@@ -49,7 +49,7 @@ export default function Header({
         <div
           className={cn(
             "mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-x-12 gap-y-5 border-blue p-5 md:border-b-4 md:border-dotted",
-            useGreenHeaderStyle ? "border-white" : "",
+            useGreenHeaderStyle ? "border-white md:border-b-0" : "",
             useTransparentHeaderStyle ? "border-white" : "",
           )}
         >

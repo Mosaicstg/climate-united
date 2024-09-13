@@ -25,7 +25,7 @@ export function StatBucketGridSection({
   }
 
   return (
-    <section className="overflow-hidden border-t-4 border-solid border-green text-darkBlue">
+    <section className="overflow-hidden text-darkBlue">
       <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
         <motion.h2
           initial={{
@@ -56,7 +56,9 @@ export function StatBucketGridSection({
           }}
           className="relative"
         >
-          {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+          {mainContent
+            ? documentToReactComponents(mainContent.json, richTextRenderOptions)
+            : null}
         </motion.div>
         <motion.div
           variants={buckets}
