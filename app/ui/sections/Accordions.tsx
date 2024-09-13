@@ -18,7 +18,7 @@ export function AccordionsSection({
   accordionItemsCollection,
 }: SectionAccordionsProps) {
   return (
-    <section className="overflow-hidden border-t-4 border-solid border-green text-darkBlue">
+    <section className="overflow-hidden text-darkBlue">
       <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
         <h2 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h2>
         {mainContent ? (
@@ -80,6 +80,18 @@ export const richTextRenderOptions = {
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
       return <h2 className="mb-5 text-3xl">{children}</h2>
+    },
+    [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
+      return <h3 className="mb-5 text-xl font-bold">{children}</h3>
+    },
+    [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ul className="ml-12 list-disc">{children}</ul>
+    },
+    [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ol className="ml-12 list-decimal">{children}</ol>
+    },
+    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
+      return <li>{children}</li>
     },
   },
 }

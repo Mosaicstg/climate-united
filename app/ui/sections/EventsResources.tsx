@@ -3,7 +3,7 @@ import { Event } from "~/ui/components/Event"
 import { Resource } from "~/ui/components/Resource"
 import { motion, useReducedMotion } from "framer-motion"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import type { Block, Inline} from "@contentful/rich-text-types";
+import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
 import type { ReactNode } from "react"
 
@@ -22,7 +22,7 @@ export function EventsResourcesSection({
 
   return (
     <>
-      <section className="overflow-hidden border-t-4 border-solid border-green">
+      <section className="overflow-hidden">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-12 px-6 py-12 md:flex-row md:gap-[12rem] md:px-5">
           <div className="md:w-1/2">
             <h2 className="mb-5 text-3xl font-bold">{headlineEvents}</h2>

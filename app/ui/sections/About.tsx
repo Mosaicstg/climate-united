@@ -4,16 +4,21 @@ import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { type SectionAbout } from "~/schemas/sections/section.about.server"
 import { motion, useReducedMotion } from "framer-motion"
+import { getRenderRichTextContentOptions } from "~/utils/rich-text-render-options"
 
 type SectionAboutProps = SectionAbout
 
 export function AboutSection({
-  title,
   mainContent,
   featuredImage,
   imagesCollection,
 }: SectionAboutProps) {
   const prefersReducedMotion = useReducedMotion()
+
+  const renderOptions = getRenderRichTextContentOptions({
+    renderOptions: richTextRenderOptions,
+    links: mainContent?.links,
+  })
 
   return (
     <section>
@@ -50,7 +55,7 @@ export function AboutSection({
           }}
           className="relative"
         >
-          {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+          {documentToReactComponents(mainContent.json, renderOptions)}
           <div>
             {imagesCollection.items.map((image, index) => {
               return (

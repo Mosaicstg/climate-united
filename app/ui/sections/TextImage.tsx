@@ -18,7 +18,7 @@ export function TextImageSection({
 
   return (
     <>
-      <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen px-6 text-center text-darkBlue md:px-5">
+      <section className="overflow-hidden bg-paleGreen px-6 text-center text-darkBlue md:px-5">
         <div className="mx-auto max-w-screen-lg py-12">
           <motion.img
             initial={{ opacity: prefersReducedMotion ? 1 : 0 }}

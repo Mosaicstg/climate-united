@@ -108,7 +108,7 @@ export function TextImageSplitSection({
 
   return (
     <>
-      <section className="overflow-hidden border-t-4 border-solid border-green bg-paleGreen text-darkBlue">
+      <section className="overflow-hidden bg-paleGreen text-darkBlue">
         <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
           <div
             className={cn(
