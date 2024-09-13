@@ -41,7 +41,7 @@ export function StatBucket({
             transition={{
               ease: "linear",
             }}
-            className="relative z-10 aspect-[3/2] w-full object-cover"
+            className="relative z-10 aspect-[3/2] w-full rounded-xl object-cover"
             src={bucketImage.url}
             alt={bucketImage.description || ""}
             width={bucketImage.width}
