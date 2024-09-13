@@ -78,7 +78,7 @@ netlify deploy --build --prod
 ## Content Types
 
 | Category  | Content Type             | Fields                                                                                                                                                             |
-|-----------|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------- |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Page      | Page                     | Title, Slug, Headline, Main Content, Featured Image, SEO                                                                                                           |
 | Page      | Post                     | Title, Slug, Headline, Date, Excerpt, Main Content, Featured Image, SEO                                                                                            |
 | Page      | Event                    | Title, Slug, Headline, Date/Time, Location, Excerpt, Main Content, SEO                                                                                             |
@@ -86,26 +86,31 @@ netlify deploy --build --prod
 |           |                          |                                                                                                                                                                    |
 | Template  | About Page               | Title, Slug, Sections, Case Studies Headline, Case Studies, Featured Image, SEO                                                                                    |
 | Template  | Case Studies             | Title, Slug, Headline, Main Content, Featured Image, SEO                                                                                                           |
-| Template  | Landing Page             | Title, Slug, Sections, SEO                                                                                                                                         |
+| Template  | Landing Page             | Title, Slug, Sections, SEO, Header Options                                                                                                                         |
 | Template  | Team Page                | Title, Slug, Headline, Sections, Featured Image, SEO                                                                                                               |
 |           |                          |                                                                                                                                                                    |
 | Section   | About                    | Title, Featured Image, Main Content, Images                                                                                                                        |
+| Section   | Accordions               | Title, Headline, Main Content, Accordion Items                                                                                                                     |
 | Section   | Bucket Grid              | Title, Headline, Main Content, Buckets                                                                                                                             |
 | Section   | Events + Resources       | Title, Headline Events, Events, Text Events, Headline Resources, Resources, Featured Image                                                                         |
 | Section   | Hero                     | Title, Main Content, Featured Image                                                                                                                                |
+| Section   | Hero Split               | Title, Main Content, Featured Image, Image Alignment                                                                                                               |
 | Section   | News + Press Releases    | Title, Headline, Posts                                                                                                                                             |
 | Section   | Social Media CTA         | Title, Headline, Social Media Links                                                                                                                                |
+| Section   | Stat Bucket Grid         | Title, Headline, Main Content, Buckets                                                                                                                             |
 | Section   | Team                     | Title, Headline, Main Content, Team Members                                                                                                                        |
 | Section   | Text + Image             | Title, Main Content, Featured Image                                                                                                                                |
-| Section   | Text + Image Split       | Title, Main Content, Featured Image                                                                                                                                |
+| Section   | Text + Image Split       | Title, Main Content, Featured Image, Image Alignment                                                                                                               |
 | Section   | Text + Image Multi-Split | Title, Main Content, Featured Images                                                                                                                               |
 |           |                          |                                                                                                                                                                    |
+| Component | Accordion Item           | Title, Headline, Main Content                                                                                                                                      |
 | Component | Bucket                   | Title, Bucket Text, Bucket Image                                                                                                                                   |
 | Component | EPA Region               | Name, Slug, Description                                                                                                                                            |
-| Component | Nav Item                 | Name, Linked Item                                                                                                                                                  |
+| Component | Nav Item                 | Name, Linked Item, External Link, Child Nav Items                                                                                                                  |
 | Component | Nav Menu                 | Name, Menu Location, Nav Items                                                                                                                                     |
 | Component | Resource                 | Title, File                                                                                                                                                        |
 | Component | SEO                      | Title, Excerpt, Image, Keywords                                                                                                                                    |
+| Component | Stat Bucket              | Title, Headline, Subheadline, Bucket Text, Bucket Image, Link                                                                                                      |
 | Component | Social Media Link        | Platform, Url                                                                                                                                                      |
 | Component | Team Member              | Name, Slug, Position, Department, Main Content, Featured Image, SEO                                                                                                |
 | Component | Video                    | Title, Video ID (English), Video ID (Spanish)                                                                                                                      |

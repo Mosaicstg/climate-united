@@ -8,6 +8,7 @@ node_modules
 .env.master
 .env.dev
 .husky
+.eslintcache
 
 # Local Netlify folder
 .netlify
