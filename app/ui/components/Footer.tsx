@@ -70,7 +70,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-darkBlue text-white">
-      <div className="mx-auto max-w-screen-xl px-5 py-12">
+      <div className="mx-auto max-w-screen-lg px-5 py-12 xl:max-w-screen-xl">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
           <div className="font-semibold">
             {data?.footerContent?.contactInfo

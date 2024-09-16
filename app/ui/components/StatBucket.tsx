@@ -2,7 +2,7 @@ import { type StatBucket } from "~/models/stat-bucket.server"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS } from "@contentful/rich-text-types"
-import type { ReactNode } from "react"
+import React, { ReactNode } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 
 type StatBucketProps = StatBucket
@@ -82,8 +82,20 @@ export function StatBucket({
 
 export const richTextRenderOptions = {
   renderNode: {
+    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
+      return <p className="mx-auto mb-4 text-lg leading-relaxed">{children}</p>
+    },
     [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
       return <h3 className="text-xl font-bold">{children}</h3>
+    },
+    [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ul className="ml-12 list-disc text-left">{children}</ul>
+    },
+    [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ol className="ml-12 list-decimal text-left">{children}</ol>
+    },
+    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
+      return <li>{children}</li>
     },
   },
 }
