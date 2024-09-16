@@ -6,7 +6,7 @@ export function Show404() {
 
   return (
     <>
-      <Header />
+      <Header useGreenHeaderStyle />
       <main>
         <div className="mx-auto max-w-screen-lg py-12 text-center">
           <div className="relative mx-auto my-12 w-[340px]">

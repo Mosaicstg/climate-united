@@ -27,7 +27,7 @@ export function Page({ headline, mainContent, featuredImage }: PageProps) {
 
   return (
     <>
-      <Header />
+      <Header useGreenHeaderStyle />
       <main>
         <div
           className={cn(
