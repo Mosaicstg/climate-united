@@ -27,7 +27,7 @@ export function StatBucketGridSection({
 
   return (
     <section className="overflow-hidden text-darkBlue">
-      <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
+      <div className="mx-auto max-w-screen-lg px-6 py-12 md:px-5 xl:max-w-screen-xl">
         <motion.h2
           initial={{
             opacity: prefersReducedMotion ? 1 : 0,
@@ -115,6 +115,15 @@ export const richTextRenderOptions = {
     },
     [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
       return <h3 className="mx-auto mb-5 text-xl font-bold">{children}</h3>
+    },
+    [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ul className="ml-12 list-disc">{children}</ul>
+    },
+    [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ol className="ml-12 list-decimal">{children}</ol>
+    },
+    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
+      return <li>{children}</li>
     },
   },
 }

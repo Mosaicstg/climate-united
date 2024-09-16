@@ -46,7 +46,7 @@ export default function Header({
       {...restOfProps}
     >
       <nav>
-        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-x-12 gap-y-5 p-5">
+        <div className="mx-auto flex max-w-screen-lg flex-wrap items-center justify-between gap-x-12 gap-y-5 p-5 xl:max-w-screen-xl">
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"

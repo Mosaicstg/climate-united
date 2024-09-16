@@ -49,7 +49,7 @@ export function TextMultiImageSplitSection({
   return (
     <>
       <section className="overflow-hidden text-darkBlue">
-        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
+        <div className="mx-auto flex max-w-screen-lg flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5 xl:max-w-screen-xl">
           <div className="flex flex-row flex-wrap justify-center md:w-2/5">
             {featuredImagesCollection.items.map((image, index) => {
               let animationVariant = {}
