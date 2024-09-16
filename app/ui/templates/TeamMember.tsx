@@ -84,7 +84,7 @@ export function TeamMember({
 
   return (
     <>
-      <Header />
+      <Header useGreenHeaderStyle />
       <main>
         <article className="mx-auto max-w-screen-lg px-6 py-12 md:px-5">
           <div className="relative mx-auto max-w-[265px]">

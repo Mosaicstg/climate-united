@@ -53,7 +53,7 @@ export function Event({
 
   return (
     <>
-      <Header />
+      <Header useGreenHeaderStyle />
       <main>
         <div className="mx-auto max-w-screen-lg px-6 py-12 md:px-5">
           <h1 className="mb-5 text-3xl font-bold text-darkBlue">{headline}</h1>
