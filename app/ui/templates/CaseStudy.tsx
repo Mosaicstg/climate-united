@@ -57,7 +57,7 @@ export function CaseStudy({
 
   return (
     <>
-      <Header />
+      <Header useGreenHeaderStyle />
       <main>
         <div className="mx-auto max-w-screen-lg px-6 py-12 md:px-5">
           {partnerLogo ? (

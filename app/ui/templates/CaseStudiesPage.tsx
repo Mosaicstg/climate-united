@@ -58,7 +58,7 @@ export function CaseStudiesPage({
 
   return (
     <>
-      <Header />
+      <Header useGreenHeaderStyle />
       <main>
         <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
           <motion.img
