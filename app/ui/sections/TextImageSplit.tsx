@@ -1,7 +1,7 @@
 import type { SectionTextImageSplit } from "~/schemas/sections/section.text-image-split.server"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
-import type { ReactNode } from "react"
+import React, { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "~/lib/utils"
@@ -109,7 +109,7 @@ export function TextImageSplitSection({
   return (
     <>
       <section className="overflow-hidden bg-paleGreen text-darkBlue">
-        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
+        <div className="mx-auto flex max-w-screen-lg flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5 xl:max-w-screen-xl">
           <div
             className={cn(
               "relative my-12 w-3/4",
@@ -163,6 +163,11 @@ export const richTextRenderOptions = {
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
       return (
         <p className="mx-auto mb-4 text-base leading-relaxed">{children}</p>
+      )
+    },
+    [BLOCKS.HEADING_1]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h1 className="mb-5 text-3xl font-semibold md:text-5xl">{children}</h1>
       )
     },
     [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {

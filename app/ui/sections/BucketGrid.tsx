@@ -28,7 +28,7 @@ export function BucketGridSection({
   return (
     <>
       <section className="overflow-hidden text-darkBlue">
-        <div className="mx-auto max-w-screen-xl px-6 py-12 text-center md:px-5">
+        <div className="mx-auto max-w-screen-lg px-6 py-12 text-center md:px-5 xl:max-w-screen-xl">
           <motion.h2
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,

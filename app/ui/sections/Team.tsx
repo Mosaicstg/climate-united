@@ -20,7 +20,7 @@ export function TeamSection({
   return (
     <>
       <section className={`w-full ${classes}`}>
-        <div className="mx-auto max-w-screen-xl px-6 py-12 md:px-5">
+        <div className="mx-auto max-w-screen-lg px-6 py-12 md:px-5 xl:max-w-screen-xl">
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,

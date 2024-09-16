@@ -14,7 +14,7 @@ export function SocialMediaCtaSection({
   return (
     <>
       <section className="overflow-hidden bg-darkBlue text-white">
-        <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5">
+        <div className="mx-auto flex max-w-screen-lg flex-col items-center gap-12 px-6 py-12 md:flex-row md:gap-[7rem] md:px-5 xl:max-w-screen-xl">
           <div className="relative my-12">
             <motion.div
               initial={{

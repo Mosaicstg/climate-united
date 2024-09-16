@@ -23,7 +23,7 @@ export function HeroSection({ mainContent, featuredImage }: SectionHeroProps) {
           height={height}
           aria-hidden={true}
         />
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-6 py-12 md:flex-row md:gap-12 md:px-0 md:pb-[10rem] md:pl-5 md:pt-[15rem]">
+        <div className="mx-auto flex max-w-screen-lg flex-col gap-4 px-6 py-12 md:flex-row md:gap-12 md:px-0 md:pb-[10rem] md:pl-5 md:pt-[15rem] xl:max-w-screen-xl">
           <motion.div
             initial={{
               opacity: prefersReducedMotion ? 1 : 0,
