@@ -37,8 +37,8 @@ export function TeamMember({
       ) : null}
       <div className="relative">
         <p className="font-bold">{name}</p>
-        <p className="leading-tight">{position}</p>
-        <p className="leading-tight">{department}</p>
+        {position ? <p className="leading-tight">{position}</p> : null}
+        {department ? <p className="leading-tight">{department}</p> : null}
         {slug ? (
           <p className="mt-4 leading-tight">
             <a className="font-bold uppercase text-green" href={`team/${slug}`}>
