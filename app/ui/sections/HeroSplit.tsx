@@ -60,10 +60,34 @@ export const richTextRenderOptions = {
         </a>
       )
     },
+    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <p className="mx-auto mb-4 text-base leading-relaxed">{children}</p>
+      )
+    },
     [BLOCKS.HEADING_1]: (node: Block | Inline, children: ReactNode) => {
       return (
         <h1 className="mb-5 text-3xl font-semibold md:text-5xl">{children}</h1>
       )
+    },
+    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h2 className="mb-5 text-3xl font-bold md:-mx-8 xl:-mx-12">
+          {children}
+        </h2>
+      )
+    },
+    [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
+      return <h3 className="mx-auto mb-5 text-xl font-bold">{children}</h3>
+    },
+    [BLOCKS.UL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ul className="ml-12 list-disc">{children}</ul>
+    },
+    [BLOCKS.OL_LIST]: (node: Block | Inline, children: ReactNode) => {
+      return <ol className="ml-12 list-decimal">{children}</ol>
+    },
+    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: ReactNode) => {
+      return <li>{children}</li>
     },
   },
 }

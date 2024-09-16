@@ -5,6 +5,7 @@ import type { ReactNode } from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { StatBucket } from "~/ui/components/StatBucket"
 import { motion, useReducedMotion } from "framer-motion"
+import React from "react"
 
 type SectionStatBucketGridProps = SectionStatBucketGrid
 
@@ -102,7 +103,22 @@ export const richTextRenderOptions = {
       )
     },
     [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return <p className="text-lg">{children}</p>
+      return <p className="mx-auto mb-4 text-lg leading-relaxed">{children}</p>
+    },
+    [BLOCKS.HEADING_1]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h1 className="mb-5 text-3xl font-semibold md:text-5xl">{children}</h1>
+      )
+    },
+    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
+      return (
+        <h2 className="mb-5 text-3xl font-bold md:-mx-8 xl:-mx-12">
+          {children}
+        </h2>
+      )
+    },
+    [BLOCKS.HEADING_3]: (node: Block | Inline, children: ReactNode) => {
+      return <h3 className="mx-auto mb-5 text-xl font-bold">{children}</h3>
     },
   },
 }
