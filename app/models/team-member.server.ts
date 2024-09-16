@@ -8,8 +8,8 @@ import { SEOSchema } from "~/models/seo.server"
 export const TeamMemberSchema = z.object({
   slug: z.string().nullable(),
   name: z.string(),
-  position: z.string(),
-  department: z.string(),
+  position: z.string().nullable().optional(),
+  department: z.string().nullable().optional(),
   mainContent: RichTextSchema.nullable().optional(),
   featuredImage: ImageSchema,
   seo: SEOSchema.nullable().optional(),

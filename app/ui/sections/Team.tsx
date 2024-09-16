@@ -40,7 +40,12 @@ export function TeamSection({
                 {headline}
               </h2>
             ) : null}
-            {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+            {mainContent
+              ? documentToReactComponents(
+                  mainContent.json,
+                  richTextRenderOptions,
+                )
+              : null}
           </motion.div>
           <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-4">
             {teamMembersCollection.items.map((teamMember, index) => {
