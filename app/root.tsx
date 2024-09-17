@@ -124,10 +124,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
+    // TODO: find a better way to handle caching invalidation
+    //
     // Tell the browser to always check the freshness of the cache
-    "Cache-Control": "public, max-age=600, must-revalidate",
-    "Netlify-CDN-Cache-Control":
-      "public, s-maxage=1800, stale-while-revalidate=604800",
+    // "Cache-Control": "public, max-age=600, must-revalidate",
+    // "Netlify-CDN-Cache-Control":
+    //   "public, s-maxage=1800, stale-while-revalidate=604800",
     ...loaderHeaders,
   }
 }
