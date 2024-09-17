@@ -32,13 +32,15 @@ function HeaderNavMenuItem({
 
 type HeaderNavMenuSubMenuToggleButtonProps = ComponentPropsWithoutRef<"button">
 
-function HeaderNavMenuSubMenuToggleButton({
-  children,
-  className,
-  ...restOfProps
-}: HeaderNavMenuSubMenuToggleButtonProps) {
+const HeaderNavMenuSubMenuToggleButton = forwardRef<
+  // the type of element that will be assigned the ref
+  HTMLButtonElement,
+  // props that will be passed in
+  HeaderNavMenuSubMenuToggleButtonProps
+>(({ children, className, ...restOfProps }, ref) => {
   return (
     <button
+      ref={ref}
       className={cn(
         "flex w-full items-center justify-between gap-4 text-green after:text-xl after:transition-all after:ease-in-out after:content-['+'] hover:text-blue md:block md:after:content-[none]",
         className,
@@ -48,7 +50,7 @@ function HeaderNavMenuSubMenuToggleButton({
       {children}
     </button>
   )
-}
+})
 
 type HeaderNavMenuSubMenuProps = ComponentPropsWithoutRef<"ul">
 
