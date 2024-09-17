@@ -1,4 +1,4 @@
-import { useState, useId, useRef } from "react"
+import { useState, useId, useRef, useEffect } from "react"
 import { useRouteLoaderData } from "@remix-run/react"
 import {
   HeaderNavMenu,
@@ -99,7 +99,12 @@ export default function Header({
               )}
               id="navbar-default"
             >
-              <HeaderNavMenu className="relative [&>*>ul]:right-0">
+              <HeaderNavMenu
+                className={cn(
+                  "relative",
+                  "[&>*:last-child>ul]:last:left-[unset] [&>*:last-child>ul]:last:right-0 [&>*>ul]:last:left-0",
+                )}
+              >
                 {data.mainMenu.navItemsCollection.items.map((navItem) => {
                   const { name, childNavItemsCollection, externalLink } =
                     navItem
@@ -109,7 +114,7 @@ export default function Header({
                   const url = getURLFromNavItem(navItem)
 
                   return (
-                    <HeaderNavMenuItem key={name}>
+                    <HeaderNavMenuItem key={name} className="relative">
                       {hasSubMenu ? (
                         <NavItemWithDropDown
                           navItem={navItem}
@@ -158,15 +163,52 @@ function NavItemWithDropDown({
   // TODO: use this ref to help "animate" the open/closing of dropdown on mobile
   const subMenuRef = useRef<HTMLUListElement>(null)
   const subMenuId = `sub-menu-${buttonId}`
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   function onClick(_: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSubMenuOpen((subMenuOpen) => !subMenuOpen)
   }
 
+  // NOTE: This is the quick-and-dirty version of a solution for this
+  //       This is also not a React-y pattern for handling this scenario
+  useEffect(() => {
+    if (!buttonRef.current) {
+      return
+    }
+
+    if (!subMenuRef.current) {
+      return
+    }
+
+    function handleClickOutside(event: Event) {
+      if (!event.target) {
+        return
+      }
+
+      if (!(event.target instanceof Element)) {
+        return
+      }
+
+      if (
+        buttonRef.current !== event.target &&
+        !subMenuRef.current?.contains(event.target)
+      ) {
+        setSubMenuOpen(false)
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside)
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside)
+    }
+  }, [buttonRef, subMenuRef, setSubMenuOpen])
+
   return (
     <>
       <HeaderNavMenuSubMenuToggleButton
         type="button"
+        ref={buttonRef}
         className={cn(
           useAlternativeStyle ? "text-white" : "",
           subMenuOpen ? "after:rotate-45" : "",
