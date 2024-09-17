@@ -109,7 +109,9 @@ export default function Header({
                   const { name, childNavItemsCollection, externalLink } =
                     navItem
 
-                  const hasSubMenu = childNavItemsCollection.items.length > 0
+                  const hasSubMenu =
+                    childNavItemsCollection &&
+                    childNavItemsCollection.items.length > 0
 
                   const url = getURLFromNavItem(navItem)
 
@@ -232,26 +234,32 @@ function NavItemWithDropDown({
         id={subMenuId}
         role="menu"
       >
-        {navItem.childNavItemsCollection.items.map((subNavItem, index) => {
-          let url = getURLFromNavItem(subNavItem)
-          let { externalLink } = subNavItem
+        {navItem.childNavItemsCollection
+          ? navItem.childNavItemsCollection.items.map((subNavItem, index) => {
+              if (!subNavItem) {
+                return null
+              }
 
-          return (
-            <HeaderNavMenuSubMenuNavItem key={index}>
-              <HeaderNavMenuSubMenuLink
-                href={url}
-                target={url === externalLink ? "_blank" : undefined}
-                rel={
-                  url === externalLink
-                    ? "external nofollow noreferrer"
-                    : undefined
-                }
-              >
-                {subNavItem.name}
-              </HeaderNavMenuSubMenuLink>
-            </HeaderNavMenuSubMenuNavItem>
-          )
-        })}
+              let url = getURLFromNavItem(subNavItem)
+              let { externalLink } = subNavItem
+
+              return (
+                <HeaderNavMenuSubMenuNavItem key={index}>
+                  <HeaderNavMenuSubMenuLink
+                    href={url}
+                    target={url === externalLink ? "_blank" : undefined}
+                    rel={
+                      url === externalLink
+                        ? "external nofollow noreferrer"
+                        : undefined
+                    }
+                  >
+                    {subNavItem.name}
+                  </HeaderNavMenuSubMenuLink>
+                </HeaderNavMenuSubMenuNavItem>
+              )
+            })
+          : null}
       </HeaderNavMenuSubMenu>
     </>
   )
