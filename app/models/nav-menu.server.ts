@@ -15,9 +15,11 @@ export const ChildNavItemSchema = z.object({
 
 export const NavItemSchema = ChildNavItemSchema.merge(
   z.object({
-    childNavItemsCollection: z.object({
-      items: z.array(ChildNavItemSchema),
-    }),
+    childNavItemsCollection: z
+      .object({
+        items: z.array(ChildNavItemSchema.nullable()),
+      })
+      .nullable(),
   }),
 )
 
