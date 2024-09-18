@@ -2,11 +2,7 @@ import { typedFetchGraphQL } from "~/services/contentful.server"
 import { z } from "zod"
 import { SectionHeroSchema } from "~/schemas/sections/section.hero.server"
 import { SectionHeroSplitSchema } from "~/schemas/sections/section.hero-split.server"
-import { SectionTextMultiImageSplitSchema } from "~/schemas/sections/section.text-multi-image-split.server"
-import { SectionBucketGridSchema } from "~/schemas/sections/section.bucket-grid.server"
 import { SectionStatBucketGridSchema } from "~/schemas/sections/section.stat-bucket-grid.server"
-import { SectionTextImageSchema } from "~/schemas/sections/section.text-image.server"
-import { SectionEventsResourcesSchema } from "~/schemas/sections/section.events-resources.server"
 import { SectionTextImageSplitSchema } from "~/schemas/sections/section.text-image-split.server"
 import { SectionNewsPressReleasesSchema } from "~/schemas/sections/section.news-press-releases.server"
 import { SectionSocialMediaCtaSchema } from "~/schemas/sections/section.social-media-cta.server"
@@ -20,23 +16,11 @@ const SectionsDiscriminatedUnion = z.discriminatedUnion("__typename", [
   SectionHeroSplitSchema.merge(
     z.object({ __typename: z.literal("SectionHeroSplit") }),
   ),
-  SectionTextMultiImageSplitSchema.merge(
-    z.object({ __typename: z.literal("SectionTextMultiImageSplit") }),
-  ),
   SectionTextImageSplitSchema.merge(
     z.object({ __typename: z.literal("SectionTextImageSplit") }),
   ),
-  SectionBucketGridSchema.merge(
-    z.object({ __typename: z.literal("SectionBucketGrid") }),
-  ),
   SectionStatBucketGridSchema.merge(
     z.object({ __typename: z.literal("SectionStatBucketGrid") }),
-  ),
-  SectionTextImageSchema.merge(
-    z.object({ __typename: z.literal("SectionTextImage") }),
-  ),
-  SectionEventsResourcesSchema.merge(
-    z.object({ __typename: z.literal("SectionEventsResources") }),
   ),
   SectionSocialMediaCtaSchema.merge(
     z.object({ __typename: z.literal("SectionSocialMediaCta") }),
@@ -68,7 +52,7 @@ landingPage(id: "${id}") {
 title
 slug
 headerOptions
-sectionsCollection(limit: 9) {
+sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) {
     items {
         __typename
         ... on SectionHero {
@@ -82,31 +66,12 @@ sectionsCollection(limit: 9) {
             imageAlignment
             featuredImage { fileName url description width height }
         }
-        ... on SectionTextMultiImageSplit {
-            title
-            mainContent { json }
-            featuredImagesCollection {
-                items { fileName url width height }
-            }
-        }
         ... on SectionTextImageSplit {
             title
             mainContent { json }
             imageAlignment
             imageShape
             featuredImage { fileName url description width height }
-        }
-        ... on SectionBucketGrid {
-            title
-            headline
-            mainContent { json }
-            bucketsCollection {
-                items {
-                    title
-                    bucketText { json }
-                    bucketImage { fileName url width height }
-                }
-            }
         }
         ... on SectionStatBucketGrid {
             title
@@ -122,43 +87,6 @@ sectionsCollection(limit: 9) {
                     link
                 }
             }
-        }
-        ... on SectionTextImage {
-            title
-            mainContent { json }
-            featuredImage { fileName url description width height }
-        }
-        ... on SectionEventsResources {
-            title
-            headlineEvents
-            eventsCollection(limit: 3) {
-                items {
-                    title
-                    slug
-                    headline
-                    datetime
-                    location
-                    excerpt { json }
-                    mainContent { json }
-                    seo {
-                      title
-                      excerpt
-                      image { fileName url description width height }
-                      keywords
-                    }
-                }
-            }
-            textEvents {
-               json
-            }
-            headlineResources
-            resourcesCollection(limit: 6) {
-                items {
-                    title
-                    file { fileName url }
-                }
-            }
-            featuredImage { fileName url description width height }
         }
         ... on SectionSocialMediaCta {
             title
@@ -258,7 +186,7 @@ items {
 title
 slug
 headerOptions
-sectionsCollection(limit: 9) {
+sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) {
     items {
         __typename
         ... on SectionHero {
@@ -272,31 +200,12 @@ sectionsCollection(limit: 9) {
             imageAlignment
             featuredImage { fileName url description width height }
         }
-        ... on SectionTextMultiImageSplit {
-            title
-            mainContent { json }
-            featuredImagesCollection {
-                items { fileName url width height }
-            }
-        }
         ... on SectionTextImageSplit {
             title
             mainContent { json }
             imageAlignment
             imageShape
             featuredImage { fileName url description width height }
-        }
-        ... on SectionBucketGrid {
-            title
-            headline
-            mainContent { json }
-            bucketsCollection {
-                items {
-                    title
-                    bucketText { json }
-                    bucketImage { fileName url width height }
-                }
-            }
         }
         ... on SectionStatBucketGrid {
             title
@@ -312,43 +221,6 @@ sectionsCollection(limit: 9) {
                     link
                 }
             }
-        }
-        ... on SectionTextImage {
-            title
-            mainContent { json }
-            featuredImage { fileName url description width height }
-        }
-        ... on SectionEventsResources {
-            title
-            headlineEvents
-            eventsCollection(limit: 3) {
-                items {
-                    title
-                    slug
-                    headline
-                    datetime
-                    location
-                    excerpt { json }
-                    mainContent { json }
-                    seo {
-                      title
-                      excerpt
-                      image { fileName url description width height }
-                      keywords
-                    }
-                }
-            }
-            textEvents {
-               json
-            }
-            headlineResources
-            resourcesCollection(limit: 6) {
-                items {
-                    title
-                    file { fileName url }
-                }
-            }
-            featuredImage { fileName url description width height }
         }
         ... on SectionSocialMediaCta {
             title
