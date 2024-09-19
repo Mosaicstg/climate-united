@@ -154,7 +154,7 @@ export function TextImageSplitSection({
                       }
                       href={
                         button.referenceLink
-                          ? button.referenceLink.slug
+                          ? `/${button.referenceLink.slug}`
                           : button.externalLink
                             ? button.externalLink
                             : undefined
