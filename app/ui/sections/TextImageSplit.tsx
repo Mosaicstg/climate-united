@@ -1,7 +1,8 @@
 import type { SectionTextImageSplit } from "~/schemas/sections/section.text-image-split.server"
 import type { Block, Inline } from "@contentful/rich-text-types"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types"
-import React, { ReactNode } from "react"
+import type { ReactNode } from "react"
+import React from "react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "~/lib/utils"
@@ -10,6 +11,7 @@ type SectionTextImageSplitProps = SectionTextImageSplit
 
 export function TextImageSplitSection({
   mainContent,
+  buttonsCollection,
   imageAlignment,
   imageShape,
   featuredImage,
@@ -138,6 +140,33 @@ export function TextImageSplitSection({
             )}
           >
             {documentToReactComponents(mainContent.json, richTextRenderOptions)}
+            {buttonsCollection ? (
+              <div className="flex flex-wrap gap-3">
+                {buttonsCollection.items.map((button, index) => {
+                  return (
+                    <a
+                      key={`${button.title}-${index}`}
+                      className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen"
+                      rel={
+                        button.externalLink
+                          ? "external nofollow noreferrer"
+                          : undefined
+                      }
+                      href={
+                        button.referenceLink
+                          ? button.referenceLink.slug
+                          : button.externalLink
+                            ? button.externalLink
+                            : undefined
+                      }
+                      target={button.externalLink ? "_blank" : undefined}
+                    >
+                      {button.text}
+                    </a>
+                  )
+                })}
+              </div>
+            ) : null}
           </motion.div>
         </div>
       </section>
@@ -152,7 +181,8 @@ export const richTextRenderOptions = {
       const { uri } = data
       return (
         <a
-          className="mt-5 inline-block rounded-full border-2 border-solid border-darkBlue px-6 py-3 font-bold duration-300 ease-in-out hover:bg-darkBlue hover:text-paleGreen"
+          className="text-primary underline hover:text-lightGreen"
+          target="_blank"
           rel="noreferrer"
           href={uri}
         >
