@@ -55,7 +55,9 @@ export function AboutSection({
           }}
           className="relative"
         >
-          {documentToReactComponents(mainContent.json, renderOptions)}
+          {mainContent
+            ? documentToReactComponents(mainContent.json, renderOptions)
+            : null}
           <div>
             {imagesCollection.items.map((image, index) => {
               return (
