@@ -91,20 +91,15 @@ netlify deploy --build --prod
 |           |                          |                                                                                                                                                                    |
 | Section   | About                    | Title, Featured Image, Main Content, Images                                                                                                                        |
 | Section   | Accordions               | Title, Headline, Main Content, Accordion Items                                                                                                                     |
-| Section   | Bucket Grid              | Title, Headline, Main Content, Buckets                                                                                                                             |
-| Section   | Events + Resources       | Title, Headline Events, Events, Text Events, Headline Resources, Resources, Featured Image                                                                         |
 | Section   | Hero                     | Title, Main Content, Featured Image                                                                                                                                |
 | Section   | Hero Split               | Title, Main Content, Featured Image, Image Alignment                                                                                                               |
 | Section   | News + Press Releases    | Title, Headline, Posts                                                                                                                                             |
 | Section   | Social Media CTA         | Title, Headline, Social Media Links                                                                                                                                |
 | Section   | Stat Bucket Grid         | Title, Headline, Main Content, Buckets                                                                                                                             |
 | Section   | Team                     | Title, Headline, Main Content, Team Members                                                                                                                        |
-| Section   | Text + Image             | Title, Main Content, Featured Image                                                                                                                                |
 | Section   | Text + Image Split       | Title, Main Content, Featured Image, Image Alignment                                                                                                               |
-| Section   | Text + Image Multi-Split | Title, Main Content, Featured Images                                                                                                                               |
 |           |                          |                                                                                                                                                                    |
 | Component | Accordion Item           | Title, Headline, Main Content                                                                                                                                      |
-| Component | Bucket                   | Title, Bucket Text, Bucket Image                                                                                                                                   |
 | Component | EPA Region               | Name, Slug, Description                                                                                                                                            |
 | Component | Nav Item                 | Name, Linked Item, External Link, Child Nav Items                                                                                                                  |
 | Component | Nav Menu                 | Name, Menu Location, Nav Items                                                                                                                                     |

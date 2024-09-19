@@ -1,12 +1,8 @@
 import { type LandingPage } from "~/models/landing-page.server"
 import { HeroSection } from "~/ui/sections/Hero"
 import { HeroSplitSection } from "~/ui/sections/HeroSplit"
-import { TextMultiImageSplitSection } from "~/ui/sections/TextMultiImageSplit"
 import { TextImageSplitSection } from "~/ui/sections/TextImageSplit"
-import { SVGMapSection } from "../sections/SVGMap"
 import { NewsPressReleasesSection } from "~/ui/sections/NewsPressReleases"
-import { EventsResourcesSection } from "~/ui/sections/EventsResources"
-import { BucketGridSection } from "~/ui/sections/BucketGrid"
 import { StatBucketGridSection } from "~/ui/sections/StatBucketGrid"
 import { SocialMediaCtaSection } from "~/ui/sections/SocialMediaCta"
 import { AboutSection } from "~/ui/sections/About"
@@ -50,15 +46,6 @@ export function LandingPage({
                   featuredImage={section.featuredImage}
                 />
               )
-            case "SectionTextMultiImageSplit":
-              return (
-                <TextMultiImageSplitSection
-                  key={`${section.title}-${index}`}
-                  title={section.title}
-                  mainContent={section.mainContent}
-                  featuredImagesCollection={section.featuredImagesCollection}
-                />
-              )
             case "SectionTextImageSplit":
               return (
                 <TextImageSplitSection
@@ -70,16 +57,6 @@ export function LandingPage({
                   featuredImage={section.featuredImage}
                 />
               )
-            case "SectionBucketGrid":
-              return (
-                <BucketGridSection
-                  key={`${section.title}-${index}`}
-                  title={section.title}
-                  headline={section.headline}
-                  mainContent={section.mainContent}
-                  bucketsCollection={section.bucketsCollection}
-                />
-              )
             case "SectionStatBucketGrid":
               return (
                 <StatBucketGridSection
@@ -88,28 +65,6 @@ export function LandingPage({
                   headline={section.headline}
                   mainContent={section.mainContent}
                   statBucketsCollection={section.statBucketsCollection}
-                />
-              )
-            case "SectionTextImage":
-              return (
-                <SVGMapSection
-                  key={`${section.title}-${index}}`}
-                  title={section.title}
-                  mainContent={section.mainContent}
-                  featuredImage={section.featuredImage}
-                />
-              )
-            case "SectionEventsResources":
-              return (
-                <EventsResourcesSection
-                  key={`${section.title}-${index}`}
-                  title={section.title}
-                  headlineEvents={section.headlineEvents}
-                  eventsCollection={section.eventsCollection}
-                  textEvents={section.textEvents}
-                  headlineResources={section.headlineResources}
-                  resourcesCollection={section.resourcesCollection}
-                  featuredImage={section.featuredImage}
                 />
               )
             case "SectionSocialMediaCta":
