@@ -52,6 +52,7 @@ export function LandingPage({
                   key={`${section.title}-${index}`}
                   title={section.title}
                   mainContent={section.mainContent}
+                  buttonsCollection={section.buttonsCollection}
                   imageAlignment={section.imageAlignment}
                   imageShape={section.imageShape}
                   featuredImage={section.featuredImage}

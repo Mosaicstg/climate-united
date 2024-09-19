@@ -69,6 +69,37 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
         ... on SectionTextImageSplit {
             title
             mainContent { json }
+            buttonsCollection(where: { sys: { publishedVersion_exists: true } }) {
+              items {
+                title
+                text,
+                referenceLink {
+                  __typename
+                  ... on AboutPage {
+                    slug
+                  }
+                  ... on Event {
+                    slug
+                  }
+                  ... on LandingPage {
+                    slug
+                  }
+                  ... on Page {
+                    slug
+                  }
+                  ... on Post {
+                    slug
+                  }
+                  ... on TeamMember {
+                    slug
+                  }
+                  ... on TeamPage {
+                    slug
+                  }
+                }
+                externalLink
+              }
+            }
             imageAlignment
             imageShape
             featuredImage { fileName url description width height }
@@ -77,7 +108,7 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
             title
             headline
             mainContent { json }
-            statBucketsCollection {
+            statBucketsCollection(where: { sys: { publishedVersion_exists: true } }) {
                 items {
                     title
                     headline
@@ -91,14 +122,14 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
         ... on SectionSocialMediaCta {
             title
             headline
-            socialMediaLinksCollection {
+            socialMediaLinksCollection(where: { sys: { publishedVersion_exists: true } }) {
                 items { platform url }
             }
         }
         ... on SectionNewsPressReleases {
             title
             headline
-            postsCollection(limit: 5) {
+            postsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 5) {
                 items {
                     title
                     slug
@@ -148,7 +179,7 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
             title
             headline
             mainContent { json }
-            accordionItemsCollection {
+            accordionItemsCollection(where: { sys: { publishedVersion_exists: true } }) {
               items {
                 title
                 headline
@@ -203,6 +234,37 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
         ... on SectionTextImageSplit {
             title
             mainContent { json }
+            buttonsCollection(where: { sys: { publishedVersion_exists: true } }) {
+              items {
+                title
+                text,
+                referenceLink {
+                  __typename
+                  ... on AboutPage {
+                    slug
+                  }
+                  ... on Event {
+                    slug
+                  }
+                  ... on LandingPage {
+                    slug
+                  }
+                  ... on Page {
+                    slug
+                  }
+                  ... on Post {
+                    slug
+                  }
+                  ... on TeamMember {
+                    slug
+                  }
+                  ... on TeamPage {
+                    slug
+                  }
+                }
+                externalLink
+              }
+            }
             imageAlignment
             imageShape
             featuredImage { fileName url description width height }
@@ -211,7 +273,7 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
             title
             headline
             mainContent { json }
-            statBucketsCollection {
+            statBucketsCollection(where: { sys: { publishedVersion_exists: true } }) {
                 items {
                     title
                     headline
@@ -225,14 +287,14 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
         ... on SectionSocialMediaCta {
             title
             headline
-            socialMediaLinksCollection {
+            socialMediaLinksCollection(where: { sys: { publishedVersion_exists: true } }) {
                 items { platform url }
             }
         }
         ... on SectionNewsPressReleases {
             title
             headline
-            postsCollection(limit: 5) {
+            postsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 5) {
                 items {
                     title
                     slug
@@ -282,7 +344,7 @@ sectionsCollection(where: { sys: { publishedVersion_exists: true } }, limit: 9) 
             title
             headline
             mainContent { json }
-            accordionItemsCollection {
+            accordionItemsCollection(where: { sys: { publishedVersion_exists: true } }) {
               items {
                 title
                 headline
