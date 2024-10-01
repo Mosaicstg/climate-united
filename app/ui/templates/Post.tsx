@@ -1,43 +1,19 @@
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import {
+  documentToReactComponents,
+  type Options,
+} from "@contentful/rich-text-react-renderer"
 import { type Post } from "~/models/post.server"
 import { getDate } from "~/utils/datetime-to-readable"
 import Header from "~/ui/components/Header"
 import {
-  BLOCKS,
-  type Block,
-  INLINES,
-  type Inline,
-} from "@contentful/rich-text-types"
-import { type ReactNode } from "react"
-import { getRenderRichTextContentOptions } from "~/utils/rich-text-render-options"
+  defaultRichTextRenderOptions,
+  getRenderRichTextContentOptions,
+} from "~/utils/rich-text-render-options"
 
 type PostProps = Post
 
-const richTextRenderOptions = {
-  renderNode: {
-    [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => {
-      const { data } = node
-      const { uri } = data
-      return (
-        <a
-          className="text-primary underline dark:text-gray-400"
-          target="_blank"
-          rel="noreferrer"
-          href={uri}
-        >
-          {children}
-        </a>
-      )
-    },
-    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: ReactNode) => {
-      return (
-        <p className="mb-4 text-base leading-relaxed text-black">{children}</p>
-      )
-    },
-    [BLOCKS.HEADING_2]: (node: Block | Inline, children: ReactNode) => {
-      return <h2 className="mb-5 text-3xl dark:text-gray-200">{children}</h2>
-    },
-  },
+const richTextRenderOptions: Options = {
+  ...defaultRichTextRenderOptions,
 }
 
 export function Post({ headline, date, mainContent }: PostProps) {
